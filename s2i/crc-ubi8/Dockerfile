@@ -11,9 +11,12 @@ COPY ./root /
 
 RUN microdnf -y update && \
     microdnf -y install --setopt=tsflags=nodocs curl findutils gzip procps tar && \
+    \
+    microdnf -y install --setopt=tsflags=nodocs shadow-utils && \
+    useradd -u 1001 -d ${HOME} -m -s /sbin/nologin default && \
+    microdnf -y remove shadow-utils && \
+    \
     microdnf -y clean all
-
-RUN useradd -u 1001 -d ${HOME} -m -s /sbin/nologin default
 
 USER 1001
 
