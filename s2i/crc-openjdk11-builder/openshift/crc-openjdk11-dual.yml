@@ -137,3 +137,6 @@ parameters:
   description: Git branch/tag reference
   displayName: Git Reference
   value: main
+- name: MAIN_JAR
+  description: Application main jar when build process produces more than one jar file
+  displayName: Main JAR

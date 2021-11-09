@@ -8,17 +8,19 @@ if [ -f pom.xml ]; then
     else
         mvn package
     fi
-    TARGET_APP=$(find ./target -name "*.jar" -maxdepth 1)
+    if [ "$MAIN_JAR" == ""]; then
+        MAIN_JAR=$(find ./target -name "*.jar" -maxdepth 1)
+    fi
 else
     echo "No pom.xml - exiting"
     exit 1
 fi
 
-if [ ! -f $TARGET_APP ]; then
-    echo "No $TARGET_APP - exiting"
+if [ ! -f $MAIN_JAR ]; then
+    echo "No $MAIN_JAR - exiting"
     exit 1
 fi
 
-echo $TARGET_APP
+echo $MAIN_JAR
 
-mv $TARGET_APP ./target/main.jar
+mv $MAIN_JAR ./target/main.jar
