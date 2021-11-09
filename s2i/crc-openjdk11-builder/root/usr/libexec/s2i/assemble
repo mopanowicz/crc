@@ -7,7 +7,7 @@ if [ -f pom.xml ]; then
         mvn package
     fi
     if [ "$MAIN_JAR" == "" ]; then
-        MAIN_JAR=$(find . -name "*.jar" -maxdepth 1)
+        MAIN_JAR=$(find . -name "*.jar" -maxdepth 2)
     fi
 else
     echo "No pom.xml - exiting"
@@ -21,4 +21,4 @@ if [ ! -f $MAIN_JAR ]; then
     exit 1
 fi
 
-mv $MAIN_JAR ./target/main.jar
+mv $MAIN_JAR main.jar

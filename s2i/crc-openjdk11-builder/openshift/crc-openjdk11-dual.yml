@@ -76,7 +76,7 @@ objects:
 
         FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-openjdk11-runtime:latest as runtime
 
-        COPY --from=builder /tmp/src/target/main.jar /app/main.jar
+        COPY --from=builder /tmp/src/main.jar /app/main.jar
     triggers:
     - imageChange: {}
       type: ImageChange
