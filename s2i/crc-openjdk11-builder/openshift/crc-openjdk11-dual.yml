@@ -72,7 +72,7 @@ objects:
 
         COPY . /tmp/src
 
-        RUN /usr/libexec/s2i/assemble
+        RUN cd /tmp/src && /usr/libexec/s2i/assemble
 
         FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-openjdk11-runtime:latest as runtime
 

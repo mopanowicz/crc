@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd /tmp/src
-
 if [ -f pom.xml ]; then
     if [ -f mvnw ]; then
         sh ./mvnw package
@@ -9,18 +7,18 @@ if [ -f pom.xml ]; then
         mvn package
     fi
     if [ "$MAIN_JAR" == "" ]; then
-        MAIN_JAR=$(find ./target -name "*.jar" -maxdepth 1)
+        MAIN_JAR=$(find . -name "*.jar" -maxdepth 1)
     fi
 else
     echo "No pom.xml - exiting"
     exit 1
 fi
 
+echo "MAIN_JAR=$MAIN_JAR"
+
 if [ ! -f $MAIN_JAR ]; then
     echo "No $MAIN_JAR - exiting"
     exit 1
 fi
-
-echo "MAIN_JAR=$MAIN_JAR"
 
 mv $MAIN_JAR ./target/main.jar
