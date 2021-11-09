@@ -61,9 +61,10 @@ objects:
               fieldPath: metadata.name
     source:
       git:
-        ref: ${SOURCE_REPOSITORY_REF}
-        uri: ${SOURCE_REPOSITORY_URL}
+        ref: ${SOURCE_GIT_REF}
+        uri: ${SOURCE_GIT_URL}
       type: Git
+      contextDir: ${SOURCE_CONTEXT_DIR}
       dockerfile: |-
         FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-openjdk11-builder:latest as builder
 
@@ -124,19 +125,19 @@ objects:
     - type: ConfigChange
 parameters:
 - name: APPLICATION_NAME
-  description: The name for the application.
   displayName: Application Name
+  value: demo-api-spring
   required: true
-  value: simple-java-webapi
-- name: SOURCE_REPOSITORY_URL
-  description: Git source URI for application
-  displayName: Git Repository URL
+- name: SOURCE_GIT_URL
+  displayName: Source repository URL
+  value: https://github.com/mopanowicz/crc.git
   required: true
-  value: https://github.com/mopanowicz/simple-quarkus-webapi.git
-- name: SOURCE_REPOSITORY_REF
-  description: Git branch/tag reference
-  displayName: Git Reference
+- name: SOURCE_GIT_REF
+  displayName: Source reference
   value: main
+- name: SOURCE_CONTEXT_DIR
+  displayName: Source context dir
+  value: examples/demo-api-spring
 - name: MAIN_JAR
-  description: Application main jar when build process produces more than one jar file
+  description: Application main jar in case the build process produces more than one jar file
   displayName: Main JAR
