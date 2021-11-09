@@ -21,4 +21,4 @@ fi
 
 echo $TARGET_APP
 
-mv $TARGET_APP main.jar
+mv $TARGET_APP ./target/main.jar
