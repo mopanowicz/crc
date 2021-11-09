@@ -8,7 +8,7 @@ if [ -f pom.xml ]; then
     else
         mvn package
     fi
-    if [ "$MAIN_JAR" == ""]; then
+    if [ "$MAIN_JAR" == "" ]; then
         MAIN_JAR=$(find ./target -name "*.jar" -maxdepth 1)
     fi
 else
@@ -21,6 +21,6 @@ if [ ! -f $MAIN_JAR ]; then
     exit 1
 fi
 
-echo $MAIN_JAR
+echo "MAIN_JAR=$MAIN_JAR"
 
 mv $MAIN_JAR ./target/main.jar
