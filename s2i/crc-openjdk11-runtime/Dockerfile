@@ -2,7 +2,7 @@ FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-ubi8:latest
 
 ENV JAVA_VERSION=11 \
     JAVA_HOME=/usr/lib/jvm/jre \
-    APP_JAR=app.jar
+    MAIN_JAR=main.jar
 
 USER root
 

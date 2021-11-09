@@ -1,0 +1,24 @@
+#!/bin/bash
+
+cd /tmp/src
+
+if [ -f pom.xml ]; then
+    if [ -f mvnw ]; then
+        sh ./mvnw package
+    else
+        mvn package
+    fi
+    TARGET_APP=$(find ./target -name "*.jar" -maxdepth 1)
+else
+    echo "No pom.xml - exiting"
+    exit 1
+fi
+
+if [ ! -f $TARGET_APP ]; then
+    echo "No $TARGET_APP - exiting"
+    exit 1
+fi
+
+echo $TARGET_APP
+
+mv $TARGET_APP main.jar
