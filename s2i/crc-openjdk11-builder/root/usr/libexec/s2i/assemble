@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ "$DEBUG_S2I" == "true" ]; then
+    env | sort
+    set -x
+    pwd
+    ls -la
+fi
+
 if [ -f pom.xml ]; then
     echo "Found pom.xml - packaging with maven"
     if [ -f mvnw ]; then
