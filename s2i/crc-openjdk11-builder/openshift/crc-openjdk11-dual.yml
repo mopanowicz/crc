@@ -113,8 +113,6 @@ objects:
     template:
       metadata:
         labels:
-          app: ${APPLICATION_NAME}
-          app.kubernetes.io/name: ${APPLICATION_NAME}
           deploymentConfig: ${APPLICATION_NAME}
         name: ${APPLICATION_NAME}
       spec:
