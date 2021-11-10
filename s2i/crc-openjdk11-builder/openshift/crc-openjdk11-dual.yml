@@ -35,7 +35,6 @@ objects:
       app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
-    host: ${HOSTNAME_HTTP}
     to:
       name: ${APPLICATION_NAME}
 - apiVersion: v1
@@ -74,7 +73,7 @@ objects:
     source:
       git:
         ref: ${SOURCE_GIT_REF}
-        uri: ${SOURCE_GIT_URL}
+        uri: ${SOURCE_GIT_URI}
       type: Git
       contextDir: ${SOURCE_CONTEXT_DIR}
       dockerfile: |-
@@ -100,6 +99,10 @@ objects:
     labels:
       app: ${APPLICATION_NAME}
       app.kubernetes.io/name: ${APPLICATION_NAME}
+      app.openshift.io/runtime: java
+    annotations:
+      app.openshift.io/vcs-ref: '${SOURCE_GIT_REF}'
+      app.openshift.io/vcs-uri: '${SOURCE_GIT_URI}'
     name: ${APPLICATION_NAME}
   spec:
     replicas: 1
@@ -143,8 +146,8 @@ parameters:
   displayName: Application Name
   value: demo-api-spring
   required: true
-- name: SOURCE_GIT_URL
-  displayName: Source repository URL
+- name: SOURCE_GIT_URI
+  displayName: Source repository URI
   value: https://github.com/mopanowicz/crc.git
   required: true
 - name: SOURCE_GIT_REF
