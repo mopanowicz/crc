@@ -38,6 +38,16 @@ objects:
     to:
       name: ${APPLICATION_NAME}
 - apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${APPLICATION_NAME}-git-secret
+    labels:
+      app: ${APPLICATION_NAME}
+      app.kubernetes.io/name: ${APPLICATION_NAME}
+  type: kubernetes.io/basic-auth
+  stringData:
+    password: ${GIT_TOKEN}
+- apiVersion: v1
   kind: ImageStream
   metadata:
     labels:
@@ -76,6 +86,8 @@ objects:
         uri: ${SOURCE_GIT_URI}
       type: Git
       contextDir: ${SOURCE_CONTEXT_DIR}
+      sourceSecret:
+        name: ${APPLICATION_NAME}-git-secret
       dockerfile: |-
         FROM ${IMAGE_REGISTRY}/${BUILDER_IMAGE} as builder
 
@@ -154,6 +166,8 @@ parameters:
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
   value: examples/demo-api-spring
+- name: GIT_TOKEN
+  displayName: Source repository access token
 - name: MAIN_JAR
   description: Application main jar in case the build process produces more than one jar file
   displayName: Main JAR
