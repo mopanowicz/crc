@@ -12,8 +12,11 @@ objects:
 - apiVersion: v1
   kind: Service
   metadata:
+    annotations:
+      description: The application's http port.
     labels:
       app: ${APPLICATION_NAME}
+      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     ports:
@@ -25,20 +28,29 @@ objects:
   id: ${APPLICATION_NAME}-http
   kind: Route
   metadata:
+    annotations:
+      description: Route for application's http service.
     labels:
       app: ${APPLICATION_NAME}
+      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
+  spec:
+    host: ${HOSTNAME_HTTP}
+    to:
+      name: ${APPLICATION_NAME}
 - apiVersion: v1
   kind: ImageStream
   metadata:
     labels:
       app: ${APPLICATION_NAME}
+      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
 - apiVersion: v1
   kind: BuildConfig
   metadata:
     labels:
       app: ${APPLICATION_NAME}
+      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     output:
@@ -66,17 +78,18 @@ objects:
       type: Git
       contextDir: ${SOURCE_CONTEXT_DIR}
       dockerfile: |-
-        FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-openjdk11-builder:latest as builder
+        FROM ${IMAGE_REGISTRY}/${BUILDER_IMAGE} as builder
 
-        USER root
+        COPY . ${HOME}
 
-        COPY . /tmp/src
+        RUN /usr/libexec/s2i/assemble
 
-        RUN cd /tmp/src && /usr/libexec/s2i/assemble
+        FROM ${IMAGE_REGISTRY}/${RUNTIME_IMAGE}
 
-        FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-openjdk11-runtime:latest as runtime
+        LABEL builder.image=${IMAGE_REGISTRY}/${BUILDER_IMAGE}
+        LABEL runtime.image=${IMAGE_REGISTRY}/${RUNTIME_IMAGE}
 
-        COPY --from=builder /tmp/src/main.jar /app/main.jar
+        COPY --from=builder ${HOME}/main.jar ${HOME}/main.jar
     triggers:
     - imageChange: {}
       type: ImageChange
@@ -86,6 +99,7 @@ objects:
   metadata:
     labels:
       app: ${APPLICATION_NAME}
+      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     replicas: 1
@@ -97,6 +111,7 @@ objects:
       metadata:
         labels:
           app: ${APPLICATION_NAME}
+          app.kubernetes.io/name: ${APPLICATION_NAME}
           deploymentConfig: ${APPLICATION_NAME}
         name: ${APPLICATION_NAME}
       spec:
@@ -141,3 +156,14 @@ parameters:
 - name: MAIN_JAR
   description: Application main jar in case the build process produces more than one jar file
   displayName: Main JAR
+- name: BUILDER_IMAGE
+  displayName: Builder image
+  value: crc-openjdk11-builder:latest
+  required: true
+- name: RUNTIME_IMAGE
+  displayName: Runtime image
+  value: crc-openjdk11-runtime:latest
+  required: true
+- name: IMAGE_REGISTRY
+  displayName: Image registry
+  value: image-registry.openshift-image-registry.svc:5000/openshift
