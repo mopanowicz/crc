@@ -1,9 +1,8 @@
 #!/bin/bash
 
 if [ "$DEBUG_S2I" == "true" ]; then
-    env | sort
     set -x
-    pwd
+    env | sort
     ls -la
 fi
 
@@ -30,3 +29,7 @@ if [ ! -f $MAIN_JAR ]; then
 fi
 
 mv $MAIN_JAR main.jar
+
+if [ "$DEBUG_S2I" == "true" ]; then
+    ls -la
+fi
