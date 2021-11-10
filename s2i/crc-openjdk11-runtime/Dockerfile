@@ -7,7 +7,7 @@ USER root
 
 COPY ./root /
 
-RUN microdnf -y install --setopt=tsflags=nodocs java-${JAVA_VERSION}-openjdk && \
+RUN microdnf -y install --setopt=tsflags=nodocs java-${JAVA_VERSION}-openjdk-headless && \
     microdnf -y clean all
 
 USER 1001
