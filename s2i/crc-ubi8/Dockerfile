@@ -1,8 +1,5 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
-EXPOSE 8080
-EXPOSE 8443
-
 ENV HOME=/app
 
 USER root
