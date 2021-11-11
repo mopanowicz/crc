@@ -2,8 +2,7 @@ FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-openjdk11-ru
 
 ENV MAVEN_VERSION=3.8.3
 
-LABEL io.openshift.s2i.scripts-url="image:///usr/libexec/s2i" \
-      io.openshift.expose-services="8080:http,8443:https"
+LABEL io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
 
 USER root
 
