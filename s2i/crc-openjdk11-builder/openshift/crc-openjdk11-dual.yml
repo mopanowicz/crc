@@ -14,14 +14,19 @@ objects:
   metadata:
     annotations:
       description: The application's http port.
+      service.alpha.openshift.io/serving-cert-secret-name: ${APPLICATION_NAME}
     labels:
       app: ${APPLICATION_NAME}
       app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     ports:
-    - port: 8080
+    - name: http
+      port: 8080
       targetPort: 8080
+    - name: https
+      port: 8443
+      targetPort: 8443
     selector:
       deploymentConfig: ${APPLICATION_NAME}
 - apiVersion: v1
@@ -140,7 +145,15 @@ objects:
           - containerPort: 8443
             name: https
             protocol: TCP
+          volumeMounts:
+          - mountPath: /svc-tls
+            name: ${APPLICATION_NAME}-tls
+            readonly: true
         terminationGracePeriodSeconds: 30
+        volumes:
+        - name: ${APPLICATION_NAME}-tls
+          secret:
+            secretName: ${APPLICATION_NAME}
     triggers:
     - imageChangeParams:
         automatic: true
