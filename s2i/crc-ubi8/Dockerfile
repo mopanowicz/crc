@@ -20,4 +20,4 @@ USER 1001
 
 WORKDIR ${HOME}
 
-ENTRYPOINT ["container-entry-point"]
+ENTRYPOINT ["container-entrypoint"]

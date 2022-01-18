@@ -14,4 +14,4 @@ RUN microdnf -y install --setopt=tsflags=nodocs nginx && \
 
 USER 1001
 
-ENTRYPOINT ["container-entry-point"]
+ENTRYPOINT ["container-entrypoint"]

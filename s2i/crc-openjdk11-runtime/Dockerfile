@@ -17,4 +17,4 @@ RUN microdnf -y install --setopt=tsflags=nodocs java-${JAVA_VERSION}-openjdk-hea
 
 USER 1001
 
-ENTRYPOINT ["container-entry-point"]
+ENTRYPOINT ["container-entrypoint"]
