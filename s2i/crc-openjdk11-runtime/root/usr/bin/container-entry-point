@@ -18,7 +18,7 @@ if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
 
   KEYSTORE_P12="$APP_ROOT/keystore.p12"
   KEYSTORE="$APP_ROOT/keystore.jks"
-  TRUSTSTORE="$HOME/truststore.jks"
+  TRUSTSTORE="$APP_ROOT/truststore.jks"
   PASSWORD=changeit
 
   openssl pkcs12 -export -in $TLS_CRT -inkey $TLS_KEY -certfile $TLS_CRT -name "tls" -out $KEYSTORE_P12 -password pass:$PASSWORD
