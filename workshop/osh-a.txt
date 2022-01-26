@@ -1,0 +1,11 @@
+1. Platforma do uruchamiania aplikacji
+
+2. Konsola, oc (skąd wziąć), pipeline (stage budowania i deploymentu)
+
+oc describe
+oc explain
+
+2.1 https://docs.okd.io/3.11/minishift/index.html, https://crc.dev/crc/
+
+3. Izolowane procesy - z własną pamięcią, przestrzenią dyskową i izolowaną siecią
+
