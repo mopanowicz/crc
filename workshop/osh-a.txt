@@ -1,11 +1,60 @@
 1. Platforma do uruchamiania aplikacji
 
+Control plane
+- rest api
+- data persistence
+- monitoring
+
+Data plane
+- applications
+
+                 | control plane |          |  data plane  |
+developer --http--> rest api --starts/stops--> applications
+
+Kubernetes
+
+https://en.wikipedia.org/wiki/Kubernetes
+
+https://kubernetes.io/docs/concepts/cluster-administration/networking/
+https://docs.openshift.com/container-platform/4.9/networking/understanding-networking.html#nw-ne-comparing-ingress-route_understanding-networking
+
 2. Konsola, oc (skąd wziąć), pipeline (stage budowania i deploymentu)
+
+2.1 https://docs.okd.io/3.11/minishift/index.html, https://crc.dev/crc/
+https://developers.redhat.com/developer-sandbox
+
+3. Izolowane procesy - z własną pamięcią, przestrzenią dyskową i izolowaną siecią
+
+Dockerfile (dyrektywy/polecenia)
+FROM
+ENV
+EXPOSE
+COPY
+RUN
+CMD
+ENTRYPOINT
+
+|- Host OS ------------------------------------------------------------|- Container runtime ---|
+source + Dockerfile --docker build--> image with the app --docker run--> container with the app
+
+4.1 użytkownik - konto z uprawnieniami - u nas integracja z AD
+projekt - grupowanie aplikacji i zapewnienie dostępności zasobów zgodnie z ustaloną quotą (cpu, ram, persistent storage)
+
+oc login
+oc whoami
+oc logout
+
+oc project [nazwa projektu]
+oc projects
 
 oc describe
 oc explain
 
-2.1 https://docs.okd.io/3.11/minishift/index.html, https://crc.dev/crc/
+4.2 pody
 
-3. Izolowane procesy - z własną pamięcią, przestrzenią dyskową i izolowaną siecią
+oc explain pod
+oc explain pod.spec
 
+oc status
+
+oc create -f pods/hello-world-pod.yml
