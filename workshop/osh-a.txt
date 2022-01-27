@@ -78,7 +78,15 @@ oc describe deployment hello-moon
 oc create -f config/hello-sun.yml
 oc describe dc hello-sun
 
+4.5 Mapy i sekrety
+
+oc create configmap map1 --from-file=config/maps/map1
+
+oc create secret secret1 --from-file=config/secrets/secret1
+
 5. Skalowanie
 
 oc autoscale deployment/hello-moon --max 10 --cpu-percent=50
 oc autoscale dc/hello-sun --max 10 --cpu-percent=50
+
+
