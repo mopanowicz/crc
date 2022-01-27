@@ -1,15 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: hello-world-pod
+  name: hello-world
   labels:
-    app: hello-world-pod
+    app: hello-world
 spec:
   containers:
   - env:
     - name: MESSAGE
       value: Hello from a pod
-    image: localhost/hello-world:latest
+    image: 192.168.1.11:5000/hello-world:latest
     imagePullPolicy: Always
     name: hello-world
     resources: {}

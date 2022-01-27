@@ -57,4 +57,11 @@ oc explain pod.spec
 
 oc status
 
-oc create -f pods/hello-world-pod.yml
+oc create -f config/hello-world-pod.yml
+oc describe pod hello-world
+
+oc create -f config/hello-world-svc.yml
+oc describe service hello-world-svc
+oc port-forward hello-world 8082:8080
+
+oc create -f config/hello-world-route.yml
