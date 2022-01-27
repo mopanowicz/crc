@@ -8,9 +8,13 @@ import (
 
 func main() {
     message := os.Getenv("MESSAGE")
+    hostname := os.Getenv("HOSTNAME")
 
     http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-        fmt.Fprintf(w, message)
+        fmt.Fprintf(w, "<h1>"+ message +"</h1>")
+        if len(hostname) > 0 {
+            fmt.Fprintf(w, "<h2>"+ message +"</h2>")
+        }
     })
 
     fmt.Println("Starting server on port 8080.")
