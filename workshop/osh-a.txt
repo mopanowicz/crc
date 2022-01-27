@@ -77,3 +77,8 @@ oc describe deployment hello-moon
 
 oc create -f config/hello-sun.yml
 oc describe dc hello-sun
+
+5. Skalowanie
+
+oc autoscale deployment/hello-moon --max 10 --cpu-percent=50
+oc autoscale dc/hello-sun --max 10 --cpu-percent=50

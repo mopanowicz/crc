@@ -16,7 +16,7 @@
 4.6 BuildConfig i Build
 4.7 ImageStream i Image
 4.8 Templates
-4.9 Volumes i StatefulSets
+4.9 Volumes
 
 5. Skalowanie + autoscaler
 

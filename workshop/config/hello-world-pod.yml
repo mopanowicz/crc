@@ -12,4 +12,8 @@ spec:
     image: 192.168.1.11:5000/hello-world:latest
     imagePullPolicy: Always
     name: hello-world
-    resources: {}
+    resources:
+      limits:
+        cpu: "0.5"
+      requests:
+        cpu: "0.1"
