@@ -69,3 +69,11 @@ oc port-forward hello-world 8082:8080
 
 oc create -f config/hello-world-route.yml
 oc describe route hello-world
+
+4.4 Deployment & DeploymentConfig
+
+oc create -f config/hello-moon.yml
+oc describe deployment hello-moon
+
+oc create -f config/hello-sun.yml
+oc describe dc hello-sun

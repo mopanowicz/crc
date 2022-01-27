@@ -1,0 +1,57 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: hello-sun
+  labels:
+    app: hello-sun
+spec:
+  replicas: 2
+  selector:
+    app: hello-sun
+    deploymentconfig: hello-sun
+  template:
+    metadata:
+      labels:
+        app: hello-sun
+        deploymentconfig: hello-sun
+    spec:
+      containers:
+      - env:
+        - name: MESSAGE
+          value: Hello from a pod
+        image: 192.168.1.11:5000/hello-world:latest
+        imagePullPolicy: Always
+        name: hello-sun
+        resources: {}
+  triggers:
+  - type: ConfigChange 
+  strategy:
+    type: Rolling 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: hello-sun
+  name: hello-sun-svc
+spec:
+  selector:
+    app: hello-sun
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    app: hello-sun
+  name: hello-sun
+  annotations:
+    openshift.io/host.generated: 'true'
+spec:
+  to:
+    kind: Service
+    name: hello-sun-svc
+  wildcardPolicy: None
