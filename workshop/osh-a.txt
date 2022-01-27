@@ -82,6 +82,8 @@ oc describe dc hello-sun
 
 oc create configmap map1 --from-file=config/maps/map1
 
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#populate-a-volume-with-data-stored-in-a-configmap
+
 oc create secret secret1 --from-file=config/secrets/secret1
 
 5. Skalowanie
