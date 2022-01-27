@@ -50,7 +50,7 @@ oc projects
 oc describe
 oc explain
 
-4.2 pody
+4.2 Pods
 
 oc explain pod
 oc explain pod.spec
@@ -58,10 +58,14 @@ oc explain pod.spec
 oc status
 
 oc create -f config/hello-world-pod.yml
+oc get pods --watch
 oc describe pod hello-world
+
+4.3 Services & Routes
 
 oc create -f config/hello-world-svc.yml
 oc describe service hello-world-svc
 oc port-forward hello-world 8082:8080
 
 oc create -f config/hello-world-route.yml
+oc describe route hello-world
