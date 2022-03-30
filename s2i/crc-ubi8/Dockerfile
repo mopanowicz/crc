@@ -7,12 +7,14 @@ USER root
 COPY ./root /
 
 RUN microdnf -y update && \
-    microdnf -y install --setopt=tsflags=nodocs curl findutils gzip procps tar which openssl && \
+    microdnf -y install --setopt=tsflags=nodocs curl findutils procps openssl && \
     \
     microdnf -y install --setopt=tsflags=nodocs shadow-utils && \
     useradd -u 1001 -d ${HOME} -m -s /sbin/nologin default && \
     chmod 777 ${HOME} && \
     microdnf -y remove shadow-utils && \
+    # temporary \
+    microdnf -y install --setopt=tsflags=nodocs vim mc which gzip tar && \
     \
     microdnf -y clean all
 

@@ -63,6 +63,8 @@ oc describe pod hello-world
 
 4.3 Services & Routes
 
+Serwis to loadballancer
+
 oc create -f config/hello-world-svc.yml
 oc describe service hello-world-svc
 oc port-forward hello-world 8082:8080
