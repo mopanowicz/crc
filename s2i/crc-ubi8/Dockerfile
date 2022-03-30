@@ -14,7 +14,7 @@ RUN microdnf -y update && \
     chmod 777 ${HOME} && \
     microdnf -y remove shadow-utils && \
     # temporary \
-    microdnf -y install --setopt=tsflags=nodocs vim mc which gzip tar && \
+    microdnf -y install --setopt=tsflags=nodocs vim which gzip tar && \
     \
     microdnf -y clean all
 
