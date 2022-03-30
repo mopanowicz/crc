@@ -1,0 +1,17 @@
+server:
+  port: 8443
+  servlet.context-path: /demo-api-spring
+  ssl:
+    enabled: true
+    key-store-password: ${KEYSTORE_PASSWORD:changeit}
+
+spring:
+  jpa.open-in-view: false
+
+---
+spring.config.activate.on-profile: dev
+
+server:
+  port: 8081
+  ssl:
+    enabled: false
