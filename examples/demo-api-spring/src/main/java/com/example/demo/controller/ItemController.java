@@ -1,8 +1,6 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ItemDTO;
-import com.example.demo.model.Item;
-import com.example.demo.repository.ItemRepository;
 import com.example.demo.service.ItemService;
 import com.example.demo.service.NotFoundException;
 import org.slf4j.Logger;
@@ -10,8 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -69,16 +65,16 @@ public class ItemController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity delete(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") Long id) {
         try {
             itemService.delete(id);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (NotFoundException e) {
             log.error(e.getMessage());
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             log.error("delete failed", e);
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
