@@ -9,30 +9,27 @@ fi
 
 TLS_CRT=/svc-tls/tls.crt
 TLS_KEY=/svc-tls/tls.key
-APP_ROOT=${CNB_APP_DIR:-$HOME}
+
 if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
+  APP_ROOT=${CNB_APP_DIR:-$HOME}
+
   KEYTOOL=$(which keytool)
   if [ "$KEYTOOL" == "" ]; then
     KEYTOOL=$(find /layers -name "keytool")
   fi
 
-  KEYSTORE_P12="$APP_ROOT/keystore.p12"
   KEYSTORE="$APP_ROOT/keystore.jks"
-  TRUSTSTORE="$APP_ROOT/truststore.jks"
-  PASSWORD=changeit
+  KEYSTORE_PASSWORD=changeit
 
-  openssl pkcs12 -export -in $TLS_CRT -inkey $TLS_KEY -certfile $TLS_CRT -name "tls" -out $KEYSTORE_P12 -password pass:$PASSWORD
-  $KEYTOOL -importkeystore -noprompt -srckeystore $KEYSTORE_P12 -destkeystore $KEYSTORE -storepass $PASSWORD -srcstorepass $PASSWORD -deststoretype JKS
+  KEYSTORE_P12="$APP_ROOT/keystore.p12"
 
-  CERTS=$(grep 'END CERTIFICATE' $TLS_CRT | wc -l)
-  for N in $(seq 0 $((CERTS - 1))); do
-    ALIAS="crc-$N"
-    cat $TLS_CRT |
-      awk "n==$N { print}; /END CERTIFICATE/ {n++}" |
-      $KEYTOOL -noprompt -import -trustcacerts -alias $ALIAS -keystore $KEYSTORE -storepass $PASSWORD
-  done
+  openssl pkcs12 -export -in $TLS_CRT -inkey $TLS_KEY -certfile $TLS_CRT -name "tls" -out $KEYSTORE_P12 -password pass:$KEYSTORE_PASSWORD
 
-  export KEYSTORE TRUSTSTORE
+  $KEYTOOL -importkeystore -noprompt -srckeystore $KEYSTORE_P12 -destkeystore $KEYSTORE -storepass $KEYSTORE_PASSWORD -srcstorepass $KEYSTORE_PASSWORD -deststoretype JKS
+
+  export KEYSTORE
+
+  . container-trust
 fi
 
 java ${JAVA_OPTS} -jar main.jar ${APP_OPTS}

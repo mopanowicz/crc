@@ -1,0 +1,23 @@
+#!/bin/bash
+
+TLS_CRT=/svc-tls/tls.crt
+
+if [[ -f $TLS_CRT ]]; then
+  KEYTOOL=$(which keytool)
+  if [ "$KEYTOOL" == "" ]; then
+    KEYTOOL=$(find /layers -name "keytool")
+  fi
+
+  TRUSTSTORE=${TRUSTSTORE:-$APP_ROOT/truststore.jks}
+  TRUSTSTORE_PASSWORD=${TRUSTSTORE_PASSWORD:-changeit}
+
+  CERTS=$(grep 'END CERTIFICATE' $TLS_CRT | wc -l)
+  for N in $(seq 0 $((CERTS - 1))); do
+    ALIAS="pod-$N"
+    cat $TLS_CRT |
+      awk "n==$N { print }; /END CERTIFICATE/ {n++}" |
+      $KEYTOOL -noprompt -import -trustcacerts -alias $ALIAS -keystore $TRUSTSTORE -storepass $TRUSTSTORE_PASSWORD
+  done
+
+  export TRUSTSTORE TRUSTSTORE_PASSWORD
+fi
