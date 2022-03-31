@@ -27,7 +27,7 @@ if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
 
   $KEYTOOL -importkeystore -noprompt -srckeystore $KEYSTORE_P12 -destkeystore $KEYSTORE -storepass $KEYSTORE_PASSWORD -srcstorepass $KEYSTORE_PASSWORD -deststoretype JKS
 
-  export KEYSTORE
+  export KEYSTORE KEYSTORE_PASSWORD
 
   . container-trust
 fi
