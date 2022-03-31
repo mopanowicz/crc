@@ -18,7 +18,12 @@ function import() {
   done
 }
 
-PEM=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+# PEM=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+# if [[ -f $PEM ]]; then
+#   import $PEM "ca-"
+# fi
+
+PEM=/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
 if [[ -f $PEM ]]; then
-  import $PEM "sa-ca-"
+  import $PEM "svc-ca-"
 fi
