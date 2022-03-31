@@ -8,16 +8,13 @@ if [[ -f $TLS_CRT ]]; then
     KEYTOOL=$(find /layers -name "keytool")
   fi
 
-  TRUSTSTORE=${TRUSTSTORE:-$APP_ROOT/truststore.jks}
-  TRUSTSTORE_PASSWORD=${TRUSTSTORE_PASSWORD:-changeit}
+  CACERTS_PASSWORD=${CACERTS_PASSWORD:-changeit}
 
   CERTS=$(grep 'END CERTIFICATE' $TLS_CRT | wc -l)
   for N in $(seq 0 $((CERTS - 1))); do
     ALIAS="pod-$N"
     cat $TLS_CRT |
       awk "n==$N { print }; /END CERTIFICATE/ {n++}" |
-      $KEYTOOL -noprompt -import -trustcacerts -alias $ALIAS -keystore $TRUSTSTORE -storepass $TRUSTSTORE_PASSWORD
+      $KEYTOOL -noprompt -import -cacerts -alias $ALIAS -storepass $CACERTS_PASSWORD
   done
-
-  export TRUSTSTORE TRUSTSTORE_PASSWORD
 fi
