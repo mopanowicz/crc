@@ -1,14 +1,29 @@
 #!/bin/bash
 
-RHEA=/var/run/secrets/rhsm/ca/redhat-entitlement-authority.pem
+KEYTOOL=$(which keytool)
+if [ "$KEYTOOL" == "" ]; then
+  KEYTOOL=$(find /layers -name "keytool")
+fi
+CACERTS_PASSWORD=${CACERTS_PASSWORD:-changeit}
 
-if [[ -f $RHEA ]]; then
-  KEYTOOL=$(which keytool)
-  if [ "$KEYTOOL" == "" ]; then
-    KEYTOOL=$(find /layers -name "keytool")
-  fi
+function import() {
+  PEM=$1
+  PREFIX=$2
+  
+  csplit -s -z -f $PREFIX $PEM '/-----BEGIN CERTIFICATE-----/' '{*}'
 
-  CACERTS_PASSWORD=${CACERTS_PASSWORD:-changeit}
+  for i in `ls ${PREFIX}*`; do
+    echo $i
+    $KEYTOOL -importcert -cacerts -alias $i -noprompt -storepass $CACERTS_PASSWORD -file $i
+  done
+}
 
-  $KEYTOOL -importcert -cacerts -alias RHEA -noprompt -storepass $CACERTS_PASSWORD -file $RHEA
+PEM=/var/run/secrets/rhsm/ca/redhat-entitlement-authority.pem
+if [[ -f $PEM ]]; then
+  import $PEM "rhea"
+fi
+
+PEM=/var/run/secrets/rhsm/ca/redhat-uep.pem
+if [[ -f $PEM ]]; then
+  import $PEM "rhuep"
 fi
