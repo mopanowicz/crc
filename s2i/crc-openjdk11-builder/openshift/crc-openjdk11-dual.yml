@@ -97,6 +97,8 @@ objects:
 
         COPY . ${HOME}
 
+        ENV MAVEN_OPTS="-Dmaven.test.skip=true"
+
         RUN /usr/libexec/s2i/assemble
 
         FROM ${IMAGE_REGISTRY}/${RUNTIME_IMAGE}
