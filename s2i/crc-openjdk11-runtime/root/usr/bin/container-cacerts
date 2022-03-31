@@ -18,12 +18,7 @@ function import() {
   done
 }
 
-PEM=/var/run/secrets/rhsm/ca/redhat-entitlement-authority.pem
+PEM=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
 if [[ -f $PEM ]]; then
-  import $PEM "rhea"
-fi
-
-PEM=/var/run/secrets/rhsm/ca/redhat-uep.pem
-if [[ -f $PEM ]]; then
-  import $PEM "rhuep"
+  import $PEM "sa-ca-"
 fi
