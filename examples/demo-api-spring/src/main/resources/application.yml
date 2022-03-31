@@ -1,6 +1,6 @@
 server:
   port: 8443
-  servlet.context-path: /demo-api-spring
+  servlet.context-path: /
   ssl:
     enabled: true
     key-store: ${KEYSTORE}
