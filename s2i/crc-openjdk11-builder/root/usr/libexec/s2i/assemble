@@ -6,10 +6,6 @@ if [ "$DEBUG_S2I" == "true" ]; then
     ls -la
 fi
 
-if [ -x /usr/bin/container-cacerts ]; then
-  . container-cacerts
-fi
-
 if [ -f pom.xml ]; then
     echo "Found pom.xml - packaging with maven"
     if [ -f mvnw ]; then
