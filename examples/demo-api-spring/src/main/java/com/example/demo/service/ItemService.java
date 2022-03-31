@@ -14,7 +14,7 @@ import java.util.Vector;
 @Service
 public class ItemService {
 
-    final static Logger log = LoggerFactory.getLogger("ItemService");
+    final static Logger log = LoggerFactory.getLogger(ItemService.class);
 
     final ItemRepository itemRepository;
 

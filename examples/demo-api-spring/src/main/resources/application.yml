@@ -5,8 +5,14 @@ server:
     enabled: true
     key-store: ${KEYSTORE}
     key-store-password: ${KEYSTORE_PASSWORD:changeit}
+
 spring:
   jpa.open-in-view: false
+
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
 
 ---
 spring.config.activate.on-profile: dev
@@ -15,3 +21,8 @@ server:
   port: 8081
   ssl:
     enabled: false
+
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG

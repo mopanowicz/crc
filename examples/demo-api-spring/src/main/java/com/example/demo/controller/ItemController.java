@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/items")
 public class ItemController {
 
-    final static Logger log = LoggerFactory.getLogger("ItemController");
+    final static Logger log = LoggerFactory.getLogger(ItemController.class);
 
     final ItemService itemService;
 
