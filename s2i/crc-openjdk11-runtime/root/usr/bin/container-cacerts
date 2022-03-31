@@ -20,5 +20,5 @@ function import() {
 
 PEM=/svc-tls/tls.crt
 if [[ -f $PEM ]]; then
-  import $PEM "ca-"
+  import $PEM "tls-"
 fi
