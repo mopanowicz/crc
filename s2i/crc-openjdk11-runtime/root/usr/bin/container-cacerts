@@ -13,15 +13,15 @@ function import() {
   csplit -s -z -f $PREFIX $PEM '/-----BEGIN CERTIFICATE-----/' '{*}'
 
   for i in `ls ${PREFIX}*`; do
-    echo $i
+    # echo $i
     $KEYTOOL -importcert -cacerts -alias $i -noprompt -storepass $CACERTS_PASSWORD -file $i
   done
 }
 
-# PEM=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
-# if [[ -f $PEM ]]; then
-#   import $PEM "ca-"
-# fi
+PEM=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+if [[ -f $PEM ]]; then
+  import $PEM "ca-"
+fi
 
 PEM=/var/run/secrets/kubernetes.io/serviceaccount/service-ca.crt
 if [[ -f $PEM ]]; then
