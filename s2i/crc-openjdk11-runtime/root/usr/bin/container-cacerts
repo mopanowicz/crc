@@ -1,8 +1,8 @@
 #!/bin/bash
 
-TLS_CRT=/svc-tls/tls.crt
+RHEA=/var/run/secrets/rhsm/ca/redhat-entitlement-authority.pem
 
-if [[ -f $TLS_CRT ]]; then
+if [[ -f $RHEA ]]; then
   KEYTOOL=$(which keytool)
   if [ "$KEYTOOL" == "" ]; then
     KEYTOOL=$(find /layers -name "keytool")
@@ -10,11 +10,5 @@ if [[ -f $TLS_CRT ]]; then
 
   CACERTS_PASSWORD=${CACERTS_PASSWORD:-changeit}
 
-  CERTS=$(grep 'END CERTIFICATE' $TLS_CRT | wc -l)
-  for N in $(seq 0 $((CERTS - 1))); do
-    ALIAS="pod-$N"
-    cat $TLS_CRT |
-      awk "n==$N { print }; /END CERTIFICATE/ {n++}" |
-      $KEYTOOL -noprompt -import -cacerts -alias $ALIAS -storepass $CACERTS_PASSWORD
-  done
+  $KEYTOOL -importcert -cacerts -alias RHEA -noprompt -storepass $CACERTS_PASSWORD -file $RHEA
 fi
