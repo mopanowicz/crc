@@ -4,39 +4,39 @@ import javax.persistence.*;
 
 @Entity
 public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-    String name;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  Long id;
+  String name;
 
-    @Version
-    Integer version;
+  @Version
+  Integer version;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public Integer getVersion() {
-        return version;
-    }
+  public Integer getVersion() {
+    return version;
+  }
 
-    public void setVersion(Integer version) {
-        this.version = version;
-    }
+  public void setVersion(Integer version) {
+    this.version = version;
+  }
 
-    public static Item create() {
-        return new Item();
-    }
+  public static Item create() {
+    return new Item();
+  }
 }
