@@ -1,0 +1,20 @@
+server:
+  port: 8443
+  servlet.context-path: /
+  ssl:
+    enabled: true
+    key-store: ${KEYSTORE}
+    key-store-password: ${KEYSTORE_PASSWORD:changeit}
+
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
+
+---
+spring.config.activate.on-profile: dev
+
+server:
+  port: 8081
+  ssl:
+    enabled: false
