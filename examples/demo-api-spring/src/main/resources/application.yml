@@ -21,8 +21,3 @@ server:
   port: 8081
   ssl:
     enabled: false
-
-logging:
-  level:
-    root: INFO
-    com.example: DEBUG
