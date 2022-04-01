@@ -1,8 +1,8 @@
-package com.example.demo.controller;
+package com.example.demoapi.controller;
 
-import com.example.demo.dto.ItemDTO;
-import com.example.demo.service.ItemService;
-import com.example.demo.service.NotFoundException;
+import com.example.demoapi.dto.ItemDTO;
+import com.example.demoapi.service.ItemService;
+import com.example.demoapi.service.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

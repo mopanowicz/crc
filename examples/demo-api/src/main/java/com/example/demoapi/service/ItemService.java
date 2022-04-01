@@ -1,8 +1,8 @@
-package com.example.demo.service;
+package com.example.demoapi.service;
 
-import com.example.demo.dto.ItemDTO;
-import com.example.demo.model.Item;
-import com.example.demo.repository.ItemRepository;
+import com.example.demoapi.dto.ItemDTO;
+import com.example.demoapi.model.Item;
+import com.example.demoapi.repository.ItemRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

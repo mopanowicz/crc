@@ -1,15 +1,9 @@
-package com.example.demo.model;
+package com.example.demoapi.dto;
 
-import javax.persistence.*;
+public class ItemDTO {
 
-@Entity
-public class Item {
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   Long id;
   String name;
-
-  @Version
   Integer version;
 
   public Long getId() {
@@ -36,7 +30,7 @@ public class Item {
     this.version = version;
   }
 
-  public static Item create() {
-    return new Item();
+  public static ItemDTO create() {
+    return new ItemDTO();
   }
 }
