@@ -21,6 +21,9 @@ objects:
     name: ${APPLICATION_NAME}
   spec:
     ports:
+    - name: http
+      port: 8081
+      targetPort: 8081
     - name: https
       port: 8443
       targetPort: 8443
@@ -35,12 +38,25 @@ objects:
     labels:
       app: ${APPLICATION_NAME}
       app.kubernetes.io/name: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}-https
   spec:
     to:
       name: ${APPLICATION_NAME}
     tls:
       termination: reencrypt
+- apiVersion: v1
+  id: ${APPLICATION_NAME}-http
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for application's http service.
+    labels:
+      app: ${APPLICATION_NAME}
+      app.kubernetes.io/name: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}-http
+  spec:
+    to:
+      name: ${APPLICATION_NAME}
 - apiVersion: v1
   kind: Secret
   metadata:
@@ -140,6 +156,9 @@ objects:
           imagePullPolicy: Always
           name: ${APPLICATION_NAME}
           ports:
+          - containerPort: 8081
+            name: http
+            protocol: TCP
           - containerPort: 8443
             name: https
             protocol: TCP
@@ -165,7 +184,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api-spring
+  value: demo-api
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
@@ -176,7 +195,7 @@ parameters:
   value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
-  value: examples/demo-api-spring
+  value: examples/demo-api
 - name: GIT_TOKEN
   displayName: Source repository access token
 - name: MAIN_JAR
