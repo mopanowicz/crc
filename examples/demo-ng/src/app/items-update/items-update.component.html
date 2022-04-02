@@ -1,0 +1,18 @@
+<h4>Update item</h4>
+
+<div *ngIf="errorMessage" class="error">
+  Error: {{errorMessage}}
+</div>
+
+<form *ngIf="item">
+  <div>
+    <label>Id</label>
+    <span>{{item!.id}}</span>
+  </div>
+  <div>
+    <label for="name">Name</label>
+    <input id="name" name="name" [(ngModel)]="item!.name" placeholder="name">
+  </div>
+  <button type="submit" (click)="onSubmit()" [disabled]="!isValid()">Update</button>
+  <button (click)="onCancel()">Cancel</button>
+</form>
