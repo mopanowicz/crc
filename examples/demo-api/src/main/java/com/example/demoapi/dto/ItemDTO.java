@@ -33,4 +33,9 @@ public class ItemDTO {
   public static ItemDTO create() {
     return new ItemDTO();
   }
+
+  @Override
+  public String toString() {
+    return "ItemDTO [id=" + id + ", name=" + name + ", version=" + version + "]";
+  }
 }
