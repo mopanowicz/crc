@@ -19,5 +19,19 @@ oc patch --type=merge --patch='{
 
 ssh -i ~/.crc/machines/crc/id_ecdsa -o StrictHostKeyChecking=no core@$(crc ip)
 
-sudo cat /etc/containers/registries.conf 
+sudo cat /etc/containers/registries.conf
 ```
+
+## Issues
+
+If ```crc setup``` fails with
+```
+Failed to connect to bus: $DBUS_SESSION_BUS_ADDRESS and $XDG_RUNTIME_DIR not defined
+```
+login insteado of su/sudo.
+
+If ```journalctl -xe``` shows
+``` 
+Failed to listen on CodeReady Containers vsock socket.
+```
+reboot.
