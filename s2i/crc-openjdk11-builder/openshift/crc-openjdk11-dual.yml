@@ -34,11 +34,11 @@ objects:
   kind: Route
   metadata:
     annotations:
-      description: Route for application's https service.
+      description: Route for application's https service
     labels:
       app: ${APPLICATION_NAME}
       app.kubernetes.io/name: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}-https
+    name: ${APPLICATION_NAME} # see insecure route
   spec:
     to:
       name: ${APPLICATION_NAME}
@@ -49,11 +49,11 @@ objects:
   kind: Route
   metadata:
     annotations:
-      description: Route for application's http service.
+      description: Route for application's http service
     labels:
       app: ${APPLICATION_NAME}
       app.kubernetes.io/name: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}-http
+    name: ${APPLICATION_NAME}-insecure
   spec:
     to:
       name: ${APPLICATION_NAME}
