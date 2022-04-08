@@ -5,7 +5,9 @@ The server is accessible via web console at:
 
 Log in as administrator:
   Username: kubeadmin
-  Password: D8t54-aVfPd-UdUyF-v5Sdt
+  Password: MPc4N-Kcp7z-JPaBp-TrMLy
+
+  $ oc login -u kubeadmin https://api.crc.testing:6443
 
 Log in as user:
   Username: developer
