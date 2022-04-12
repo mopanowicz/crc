@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <JsonLayout compact="true" eventEol="true" />
+    </Console>
+    <Kafka name="Kafka" topic="${spring:logging.kafka.topic}">
+      <JsonLayout compact="true" eventEol="true" />
+      <Property name="bootstrap.servers">${spring:logging.kafka.properties.bootstrap.servers}</Property>
+      <Property name="acks">${spring:logging.kafka.properties.acks}</Property>
+      <Property name="max.block.ms">${spring:logging.kafka.properties.max.block.ms}</Property>
+    </Kafka>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="Kafka" />
+    </Root>
+    <Logger name="org.apache.kafka" level="INFO" /> <!-- avoid recursive logging -->
+  </Loggers>
+</Configuration>

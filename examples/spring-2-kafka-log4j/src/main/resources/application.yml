@@ -1,0 +1,8 @@
+logging:
+  config: classpath:logging.xml
+  kafka:
+    topic: log-events
+    properties:
+      bootstrap.servers: localhost:9092
+      acks: 1
+      max.block.ms: 6000
