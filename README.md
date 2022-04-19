@@ -28,7 +28,7 @@ If ```crc setup``` fails with
 ```
 Failed to connect to bus: $DBUS_SESSION_BUS_ADDRESS and $XDG_RUNTIME_DIR not defined
 ```
-login insteado of su/sudo.
+login instead of su/sudo.
 
 If ```journalctl -xe``` shows
 ``` 
