@@ -15,12 +15,19 @@
 	<description>Spring application logging to Kafka with logback</description>
 	<properties>
 		<java.version>11</java.version>
+    <logback.logstash.version>7.1</logback.logstash.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+    <dependency>
+        <groupId>net.logstash.logback</groupId>
+        <artifactId>logstash-logback-encoder</artifactId>
+        <version>${logback.logstash.version}</version>
+    </dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
