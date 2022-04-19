@@ -203,11 +203,11 @@ parameters:
   displayName: Main JAR
 - name: BUILDER_IMAGE
   displayName: Builder image
-  value: crc-openjdk11-builder:latest
+  value: crc-openjdk11-builder:release
   required: true
 - name: RUNTIME_IMAGE
   displayName: Runtime image
-  value: crc-openjdk11-runtime:latest
+  value: crc-openjdk11-runtime:release
   required: true
 - name: IMAGE_REGISTRY
   displayName: Image registry
