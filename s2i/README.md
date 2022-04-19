@@ -1,3 +1,3 @@
 # s2i
 
-Create source secret crc-github for GitHub.
+Create ```crc-github``` source secret for GitHub.

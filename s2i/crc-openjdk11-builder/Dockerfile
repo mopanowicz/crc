@@ -11,7 +11,7 @@ COPY ./root /
 RUN microdnf -y install --setopt=tsflags=nodocs "java-${JAVA_VERSION}-openjdk-devel" && \
     microdnf -y clean all
 
-SHELL ["/bin/bash", "-o", "pipefail"]
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
       | tar xzf - -C /usr/share && \
     ln -s /usr/share/apache-maven-${MAVEN_VERSION}/bin/mvn /usr/bin/mvn
