@@ -1,7 +1,7 @@
 # crc-openjdk11-builder
 
 ```bash
-oc new-build -n openshift --source-secret crc-github https://mopanowicz@github.com/mopanowicz/crc.git --context-dir s2i/crc-openjdk11-builder --name crc-openjdk11-builder --to='crc-openjdk11-runtime:release'
+oc new-build -n openshift --source-secret crc-github https://mopanowicz@github.com/mopanowicz/crc.git --context-dir s2i/crc-openjdk11-builder --name crc-openjdk11-builder --to='crc-openjdk11-builder:release'
 ```
 
 Template
