@@ -11,7 +11,7 @@ oc patch --type=merge --patch='{
   "spec": {
     "registrySources": {
       "insecureRegistries": [
-      "192.168.1.11:5000"
+        "192.168.1.11:5000"
       ]
     }
   }
