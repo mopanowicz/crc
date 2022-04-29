@@ -5,7 +5,7 @@ The server is accessible via web console at:
 
 Log in as administrator:
   Username: kubeadmin
-  Password: CWAnt-CyYFC-YZtC2-9M3vx
+  Password: fQhZo-hMzWj-zSWkF-zgvQX
 
 Log in as user:
   Username: developer
