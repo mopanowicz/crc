@@ -184,7 +184,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api
+  value: demo-api-spring
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
@@ -195,7 +195,7 @@ parameters:
   value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
-  value: examples/demo-api
+  value: examples/demo-api-spring
 - name: GIT_TOKEN
   displayName: Source repository access token
 - name: MAIN_JAR

@@ -7,10 +7,10 @@
     <version>2.6.6</version>
     <relativePath /> <!-- lookup parent from repository -->
   </parent>
-  <groupId>com.example</groupId>
-  <artifactId>demo-api</artifactId>
+  <groupId>com.example.demoapi</groupId>
+  <artifactId>demo-api-spring</artifactId>
   <version>0.0.1</version>
-  <name>demo-api</name>
+  <name>demo-api-spring</name>
   <description>Demo Spring Boot API</description>
   <properties>
     <java.version>11</java.version>
