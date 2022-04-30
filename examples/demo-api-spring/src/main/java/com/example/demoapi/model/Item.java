@@ -39,4 +39,9 @@ public class Item {
   public static Item create() {
     return new Item();
   }
+
+  @Override
+  public String toString() {
+    return "Item [id=" + id + ", name=" + name + ", version=" + version + "]";
+  }
 }
