@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class ItemService {
     this.itemRepository = itemRepository;
   }
 
+  @Transactional
   public ItemDTO create(ItemDTO dto) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("create dto=%s", dto));
@@ -31,6 +34,7 @@ public class ItemService {
     return from(itemRepository.save(item));
   }
 
+  @Transactional
   public List<ItemDTO> get() {
     if (log.isDebugEnabled()) {
       log.debug("get");
@@ -42,6 +46,7 @@ public class ItemService {
     return ps;
   }
 
+  @Transactional
   public ItemDTO get(Long id) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("get it=%s", id));
@@ -54,6 +59,7 @@ public class ItemService {
     }
   }
 
+  @Transactional
   public List<ItemDTO> get(List<Long> ids) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("get ids=%s", ids));
@@ -65,6 +71,7 @@ public class ItemService {
     return dtos;
   }
 
+  @Transactional
   public ItemDTO update(ItemDTO dto) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("update dto=%s", dto));
@@ -73,6 +80,7 @@ public class ItemService {
     return from(itemRepository.save(item));
   }
 
+  @Transactional
   public ItemDTO delete(Long id) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("delete id=%s", id));
@@ -83,17 +91,8 @@ public class ItemService {
   }
 
   Item from(ItemDTO dto) {
-    Item entity = null;
-    if (dto.getId() != null) {
-      Optional<Item> o = itemRepository.findById(dto.getId());
-      if (o.isPresent()) {
-        entity = o.get();
-      } else {
-        throw new NotFoundException("Item id=" + dto.getId() + " not found");
-      }
-    } else {
-      entity = Item.create();
-    }
+    Item entity = Item.create();
+    entity.setId(dto.getId());
     entity.setName(dto.getName());
     entity.setVersion(dto.getVersion());
     return entity;
