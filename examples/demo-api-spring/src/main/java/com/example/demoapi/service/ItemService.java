@@ -1,20 +1,21 @@
 package com.example.demoapi.service;
 
-import com.example.demoapi.dto.ItemDTO;
-import com.example.demoapi.model.Item;
-import com.example.demoapi.repository.ItemRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Vector;
+import com.example.demoapi.dto.ItemDTO;
+import com.example.demoapi.model.Item;
+import com.example.demoapi.repository.ItemRepository;
 
 @Service
 public class ItemService {
 
-  final static Logger log = LoggerFactory.getLogger(ItemService.class);
+  static final Logger log = LoggerFactory.getLogger(ItemService.class);
 
   final ItemRepository itemRepository;
 
@@ -24,7 +25,7 @@ public class ItemService {
 
   public ItemDTO create(ItemDTO dto) {
     if (log.isDebugEnabled()) {
-      log.debug("create dto=" + dto);
+      log.debug(String.format("create dto=%s", dto));
     }
     Item item = from(dto);
     return from(itemRepository.save(item));
@@ -34,7 +35,7 @@ public class ItemService {
     if (log.isDebugEnabled()) {
       log.debug("get");
     }
-    List<ItemDTO> ps = new Vector<>();
+    List<ItemDTO> ps = new ArrayList<>();
     for (Item item : itemRepository.findByOrderByNameAsc()) {
       ps.add(from(item));
     }
@@ -43,7 +44,7 @@ public class ItemService {
 
   public ItemDTO get(Long id) {
     if (log.isDebugEnabled()) {
-      log.debug("get it=" + id);
+      log.debug(String.format("get it=%s", id));
     }
     Optional<Item> item = itemRepository.findById(id);
     if (item.isPresent()) {
@@ -55,9 +56,9 @@ public class ItemService {
 
   public List<ItemDTO> get(List<Long> ids) {
     if (log.isDebugEnabled()) {
-      log.debug("get ids=" + ids);
+      log.debug(String.format("get ids=%s", ids));
     }
-    List<ItemDTO> dtos = new Vector<>();
+    List<ItemDTO> dtos = new ArrayList<>();
     for (Item item : itemRepository.findByIdIn(ids)) {
       dtos.add(from(item));
     }
@@ -66,7 +67,7 @@ public class ItemService {
 
   public ItemDTO update(ItemDTO dto) {
     if (log.isDebugEnabled()) {
-      log.debug("update dto=" + dto);
+      log.debug(String.format("update dto=%s", dto));
     }
     Item item = from(dto);
     return from(itemRepository.save(item));
@@ -74,7 +75,7 @@ public class ItemService {
 
   public ItemDTO delete(Long id) {
     if (log.isDebugEnabled()) {
-      log.debug("delete id=" + id);
+      log.debug(String.format("delete id=%s", id));
     }
     ItemDTO dto = get(id);
     itemRepository.deleteById(id);

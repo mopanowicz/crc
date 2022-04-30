@@ -14,9 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-  final static Logger log = LoggerFactory.getLogger(HomeController.class);
+  static final Logger log = LoggerFactory.getLogger(HomeController.class);
   
-  final static String NA = "n/a";
+  static final String NA = "n/a";
 
   @GetMapping("/")
   public ModelAndView home() throws IOException {
