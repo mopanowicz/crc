@@ -52,9 +52,8 @@ public class ItemService {
     Item item = em.find(Item.class, id);
     if (item != null) {
       return from(item);
-    } else {
-      throw new NotFoundException("ItemDTO id=" + id + " not found");
     }
+    throw new NotFoundException("Item with id=" + id + " not found");
   }
 
   @Transactional
@@ -67,6 +66,17 @@ public class ItemService {
     query.setParameter("ids", ids);
     query.getResultStream().forEach(v -> dtos.add(from(v)));
     return dtos;
+  }
+
+  @Transactional
+  public ItemDTO findByName(String name) {
+    TypedQuery<Item> query = em.createQuery("SELECT item FROM Item item WHERE item.name = :name", Item.class);
+    query.setParameter("name", name);
+    Item entity = query.getSingleResult();
+    if (entity != null) {
+      return from(entity);
+    }
+    throw new NotFoundException("Item with name='" + name + "' not found");
   }
 
   @Transactional
