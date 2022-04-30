@@ -4,7 +4,7 @@ public class ItemDTO {
 
   Long id;
   String name;
-  Integer version;
+  Integer entityVersion;
 
   public Long getId() {
     return id;
@@ -22,12 +22,12 @@ public class ItemDTO {
     this.name = name;
   }
 
-  public Integer getVersion() {
-    return version;
+  public Integer getEntityVersion() {
+    return entityVersion;
   }
 
-  public void setVersion(Integer version) {
-    this.version = version;
+  public void setEntityVersion(Integer entityVersion) {
+    this.entityVersion = entityVersion;
   }
 
   public static ItemDTO create() {
@@ -36,6 +36,6 @@ public class ItemDTO {
 
   @Override
   public String toString() {
-    return "ItemDTO [id=" + id + ", name=" + name + ", version=" + version + "]";
+    return "ItemDTO [id=" + id + ", name=" + name + ", entityVersion=" + entityVersion + "]";
   }
 }

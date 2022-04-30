@@ -10,7 +10,7 @@ public class Item {
   String name;
 
   @Version
-  Integer version;
+  Integer entityVersion;
 
   public Long getId() {
     return id;
@@ -28,12 +28,12 @@ public class Item {
     this.name = name;
   }
 
-  public Integer getVersion() {
-    return version;
+  public Integer getEntityVersion() {
+    return entityVersion;
   }
 
-  public void setVersion(Integer version) {
-    this.version = version;
+  public void setEntityVersion(Integer entityVersion) {
+    this.entityVersion = entityVersion;
   }
 
   public static Item create() {
@@ -42,6 +42,6 @@ public class Item {
 
   @Override
   public String toString() {
-    return "Item [id=" + id + ", name=" + name + ", version=" + version + "]";
+    return "Item [id=" + id + ", name=" + name + ", entityVersion=" + entityVersion + "]";
   }
 }
