@@ -19,7 +19,8 @@ RUN microdnf -y update && \
       && \
     \
     microdnf -y install --setopt=tsflags=nodocs shadow-utils && \
-    useradd -u 1001 -d ${HOME} -m -s /sbin/nologin default && \
+    useradd -u 1001 -g 0 -d ${HOME} -m -s /sbin/nologin default && \
+    chmod g+rws ${HOME} && \
     microdnf -y remove shadow-utils && \
     microdnf -y clean all
 
