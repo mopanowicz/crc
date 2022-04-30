@@ -15,7 +15,7 @@ logging:
     com.example: DEBUG
 
 ---
-spring.config.activate.on-profile: dev
+spring.config.activate.on-profile: dev,test
 
 server:
   port: 8081
