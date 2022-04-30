@@ -46,8 +46,9 @@ public class ItemController {
   }
 
   @GET
-  @PathParam("id")
-  public Response get(Long id) {
+  @Path("/{id}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Response get(@PathParam("id") Long id) {
     try {
       return Response.ok(itemService.get(id)).build();
     } catch (NotFoundException e) {
@@ -69,8 +70,8 @@ public class ItemController {
   }
 
   @DELETE
-  @PathParam("id")
-  public Response delete(Long id) {
+  @Path("/{id}")
+  public Response delete(@PathParam("id") Long id) {
     try {
       itemService.delete(id);
       return Response.noContent().build();
