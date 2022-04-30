@@ -39,7 +39,7 @@ public class ItemService {
       log.debug("get all");
     }
     List<ItemDTO> dtos = new ArrayList<>();
-    TypedQuery<Item> query = em.createQuery("SELECT item FROM Item ORDER BY name", Item.class);
+    TypedQuery<Item> query = em.createQuery("SELECT item FROM Item item ORDER BY item.name", Item.class);
     query.getResultStream().forEach(v -> dtos.add(from(v)));
     return dtos;
   }

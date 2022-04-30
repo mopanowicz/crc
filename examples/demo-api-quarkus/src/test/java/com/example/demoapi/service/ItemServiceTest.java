@@ -1,5 +1,7 @@
 package com.example.demoapi.service;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import org.junit.jupiter.api.Assertions;
@@ -17,7 +19,22 @@ class ItemServiceTest {
 
   @Test
   void testCreate() {
-    ItemDTO dto = itemService.create(new ItemDTO());
-    Assertions.assertNotNull(dto);
+    ItemDTO dto = ItemDTO.create();
+    dto.setName("n99");
+    dto = itemService.create(dto);
+    Assertions.assertNotNull(dto.getId());
+  }
+
+  @Test
+  void testGetAll() {
+    ItemDTO dto = ItemDTO.create();
+    dto.setName("n3");
+    itemService.create(dto);
+    dto.setName("n2");
+    itemService.create(dto);
+    dto.setName("n1");
+    itemService.create(dto);
+    List<ItemDTO> dtos = itemService.get();
+    Assertions.assertEquals("n1", dtos.get(0).getName());
   }
 }
