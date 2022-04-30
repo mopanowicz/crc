@@ -55,7 +55,7 @@ public class ItemService {
     if (item.isPresent()) {
       return from(item.get());
     } else {
-      throw new NotFoundException("ItemDTO id=" + id + " not found");
+      throw new NotFoundException("Item with id=" + id + " not found");
     }
   }
 
@@ -69,6 +69,19 @@ public class ItemService {
       dtos.add(from(item));
     }
     return dtos;
+  }
+
+  @Transactional
+  public ItemDTO findByName(String name) {
+    if (log.isDebugEnabled()) {
+      log.debug(String.format("findByName name=%s", name));
+    }
+    Optional<Item> item = itemRepository.findByName(name);
+    if (item.isPresent()) {
+      return from(item.get());
+    } else {
+      throw new NotFoundException("Item with name='" + name + "' not found");
+    }
   }
 
   @Transactional
