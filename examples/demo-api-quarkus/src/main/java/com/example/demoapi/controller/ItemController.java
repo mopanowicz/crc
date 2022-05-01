@@ -23,10 +23,12 @@ import org.slf4j.LoggerFactory;
 import com.example.demoapi.dto.ItemDTO;
 import com.example.demoapi.service.ItemService;
 
-@Path("/v1/items")
+@Path(ItemController.API_PATH)
 public class ItemController {
 
   static final Logger log = LoggerFactory.getLogger(ItemController.class);
+
+  static final String API_PATH = "/v1/items";
 
   @Inject
   ItemService itemService;
@@ -36,7 +38,7 @@ public class ItemController {
   @Produces(MediaType.APPLICATION_JSON)
   public Response create(@RequestBody ItemDTO dto) {
     dto = itemService.create(dto);
-    return Response.created(URI.create("?"+ dto.getId())).build();
+    return Response.created(URI.create(API_PATH +"/"+ dto.getId())).build();
   }
 
   @GET
