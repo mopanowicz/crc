@@ -11,7 +11,7 @@ Build
 Run
 
 ```bash
-java -Dspring.profiles.active=dev -jar target/demo-api-0.0.1.jar
+java -Dspring.profiles.active=dev -jar target/demo-api-spring-0.0.1.jar
 ```
 
 Then click
