@@ -13,10 +13,10 @@ USER root
 
 COPY ./root /
 
-RUN cd /usr/local && \
-    wget -q https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${GRAALVM_VERSION}/graalvm-ce-java${JAVA_VERSION}-linux-amd64-${GRAALVM_VERSION}.tar.gz && \
-    tar xzf graalvm-ce-java${JAVA_VERSION}-linux-amd64-${GRAALVM_VERSION}.tar.gz && \
-    rm graalvm-ce-java${JAVA_VERSION}-linux-amd64-${GRAALVM_VERSION}.tar.gz && \
+RUN GRAALVM_TAR_GZ=graalvm-ce-java${JAVA_VERSION}-linux-amd64-${GRAALVM_VERSION}.tar.gz && \
+    curl -sSLO https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${GRAALVM_VERSION}/${GRAALVM_TAR_GZ} && \
+    tar xzf ${GRAALVM_TAR_GZ} -C /usr/local && \
+    rm ${GRAALVM_TAR_GZ} && \
     ln -s $JAVA_HOME/bin/java -t /usr/bin && \
     ln -s $JAVA_HOME/bin/keytool -t /usr/bin
 

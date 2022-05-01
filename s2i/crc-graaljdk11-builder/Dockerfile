@@ -10,12 +10,12 @@ COPY ./root /
 
 RUN cd /tmp && \
     NATIVE_IMAGE_JAR="native-image-installable-svm-java${JAVA_VERSION}-linux-amd64-${GRAALVM_VERSION}.jar" && \
-    wget -q "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${GRAALVM_VERSION}/${NATIVE_IMAGE_JAR}" && \
+    curl -sSLO "https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${GRAALVM_VERSION}/${NATIVE_IMAGE_JAR}" && \
     "$JAVA_HOME/bin/gu" -L install ${NATIVE_IMAGE_JAR} && \
     rm ${NATIVE_IMAGE_JAR}
 
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-RUN curl -fsSL https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+RUN curl -sSL https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
       | tar xzf - -C /usr/share && \
     ln -s /usr/share/apache-maven-${MAVEN_VERSION}/bin/mvn /usr/bin/mvn
 
