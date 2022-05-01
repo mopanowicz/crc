@@ -3,6 +3,7 @@ package com.example.demoapi.service;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,6 +63,19 @@ class ItemServiceTest {
     dto = itemService.create(dto);
     ItemDTO deleted = itemService.delete(dto.getId());
     Assertions.assertEquals(name, deleted.getName());
-    Assertions.assertThrows(NotFoundException.class, () -> { itemService.get(deleted.getId()); });
+    Assertions.assertThrows(NoResultException.class, () -> { itemService.get(deleted.getId()); });
+  }
+
+  @Test
+  void testUpdate() {
+    String name = "n1";
+    ItemDTO dto = ItemDTO.create();
+    dto.setName(name);
+    dto = itemService.create(dto);
+    String udpatedName = "n2";
+    dto.setName(udpatedName);
+    ItemDTO updatedDto = itemService.update(dto);
+    Assertions.assertEquals(udpatedName, updatedDto.getName());
+    Assertions.assertThrows(NoResultException.class, () -> { itemService.findByName(name); });
   }
 }

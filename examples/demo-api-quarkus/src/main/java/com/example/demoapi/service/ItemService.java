@@ -6,6 +6,7 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
@@ -44,6 +45,9 @@ public class ItemService {
     return dtos;
   }
 
+  /**
+   * @throws NoResultException if the item does not exist
+   */
   @Transactional
   public ItemDTO get(Long id) {
     if (log.isDebugEnabled()) {
@@ -53,7 +57,7 @@ public class ItemService {
     if (item != null) {
       return from(item);
     }
-    throw new NotFoundException("Item with id=" + id + " not found");
+    throw new NoResultException("Item with id=" + id + " does not exist");
   }
 
   @Transactional
@@ -68,15 +72,15 @@ public class ItemService {
     return dtos;
   }
 
+  /**
+   * @throws NoResultException if the item does not exist
+   */
   @Transactional
   public ItemDTO findByName(String name) {
     TypedQuery<Item> query = em.createQuery("SELECT item FROM Item item WHERE item.name = :name", Item.class);
     query.setParameter("name", name);
     Item entity = query.getSingleResult();
-    if (entity != null) {
-      return from(entity);
-    }
-    throw new NotFoundException("Item with name='" + name + "' not found");
+    return from(entity);
   }
 
   @Transactional
@@ -85,16 +89,22 @@ public class ItemService {
       log.debug(String.format("update dto=%s", dto));
     }
     Item item = from(dto);
-    em.persist(item);
+    em.merge(item);
     return from(item);
   }
 
+  /**
+   * @throws NoResultException if the item does not exist
+   */
   @Transactional
   public ItemDTO delete(Long id) {
     if (log.isDebugEnabled()) {
       log.debug(String.format("delete id=%s", id));
     }
     Item item = em.find(Item.class, id);
+    if (item == null) {
+      throw new NoResultException("Item with id=" + id + " does not exist");
+    }
     em.remove(item);
     return from(item);
   }

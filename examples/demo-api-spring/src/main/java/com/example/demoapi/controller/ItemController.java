@@ -1,8 +1,9 @@
 package com.example.demoapi.controller;
 
+import javax.persistence.NoResultException;
+
 import com.example.demoapi.dto.ItemDTO;
 import com.example.demoapi.service.ItemService;
-import com.example.demoapi.service.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class ItemController {
     try {
       ItemDTO dto = itemService.get(id);
       return new ResponseEntity<>(dto, HttpStatus.OK);
-    } catch (NotFoundException e) {
+    } catch (NoResultException e) {
       log.error(e.getMessage());
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } catch (Exception e) {
@@ -55,7 +56,7 @@ public class ItemController {
   public ResponseEntity<ItemDTO> update(@RequestBody ItemDTO dto) {
     try {
       return new ResponseEntity<>(itemService.update(dto), HttpStatus.OK);
-    } catch (NotFoundException e) {
+    } catch (NoResultException e) {
       log.error(e.getMessage());
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } catch (Exception e) {
@@ -69,7 +70,7 @@ public class ItemController {
     try {
       itemService.delete(id);
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    } catch (NotFoundException e) {
+    } catch (NoResultException e) {
       log.error(e.getMessage());
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } catch (Exception e) {

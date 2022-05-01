@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -46,6 +47,9 @@ public class ItemService {
     return ps;
   }
 
+  /**
+   * @throws NoResultException if the item does not exist
+   */
   @Transactional
   public ItemDTO get(Long id) {
     if (log.isDebugEnabled()) {
@@ -55,7 +59,7 @@ public class ItemService {
     if (item.isPresent()) {
       return from(item.get());
     } else {
-      throw new NotFoundException("Item with id=" + id + " not found");
+      throw new NoResultException("Item with id=" + id + " does not exist");
     }
   }
 
@@ -71,6 +75,9 @@ public class ItemService {
     return dtos;
   }
 
+  /**
+   * @throws NoResultException if the item does not exist
+   */
   @Transactional
   public ItemDTO findByName(String name) {
     if (log.isDebugEnabled()) {
@@ -80,7 +87,7 @@ public class ItemService {
     if (item.isPresent()) {
       return from(item.get());
     } else {
-      throw new NotFoundException("Item with name='" + name + "' not found");
+      throw new NoResultException("Item with name='" + name + "' does not exist");
     }
   }
 
@@ -93,6 +100,9 @@ public class ItemService {
     return from(itemRepository.save(item));
   }
 
+  /**
+   * @throws NoResultException if the item does not exist
+   */
   @Transactional
   public ItemDTO delete(Long id) {
     if (log.isDebugEnabled()) {

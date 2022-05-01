@@ -3,6 +3,7 @@ package com.example.demoapi.controller;
 import java.net.URI;
 
 import javax.inject.Inject;
+import javax.persistence.NoResultException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -21,7 +22,6 @@ import org.slf4j.LoggerFactory;
 
 import com.example.demoapi.dto.ItemDTO;
 import com.example.demoapi.service.ItemService;
-import com.example.demoapi.service.NotFoundException;
 
 @Path("/v1/items")
 public class ItemController {
@@ -51,7 +51,7 @@ public class ItemController {
   public Response get(@PathParam("id") Long id) {
     try {
       return Response.ok(itemService.get(id)).build();
-    } catch (NotFoundException e) {
+    } catch (NoResultException e) {
       log.error(e.getMessage());
       return Response.status(Status.NOT_FOUND).build();
     }
@@ -63,7 +63,7 @@ public class ItemController {
   public Response update(ItemDTO dto) {
     try {
       return Response.ok(itemService.update(dto)).build();
-    } catch (NotFoundException e) {
+    } catch (NoResultException e) {
       log.error(e.getMessage());
       return Response.status(Status.NOT_FOUND).build();
     }
@@ -75,7 +75,7 @@ public class ItemController {
     try {
       itemService.delete(id);
       return Response.noContent().build();
-    } catch (NotFoundException e) {
+    } catch (NoResultException e) {
       log.error(e.getMessage());
       return Response.status(Status.NOT_FOUND).build();
     }
