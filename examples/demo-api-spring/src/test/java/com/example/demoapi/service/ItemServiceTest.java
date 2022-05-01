@@ -3,6 +3,7 @@ package com.example.demoapi.service;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,13 +18,17 @@ class ItemServiceTest {
   @Autowired
   ItemService itemService;
 
+  @BeforeEach
+  void init() {
+    itemService.get().forEach(v -> itemService.delete(v.getId()));
+  }
+
   @Test
   void testCreate() {
     ItemDTO dto = ItemDTO.create();
     dto.setName("n1");
     dto = itemService.create(dto);
     Assertions.assertNotNull(dto.getId());
-    itemService.delete(dto.getId());
   }
 
   @Test
@@ -37,7 +42,6 @@ class ItemServiceTest {
     itemService.create(dto);
     List<ItemDTO> dtos = itemService.get();
     Assertions.assertEquals("n1", dtos.get(0).getName());
-    dtos.forEach(v -> itemService.delete(v.getId()));
   }
 
   @Test
@@ -48,7 +52,6 @@ class ItemServiceTest {
     dto = itemService.create(dto);
     dto = itemService.get(dto.getId());
     Assertions.assertEquals(name, dto.getName());
-    itemService.delete(dto.getId());
   }
 
   @Test
