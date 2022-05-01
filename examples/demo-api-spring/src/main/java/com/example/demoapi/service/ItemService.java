@@ -37,7 +37,7 @@ public class ItemService {
   @Transactional
   public List<ItemDTO> get() {
     if (log.isDebugEnabled()) {
-      log.debug("get");
+      log.debug("get all");
     }
     List<ItemDTO> ps = new ArrayList<>();
     for (Item item : itemRepository.findByOrderByNameAsc()) {
