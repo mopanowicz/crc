@@ -20,9 +20,10 @@ class ItemServiceTest {
   @Test
   void testCreate() {
     ItemDTO dto = ItemDTO.create();
-    dto.setName("n99");
+    dto.setName("n1");
     dto = itemService.create(dto);
     Assertions.assertNotNull(dto.getId());
+    itemService.delete(dto.getId());
   }
 
   @Test
@@ -36,5 +37,28 @@ class ItemServiceTest {
     itemService.create(dto);
     List<ItemDTO> dtos = itemService.get();
     Assertions.assertEquals("n1", dtos.get(0).getName());
+    dtos.forEach(v -> itemService.delete(v.getId()));
+  }
+
+  @Test
+  void testGet() {
+    String name = "n1";
+    ItemDTO dto = ItemDTO.create();
+    dto.setName(name);
+    dto = itemService.create(dto);
+    dto = itemService.get(dto.getId());
+    Assertions.assertEquals(name, dto.getName());
+    itemService.delete(dto.getId());
+  }
+
+  @Test
+  void testDelete() {
+    String name = "n1";
+    ItemDTO dto = ItemDTO.create();
+    dto.setName(name);
+    dto = itemService.create(dto);
+    ItemDTO deleted = itemService.delete(dto.getId());
+    Assertions.assertEquals(name, deleted.getName());
+    Assertions.assertThrows(NotFoundException.class, () -> { itemService.get(deleted.getId()); });
   }
 }
