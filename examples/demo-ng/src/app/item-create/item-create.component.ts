@@ -1,5 +1,4 @@
-import { ActivatedRoute } from '@angular/router';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { Item } from '../item';
@@ -7,26 +6,22 @@ import { ItemsService } from '../items.service';
 import { StringUtils } from '../string-utils';
 
 @Component({
-  selector: 'app-items-update',
-  templateUrl: './items-update.component.html',
-  styleUrls: ['./items-update.component.css']
+  selector: 'app-item-create',
+  templateUrl: './item-create.component.html',
+  styleUrls: ['./item-create.component.css']
 })
-export class ItemsUpdateComponent implements OnInit {
+export class ItemCreateComponent {
 
   errorMessage?: string;
 
-  item?: Item
+  item: Item = {
+    name: ''
+  }
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private itemService: ItemsService
-    ) {}
-
-  ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.itemService.get(id).subscribe(v => this.item = v);
-  }
+    ) { }
 
   isValid(): boolean {
     return this.item != undefined && StringUtils.hasText(this.item!.name);
@@ -37,7 +32,7 @@ export class ItemsUpdateComponent implements OnInit {
     if (!this.isValid()) {
       return;
     }
-    this.itemService.update(this.item!).subscribe({
+    this.itemService.create(this.item!).subscribe({
       next: (v) => console.log(v),
       error: (e) => {
         console.error(e)

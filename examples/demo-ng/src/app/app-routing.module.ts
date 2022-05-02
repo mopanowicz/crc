@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { ItemsComponent } from './items/items.component';
-import { ItemsCreateComponent } from './items-create/items-create.component';
-import { ItemsUpdateComponent } from './items-update/items-update.component';
+import { ItemCreateComponent } from './item-create/item-create.component';
+import { ItemUpdateComponent } from './item-update/item-update.component';
 
 const routes: Routes = [
   { path: 'items', component: ItemsComponent },
-  { path: 'items-create', component: ItemsCreateComponent },
-  { path: 'items-update/:id', component: ItemsUpdateComponent }
+  { path: 'item-create', component: ItemCreateComponent },
+  { path: 'item-update/:id', component: ItemUpdateComponent }
 ];
 
 @NgModule({

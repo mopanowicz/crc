@@ -6,15 +6,15 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ItemsComponent } from './items/items.component';
-import { ItemsCreateComponent } from './items-create/items-create.component';
-import { ItemsUpdateComponent } from './items-update/items-update.component';
+import { ItemCreateComponent } from './item-create/item-create.component';
+import { ItemUpdateComponent } from './item-update/item-update.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ItemsComponent,
-    ItemsCreateComponent,
-    ItemsUpdateComponent
+    ItemCreateComponent,
+    ItemUpdateComponent
   ],
   imports: [
     BrowserModule,

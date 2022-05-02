@@ -1,9 +1,9 @@
-<a href="#" routerLink="/items-create">Create</a> new item
+<a href="#" routerLink="/item-create">Create</a> new item
 
 <ul>
   <li *ngFor="let item of items">
     <span>{{item.id}}</span>
-    <a routerLink="/items-update/{{item.id}}">{{item.name}}</a>
+    <a routerLink="/item-update/{{item.id}}">{{item.name}}</a>
     <button type="button" (click)="deleteItem(item.id!)">Delete</button>
   </li>
 </ul>
