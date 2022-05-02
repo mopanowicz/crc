@@ -5,21 +5,23 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Item } from './item';
+import { Config } from './config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItemsService {
 
-  itemsURL = 'http://localhost:8081/v1/items'
+  itemsURL = Config.apiRootUrl + '/v1/items'
 
   httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'content-type': 'application/json'
     })
   }
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) { 
+  }
 
   getAll(): Observable<Item[]> {
     return this.httpClient.get<Item[]>(this.itemsURL)
@@ -37,22 +39,22 @@ export class ItemsService {
 
   create(item: Item): Observable<any> {
     return this.httpClient.post(this.itemsURL, item, this.httpOptions)
-    .pipe(
-      tap(v => console.log(`created item ${v}`))
-    )
+      .pipe(
+        tap(v => console.log(`created item ${v}`))
+      )
   }  
 
   update(item: Item): Observable<any> {
     return this.httpClient.patch(this.itemsURL, item, this.httpOptions)
-    .pipe(
-      tap(v => console.log(`updated item ${v}`))
-    )
+      .pipe(
+        tap(v => console.log(`updated item ${v}`))
+      )
   }
 
   delete(id: number): Observable<any> {
     return this.httpClient.delete(`${this.itemsURL}/${id}`, this.httpOptions)
-    .pipe(
-      tap(_ => console.log(`deleted item id=${id}`))
-    )
+      .pipe(
+        tap(_ => console.log(`deleted item id=${id}`))
+      )
   }
 }
