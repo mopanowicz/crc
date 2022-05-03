@@ -6,6 +6,7 @@ import { tap } from 'rxjs/operators';
 
 import { Item } from './item';
 import { Config } from './config';
+import { KeycloakService } from './keycloak.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,45 +15,47 @@ export class ItemsService {
 
   itemsURL = Config.apiRootUrl + '/v1/items'
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'content-type': 'application/json'
-    })
+  constructor(private httpClient: HttpClient) {
   }
 
-  constructor(private httpClient: HttpClient) { 
+  private httpHeaders(): any {
+    return {
+      headers: {
+        'Authorization': 'Bearer ' + KeycloakService.getToken()
+      }
+    };
   }
 
   getAll(): Observable<Item[]> {
-    return this.httpClient.get<Item[]>(this.itemsURL)
+    return this.httpClient.get<Item[]>(this.itemsURL, { headers: this.httpHeaders() })
       .pipe(
         tap(v => console.log(`got ${v.length} items`))
       )
   }
 
   get(id: number): Observable<Item> {
-    return this.httpClient.get<Item>(`${this.itemsURL}/${id}`)
+    return this.httpClient.get<Item>(`${this.itemsURL}/${id}`, { headers: this.httpHeaders() })
       .pipe(
         tap(_ => console.log(`got item id=${id}`))
       )
   }
 
   create(item: Item): Observable<any> {
-    return this.httpClient.post(this.itemsURL, item, this.httpOptions)
+    return this.httpClient.post(this.itemsURL, item, { headers: this.httpHeaders() })
       .pipe(
         tap(v => console.log(`created item ${v}`))
       )
   }  
 
   update(item: Item): Observable<any> {
-    return this.httpClient.patch(this.itemsURL, item, this.httpOptions)
+    return this.httpClient.patch(this.itemsURL, item, { headers: this.httpHeaders() })
       .pipe(
         tap(v => console.log(`updated item ${v}`))
       )
   }
 
   delete(id: number): Observable<any> {
-    return this.httpClient.delete(`${this.itemsURL}/${id}`, this.httpOptions)
+    return this.httpClient.delete(`${this.itemsURL}/${id}`, { headers: this.httpHeaders() })
       .pipe(
         tap(_ => console.log(`deleted item id=${id}`))
       )
