@@ -1,60 +1,77 @@
-import { Injectable } from '@angular/core';
-import { JwtHelperService } from '@auth0/angular-jwt';
+/*
+ * Copyright 2017 Red Hat, Inc. and/or its affiliates
+ * and other contributors as indicated by the @author tags.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import * as Keycloak from 'keycloak-js';
+import {Injectable} from '@angular/core';
+import {KeycloakInstance} from "keycloak-js";
 
-@Injectable({
-  providedIn: 'root'
-})
+/*
+ * https://github.com/keycloak/keycloak-quickstarts.git
+ * commit c8fadec06186a7e37b46991560d04b0884afbdc2
+ */
+
+@Injectable()
 export class KeycloakService {
-
-  static auth: any = {};
-
-  private static jwtHelper: JwtHelperService = new JwtHelperService();
-
-  constructor() { }
-
-  static init(): Promise<void> {
-    const keycloakAuth: any = Keycloak('assets/keycloak.json');
-    return new Promise<void>((resolve, reject) => {
-      keycloakAuth.init({
-          onLoad: 'login-required'
-        })
-        .then(() => {
-          console.log('init '+ keycloakAuth);
-          KeycloakService.auth = keycloakAuth;
-          resolve();
-        })
-        .catch(() => {
-          reject();
-        });
-    });
-  }
-
-  private static getKeycloak() {
+    // TODO: remove ts-ignore and import Keycloak.
+    //  I have no idea how to import keycloak-js. I was always getting 404 error on 127.0.0.1:8080/app-angular2/keycloak-js so I worked it around with an import in index.html
     // @ts-ignore
-    return window['_keycloak'];
-  }
+    static keycloakAuth: KeycloakInstance = Keycloak();
 
-  static getToken(): string {
-    var keycloak = this.getKeycloak();
-    return keycloak != null ? keycloak.token : null;
-  }
+    static init(options?: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            KeycloakService.keycloakAuth.init(options)
+                .then(() => {
+                    resolve("success");
+                })
+                .catch((errorData: any) => {
+                    reject(errorData);
+                });
+        });
+    }
 
-  static isTokenValid(): boolean {
-    var token = this.getToken();
-    return token != null ? !KeycloakService.jwtHelper.isTokenExpired(token) : false;
-  }
+    authenticated(): boolean {
+        return KeycloakService.keycloakAuth.authenticated;
+    }
 
-  static logout(): void {
-    console.log('logout');
-    var keycloak = this.getKeycloak();
-    keycloak.logout().then(() => {
-        console.log('logout success');
-        KeycloakService.auth = null;
-        keycloak.login({redirectUri: window.location.origin});
-      }).catch(() => {
-        console.log('logout error');
-      });
-  }
+    login() {
+        KeycloakService.keycloakAuth.login();
+    }
+
+    logout() {
+        KeycloakService.keycloakAuth.logout();
+    }
+
+    account() {
+        KeycloakService.keycloakAuth.accountManagement();
+    }
+
+    getToken(): Promise<string> {
+        return new Promise<string>((resolve, reject) => {
+            if (KeycloakService.keycloakAuth.token) {
+                KeycloakService.keycloakAuth
+                    .updateToken(5)
+                    .then(() => {
+                        resolve(<string>KeycloakService.keycloakAuth.token);
+                    })
+                    .catch(() => {
+                        reject('Failed to refresh token');
+                    });
+            } else {
+                reject('Not loggen in');
+            }
+        });
+    }
 }
