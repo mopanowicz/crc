@@ -19,14 +19,13 @@ export class ItemsService {
   }
 
   private httpHeaders(): any {
-    return {
-      headers: {
-        'Authorization': 'Bearer ' + KeycloakService.getToken()
-      }
-    };
+    return new HttpHeaders({
+        'Authorization': `Bearer ${KeycloakService.getToken()}`
+      });
   }
 
   getAll(): Observable<Item[]> {
+    console.log(this.httpHeaders());
     return this.httpClient.get<Item[]>(this.itemsURL, { headers: this.httpHeaders() })
       .pipe(
         tap(v => console.log(`got ${v.length} items`))
@@ -43,14 +42,14 @@ export class ItemsService {
   create(item: Item): Observable<any> {
     return this.httpClient.post(this.itemsURL, item, { headers: this.httpHeaders() })
       .pipe(
-        tap(v => console.log(`created item ${v}`))
+        tap(v => console.log(`created item ${JSON.stringify(v)}`))
       )
   }  
 
   update(item: Item): Observable<any> {
     return this.httpClient.patch(this.itemsURL, item, { headers: this.httpHeaders() })
       .pipe(
-        tap(v => console.log(`updated item ${v}`))
+        tap(v => console.log(`updated item ${JSON.stringify(v)}`))
       )
   }
 
