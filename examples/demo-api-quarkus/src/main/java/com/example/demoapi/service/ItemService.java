@@ -51,7 +51,7 @@ public class ItemService {
   @Transactional
   public ItemDTO get(Long id) {
     if (log.isDebugEnabled()) {
-      log.debug(String.format("get it=%s", id));
+      log.debug(String.format("get id=%s", id));
     }
     Item item = em.find(Item.class, id);
     if (item != null) {
