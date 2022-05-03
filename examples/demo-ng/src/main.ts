@@ -15,13 +15,8 @@ fetch('assets/config.json')
   .then(json => {
     Config.apiRootUrl = json.apiRootUrl;
 
-    KeycloakService.init()
+    KeycloakService.init({ onLoad: 'login-required', checkLoginIframeInterval: 1 })
       .then(() => {
-        platformBrowserDynamic().bootstrapModule(AppModule)
-          .catch(err => console.error(err));
+        platformBrowserDynamic().bootstrapModule(AppModule).catch(err => console.error(err));
       })
-      .catch(e => {
-        console.log("error "+e);
-        //window.location.reload();
-      });
   });
