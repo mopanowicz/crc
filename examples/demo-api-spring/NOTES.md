@@ -10,3 +10,8 @@ pack build localhost:5000/buildpack-examples/demo-api \
     --network host \
     --publish
 ```
+
+## Keycloak
+
+realm ```demo```
+client ```demo-client```
