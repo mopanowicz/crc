@@ -4,6 +4,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,13 +21,18 @@ import io.restassured.http.ContentType;
 @ActiveProfiles("test")
 class ItemControllerTest {
 
-  static final String baseURL = "http://localhost:8081";
+  static final String baseURL = "http://localhost:8181";
 
   @Autowired
   ItemService itemService;
 
   @Autowired
   ObjectMapper objectMapper;
+
+  @BeforeEach
+  void init() {
+    itemService.get().forEach(v -> itemService.delete(v.getId()));
+  }
 
   @Test
   void testCreate() throws JsonProcessingException {
@@ -35,18 +41,13 @@ class ItemControllerTest {
     ItemDTO dto = ItemDTO.create();
     dto.setName(name);
 
-    try {
-      given()
-        .when()
-          .body(objectMapper.writeValueAsString(dto))
-            .contentType(ContentType.JSON)
-            .post(baseURL + "/v1/items")
-        .then()
-          .statusCode(201);
-    } finally {
-      dto = itemService.findByName(name);
-      itemService.delete(dto.getId());
-    }
+    given()
+      .when()
+        .body(objectMapper.writeValueAsString(dto))
+          .contentType(ContentType.JSON)
+          .post(baseURL + "/v1/items")
+      .then()
+        .statusCode(201);
   }
 
   @Test
@@ -66,15 +67,10 @@ class ItemControllerTest {
     dto.setName(name);
     dto = itemService.create(dto);
 
-    try {
-      given()
-        .when().get(baseURL + "/v1/items/"+ dto.getId())
-        .then()
-          .statusCode(200)
-          .body("name", equalTo(name));
-    } finally {
-      dto = itemService.findByName(name);
-      itemService.delete(dto.getId());
-    }
+    given()
+      .when().get(baseURL + "/v1/items/"+ dto.getId())
+      .then()
+        .statusCode(200)
+        .body("name", equalTo(name));
   }
 }
