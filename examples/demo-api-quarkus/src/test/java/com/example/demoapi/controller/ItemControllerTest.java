@@ -25,7 +25,7 @@ class ItemControllerTest {
   void testCreate() {
     String name = "n1";
 
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName(name);
 
     try {
@@ -55,7 +55,7 @@ class ItemControllerTest {
   void testGet() {
     String name = "n1";
 
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName(name);
     dto = itemService.create(dto);
 

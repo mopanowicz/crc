@@ -19,13 +19,11 @@ spring.config.activate.on-profile: dev
 
 server:
   port: 8081
-  ssl:
-    enabled: false
+  ssl.enabled: false
 
 ---
 spring.config.activate.on-profile: test
 
 server:
   port: 8181
-  ssl:
-    enabled: false
+  ssl.enabled: false

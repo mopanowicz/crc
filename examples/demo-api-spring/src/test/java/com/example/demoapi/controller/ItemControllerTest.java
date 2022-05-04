@@ -21,7 +21,7 @@ import io.restassured.http.ContentType;
 @ActiveProfiles("test")
 class ItemControllerTest {
 
-  static final String baseURL = "http://localhost:8181";
+  static final String apiRoot = "http://localhost:8181"+ ItemController.API_ROOT;
 
   @Autowired
   ItemService itemService;
@@ -38,14 +38,14 @@ class ItemControllerTest {
   void testCreate() throws JsonProcessingException {
     String name = "n1";
 
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName(name);
 
     given()
       .when()
         .body(objectMapper.writeValueAsString(dto))
           .contentType(ContentType.JSON)
-          .post(baseURL + "/v1/items")
+          .post(apiRoot)
       .then()
         .statusCode(201);
   }
@@ -53,7 +53,7 @@ class ItemControllerTest {
   @Test
   void testGetAll() {
     given()
-      .when().get(baseURL + "/v1/items")
+      .when().get(apiRoot)
       .then()
         .statusCode(200)
         .body(is("[]"));
@@ -63,12 +63,12 @@ class ItemControllerTest {
   void testGet() {
     String name = "n1";
 
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName(name);
     dto = itemService.create(dto);
 
     given()
-      .when().get(baseURL + "/v1/items/"+ dto.getId())
+      .when().get(apiRoot +"/"+ dto.getId())
       .then()
         .statusCode(200)
         .body("name", equalTo(name));

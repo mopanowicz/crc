@@ -30,10 +30,6 @@ public class ItemDTO {
     this.entityVersion = entityVersion;
   }
 
-  public static ItemDTO create() {
-    return new ItemDTO();
-  }
-
   @Override
   public String toString() {
     return "ItemDTO [id=" + id + ", name=" + name + ", entityVersion=" + entityVersion + "]";

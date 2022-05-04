@@ -45,10 +45,6 @@ public class Item {
     this.entityVersion = entityVersion;
   }
 
-  public static Item create() {
-    return new Item();
-  }
-
   @Override
   public String toString() {
     return "Item [id=" + id + ", name=" + name + ", entityVersion=" + entityVersion + "]";

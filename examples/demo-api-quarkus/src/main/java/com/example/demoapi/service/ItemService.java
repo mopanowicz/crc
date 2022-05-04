@@ -110,7 +110,7 @@ public class ItemService {
   }
 
   Item from(ItemDTO dto) {
-    Item entity = Item.create();
+    Item entity = new Item();
     entity.setId(dto.getId());
     entity.setName(dto.getName());
     entity.setEntityVersion(dto.getEntityVersion());
@@ -118,7 +118,7 @@ public class ItemService {
   }
 
   ItemDTO from(Item entity) {
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setId(entity.getId());
     dto.setName(entity.getName());
     dto.setEntityVersion(entity.getEntityVersion());

@@ -22,9 +22,10 @@ import com.example.demoapi.service.ItemService;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/v1/items")
+@RequestMapping(ItemController.API_ROOT)
 public class ItemController {
 
+  static final String API_ROOT = "/v1/items"; 
   static final Logger log = LoggerFactory.getLogger(ItemController.class);
 
   final ItemService itemService;

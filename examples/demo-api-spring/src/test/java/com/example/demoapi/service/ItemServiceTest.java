@@ -27,7 +27,7 @@ class ItemServiceTest {
 
   @Test
   void testCreate() {
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName("n1");
     dto = itemService.create(dto);
     Assertions.assertNotNull(dto.getId());
@@ -35,7 +35,7 @@ class ItemServiceTest {
 
   @Test
   void testGetAll() {
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName("n3");
     itemService.create(dto);
     dto.setName("n2");
@@ -49,7 +49,7 @@ class ItemServiceTest {
   @Test
   void testGet() {
     String name = "n1";
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName(name);
     dto = itemService.create(dto);
     dto = itemService.get(dto.getId());
@@ -59,24 +59,25 @@ class ItemServiceTest {
   @Test
   void testDelete() {
     String name = "n1";
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName(name);
     dto = itemService.create(dto);
     ItemDTO deleted = itemService.delete(dto.getId());
     Assertions.assertEquals(name, deleted.getName());
-    Assertions.assertThrows(NoResultException.class, () -> { itemService.get(deleted.getId()); });
+    Long deletedId = deleted.getId();
+    Assertions.assertThrows(NoResultException.class, () -> itemService.get(deletedId));
   }
 
   @Test
   void testUpdate() {
     String name = "n1";
-    ItemDTO dto = ItemDTO.create();
+    ItemDTO dto = new ItemDTO();
     dto.setName(name);
     dto = itemService.create(dto);
     String udpatedName = "n2";
     dto.setName(udpatedName);
     ItemDTO updatedDto = itemService.update(dto);
     Assertions.assertEquals(udpatedName, updatedDto.getName());
-    Assertions.assertThrows(NoResultException.class, () -> { itemService.findByName(name); });
+    Assertions.assertThrows(NoResultException.class, () -> itemService.findByName(name));
   }
 }
