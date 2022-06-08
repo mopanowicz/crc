@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TestController {
 
-  @Value("${test.controller.sleep}")
+  @Value("${test.controller.sleep.ms}")
   long sleepMillis;
 
   @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)

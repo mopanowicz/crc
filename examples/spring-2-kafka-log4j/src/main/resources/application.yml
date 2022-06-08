@@ -14,4 +14,4 @@ logging:
     socket.connection.setup.timeout.ms: 2000
     socket.connection.setup.timeout.max.ms: 6000
 
-test.controller.sleep: 0
+test.controller.sleep.ms: 0
