@@ -1,8 +1,14 @@
 logging:
   config: classpath:logging.xml
   kafka:
+    bootstrap.servers: localhost:9092
+    client.id: spring-2-kafka-log4j
     topic: log-events
-    properties:
-      bootstrap.servers: localhost:9092
-      acks: 1
-      max.block.ms: 6000
+    security.protocol: PLAINTEXT # PLAINTEXT SSL
+    acks: 1
+    max.block.ms: 12000
+    buffer.memory: 33554432
+    compression.type: lz4
+    request.timeout.ms: 6000
+    socket.connection.setup.timeout.ms: 2000
+    socket.connection.setup.timeout.max.ms: 6000
