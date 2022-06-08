@@ -4,7 +4,7 @@
     <Console name="Console" target="SYSTEM_OUT">
       <JsonLayout compact="true" eventEol="true" />
     </Console>
-    <Kafka name="Kafka" topic="${spring:logging.kafka.topic}">
+    <Kafka name="Kafka" topic="${spring:logging.kafka.topic}" ignoreExceptions="false">
       <JsonLayout compact="true" eventEol="true" />
       <Property name="bootstrap.servers">${spring:logging.kafka.bootstrap.servers}</Property>
       <Property name="security.protocol">${spring:logging.kafka.security.protocol}</Property>
@@ -18,9 +18,13 @@
       <Property name="socket.connection.setup.timeout.ms">${spring:logging.kafka.socket.connection.setup.timeout.ms}</Property>
       <Property name="socket.connection.setup.timeout.max.ms">${spring:logging.kafka.socket.connection.setup.timeout.max.ms}</Property>
     </Kafka>
-    <Async name="AsyncKafka" blocking="false" bufferSize="32768">
-      <AppenderRef ref="Kafka" />
-      <errorRef>Console</errorRef>
+    <Failover name="FailoverKafka" primary="Kafka">
+      <Failovers>
+        <AppenderRef ref="Console" />
+      </Failovers>
+    </Failover>
+    <Async name="AsyncKafka" blocking="false" bufferSize="32768" ignoreExceptions="false" errorRef="Console">
+      <AppenderRef ref="FailoverKafka" />
     </Async>
   </Appenders>
   <Loggers>

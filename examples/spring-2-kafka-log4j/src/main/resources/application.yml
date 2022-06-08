@@ -1,7 +1,7 @@
 logging:
   config: classpath:logging.xml
   kafka:
-    bootstrap.servers: 192.168.56.181:9092
+    bootstrap.servers: localhost:9092
     client.id: spring-2-kafka-log4j
     topic: log-events
     security.protocol: PLAINTEXT # PLAINTEXT SSL

@@ -18,7 +18,7 @@ public class TestController {
   @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
   String test() throws InterruptedException {
-    String status = "{\"status\":\"ok\"}";
+    String status = "{\"timestamp\":"+ System.currentTimeMillis() +"}";
     if (log.isDebugEnabled()) {
       log.debug(status);
     }
