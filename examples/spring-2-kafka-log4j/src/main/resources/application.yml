@@ -8,7 +8,8 @@ logging:
     acks: 1
     max.block.ms: 12000
     buffer.memory: 33554432
-    compression.type: lz4
+    batch.size: 16384
+    compression.type: none
     request.timeout.ms: 6000
     socket.connection.setup.timeout.ms: 2000
     socket.connection.setup.timeout.max.ms: 6000

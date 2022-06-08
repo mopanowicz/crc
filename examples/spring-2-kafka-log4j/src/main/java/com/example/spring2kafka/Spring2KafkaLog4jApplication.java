@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Spring2KafkaLog4jApplication {
 
 	public static void main(String[] args) {
+	  System.out.println("Starting "+ System.currentTimeMillis());
 		SpringApplication.run(Spring2KafkaLog4jApplication.class, args);
 	}
 

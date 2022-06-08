@@ -12,26 +12,20 @@
       <Property name="acks">${spring:logging.kafka.acks}</Property>
       <Property name="max.block.ms">${spring:logging.kafka.max.block.ms}</Property>
       <Property name="buffer.memory">${spring:logging.kafka.buffer.memory}</Property>
+      <Property name="batch.size">${spring:logging.kafka.batch.size}</Property>
       <Property name="compression.type">${spring:logging.kafka.compression.type}</Property>
       <Property name="request.timeout.ms">${spring:logging.kafka.request.timeout.ms}</Property>
       <Property name="socket.connection.setup.timeout.ms">${spring:logging.kafka.socket.connection.setup.timeout.ms}</Property>
       <Property name="socket.connection.setup.timeout.max.ms">${spring:logging.kafka.socket.connection.setup.timeout.max.ms}</Property>
     </Kafka>
-    <Failover name="FailoverKafka" primary="Kafka">
-      <Failovers>
-        <AppenderRef ref="Console" />
-      </Failovers>
-    </Failover>
-    <Async name="AsyncKafka">
-      <AppenderRef ref="FailoverKafka" />
+    <Async name="AsyncKafka" blocking="false" bufferSize="32768">
+      <AppenderRef ref="Kafka" />
+      <errorRef>Console</errorRef>
     </Async>
   </Appenders>
   <Loggers>
     <Root level="info">
-    <!--
-    <AppenderRef ref="Console" />
-    -->
-    <AppenderRef ref="AsyncKafka" />
+      <AppenderRef ref="AsyncKafka" />
     </Root>
     <Logger name="org.apache.kafka" level="INFO" /> <!-- avoid recursive logging -->
     <Logger name="com.example" level="DEBUG" />
