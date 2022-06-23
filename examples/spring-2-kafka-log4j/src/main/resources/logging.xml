@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="error">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <JsonLayout compact="true" eventEol="true" />
+    </Console>
+    <Kafka name="Kafka" topic="${spring:logging.kafka.topic}" ignoreExceptions="false">
+      <JsonLayout compact="true" eventEol="true" />
+      <Property name="bootstrap.servers">${spring:logging.kafka.bootstrap.servers}</Property>
+      <Property name="security.protocol">${spring:logging.kafka.security.protocol}</Property>
+      <Property name="client.id">${spring:logging.kafka.client.id}</Property>
+      <Property name="acks">${spring:logging.kafka.acks}</Property>
+      <Property name="max.block.ms">${spring:logging.kafka.max.block.ms}</Property>
+      <Property name="buffer.memory">${spring:logging.kafka.buffer.memory}</Property>
+      <Property name="batch.size">${spring:logging.kafka.batch.size}</Property>
+      <Property name="compression.type">${spring:logging.kafka.compression.type}</Property>
+      <Property name="request.timeout.ms">${spring:logging.kafka.request.timeout.ms}</Property>
+      <Property name="socket.connection.setup.timeout.ms">${spring:logging.kafka.socket.connection.setup.timeout.ms}</Property>
+      <Property name="socket.connection.setup.timeout.max.ms">${spring:logging.kafka.socket.connection.setup.timeout.max.ms}</Property>
+    </Kafka>
+    <Failover name="FailoverKafka" primary="Kafka">
+      <Failovers>
+        <AppenderRef ref="Console" />
+      </Failovers>
+    </Failover>
+    <Async name="AsyncKafka" blocking="false" bufferSize="32768" ignoreExceptions="false" errorRef="Console">
+      <AppenderRef ref="FailoverKafka" />
+    </Async>
+  </Appenders>
+  <Loggers>
+    <Root level="info">
+      <AppenderRef ref="AsyncKafka" />
+    </Root>
+    <Logger name="org.apache.kafka" level="INFO" /> <!-- avoid recursive logging -->
+    <Logger name="com.example" level="DEBUG" />
+  </Loggers>
+</Configuration>
