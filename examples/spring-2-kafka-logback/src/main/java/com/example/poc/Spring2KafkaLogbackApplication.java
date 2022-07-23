@@ -1,4 +1,4 @@
-package com.example.spring2kafka;
+package com.example.poc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

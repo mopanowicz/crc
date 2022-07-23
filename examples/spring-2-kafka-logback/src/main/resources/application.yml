@@ -1,9 +1,41 @@
+server:
+  port: 8084
+
+management:
+  endpoints:
+    web.exposure.include: "*"
+    jmx.exposure.include: "*"
 
 logging:
   config: classpath:logging.xml
+  level:
+    root: INFO
+    com.example: INFO
+  appender:
+    name: kafkaAppender
+  event:
+    labels:
+      owner: no_owner
+      system: spring-2-kafka-log4j
+    namespace: ${POD_NAMESPACE:no_namespace}
+    pod.name: ${POD_NAME:no_pod_name}
+    container.name: ${container:no_container_name}
   kafka:
     topic: log-events
+    service:
+      enabled: false
+      blocking: true
     properties:
       bootstrap.servers: localhost:9092
+      client.id: spring-2-kafka-logback
+      security.protocol: PLAINTEXT # PLAINTEXT SSL
       acks: 1
-      max.block.ms: 6000
+      max.block.ms: 12000
+      buffer.memory: 33554432
+      batch.size: 16384
+      compression.type: none
+      request.timeout.ms: 6000
+      socket.connection.setup.timeout.ms: 2000
+      socket.connection.setup.timeout.max.ms: 6000
+
+test-controller.default-sleep-ms: 0

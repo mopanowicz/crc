@@ -1,0 +1,66 @@
+{
+  "@timestamp": {
+    "$resolver": "timestamp"
+  },
+  "@topic": "${spring:logging.kafka.topic}",
+  "kubernetes": {
+    "labels": {
+      "owner": "${spring:logging.event.labels.owner}",
+      "system": "${spring:logging.event.labels.system}"
+    },
+    "namespace": "${spring:logging.event.namespace}",
+    "pod": {
+      "name": "${spring:logging.event.pod.name}"
+    },
+    "container": {
+      "name": "${spring:logging.event.container.name}"
+    }
+  },
+  "log": {
+    "level": {
+      "$resolver": "level",
+      "field": "name"
+    },
+    "thread": {
+      "$resolver": "thread",
+      "field": "name"
+    },
+    "message": {
+      "$resolver": "message",
+      "stringified": true
+    },
+    "exception": {
+      "exception_class": {
+        "$resolver": "exception",
+        "field": "className"
+      },
+      "exception_message": {
+        "$resolver": "exception",
+        "field": "message",
+        "stringified": true
+      },
+      "stacktrace": {
+        "$resolver": "exception",
+        "field": "stackTrace",
+        "stringified": true
+      }
+    },
+    "line_number": {
+      "$resolver": "source",
+      "field": "lineNumber"
+    },
+    "class": {
+      "$resolver": "source",
+      "field": "className"
+    },
+    "mdc": {
+      "$resolver": "mdc",
+      "flatten": true,
+      "stringified": true
+    },
+    "logger_name": {
+      "$resolver": "logger",
+      "field": "name"
+    }
+  }
+}
