@@ -25,13 +25,14 @@ logging:
     service:
       enabled: false
       blocking: true
+    # https://kafka.apache.org/documentation/#producerconfigs
     properties:
       bootstrap.servers: localhost:9092
       client.id: spring-2-kafka-logback
       security.protocol: PLAINTEXT # PLAINTEXT SSL
       acks: 1
-      max.block.ms: 12000
-      buffer.memory: 33554432
+      max.block.ms: 10000 # default: 60000
+      buffer.memory: 1048576 # default: 33554432 == 32 * 1024 * 1024
       batch.size: 16384
       compression.type: none
       request.timeout.ms: 6000
