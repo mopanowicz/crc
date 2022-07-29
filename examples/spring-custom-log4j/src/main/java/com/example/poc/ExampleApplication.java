@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 @SpringBootApplication
 @Slf4j
@@ -21,5 +22,14 @@ public class ExampleApplication {
 		log.info("init info");
 		log.warn("init warn");
 		log.error("init error");
+	}
+
+	@PreDestroy
+	void done() {
+		log.trace("done trace");
+		log.debug("done debug");
+		log.info("done info");
+		log.warn("done warn");
+		log.error("done error");
 	}
 }
