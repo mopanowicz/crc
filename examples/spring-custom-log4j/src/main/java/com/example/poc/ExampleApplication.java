@@ -16,7 +16,10 @@ public class ExampleApplication {
 
 	@PostConstruct
 	void init() {
-		log.debug("init");
-		log.info("init");
+		log.trace("init trace");
+		log.debug("init debug");
+		log.info("init info");
+		log.warn("init warn");
+		log.error("init error");
 	}
 }

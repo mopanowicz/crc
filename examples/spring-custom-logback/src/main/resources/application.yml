@@ -1,4 +1,2 @@
 logging:
-  level:
-    root: INFO
-    com.example: DEBUG
+  config: classpath:logging.xml
