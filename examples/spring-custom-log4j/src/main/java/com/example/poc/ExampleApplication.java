@@ -1,7 +1,6 @@
 package com.example.poc;
 
-import lombok.extern.log4j.Log4j2;
-import org.apache.logging.log4j.Level;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,10 +8,8 @@ import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @SpringBootApplication
-@Log4j2
+@Slf4j
 public class ExampleApplication {
-
-	final static Level AUDIT = Level.forName("AUDIT", 150);
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExampleApplication.class, args);
@@ -25,7 +22,6 @@ public class ExampleApplication {
 		log.info("init info");
 		log.warn("init warn");
 		log.error("init error");
-		log.log(AUDIT, "init audit");
 	}
 
 	@PreDestroy
@@ -35,6 +31,5 @@ public class ExampleApplication {
 		log.info("done info");
 		log.warn("done warn");
 		log.error("done error");
-		log.log(AUDIT, "done audit");
 	}
 }
