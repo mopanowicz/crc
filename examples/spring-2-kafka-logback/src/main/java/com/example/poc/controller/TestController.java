@@ -94,7 +94,9 @@ public class TestController {
     if (counter == null || reset) {
       counter = 0;
     }
-    counter++;
+    if (!reset) {
+      counter++;
+    }
     counters.put(scope, counter);
 
     Message message = new Message(scope, iteration, counter);
