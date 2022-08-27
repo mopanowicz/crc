@@ -20,6 +20,7 @@ public class HomeController {
 
   @GetMapping("/")
   public ModelAndView home() throws IOException {
+    log.info("home");
     ModelAndView model = new ModelAndView("home");
     Properties props = readManifest();
     addObject(model, "buildJdk", props.getProperty("Build-Jdk-Spec"), NA);
