@@ -1,6 +1,13 @@
 package com.example.poc.controller;
 
+import com.example.poc.logevent.LogEvent;
+import com.example.poc.logevent.LogEventFactory;
+import com.example.poc.logevent.LogEventRepository;
 import com.example.poc.service.LoggingService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -12,16 +19,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class TestController {
 
-  @Value("${test-controller.default-sleep-ms}")
+  @Value("${test-controller.default-sleep-ms:0}")
   long defaultSleepMillis;
 
+  @Value("${test-controller.mongo-on:false}")
+  boolean mongoOn;
+
+  @Value("${test-controller.system-out:false}")
+  boolean systemOut;
+
   private final LoggingService loggingService;
+  private final LogEventFactory logEventFactory;
+  private final LogEventRepository logEventRepository;
+
+  ObjectMapper objectMapper = new ObjectMapper();
 
   @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
@@ -51,11 +70,52 @@ public class TestController {
     return "{\"timestamp\": "+ System.currentTimeMillis() +"}";
   }
 
+  Map<String, Integer> counters = new HashMap<>();
+
+  @AllArgsConstructor
+  @Getter
+  static class Message {
+    String scope;
+    Integer iteration;
+    Integer counter;
+  }
+
+  @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
+  @ResponseBody
+  Message count(
+          @RequestParam(name = "scope", defaultValue = "none", required = false) String scope,
+          @RequestParam(name = "iteration", defaultValue = "0", required = false) int iteration,
+          @RequestParam(name = "reset", defaultValue = "false", required = false) boolean reset
+  ) throws JsonProcessingException {
+
+    long start = System.currentTimeMillis();
+
+    Integer counter = counters.get(scope);
+    if (counter == null || reset) {
+      counter = 0;
+    }
+    counter++;
+    counters.put(scope, counter);
+
+    Message message = new Message(scope, iteration, counter);
+
+    log(objectMapper.writeValueAsString(message));
+
+    return message;
+  }
+
   void log(String msg) {
     if (loggingService.isServiceEnabled()) {
       loggingService.log(getClass().getName(), "INFO", msg);
     } else {
       log.info(msg);
+    }
+    LogEvent logEvent = logEventFactory.logEvent(getClass().getName(), "INFO", msg);
+    if (mongoOn) {
+      logEventRepository.save(logEvent);
+    }
+    if (systemOut) {
+      System.out.println(logEvent.toString());
     }
   }
 }
