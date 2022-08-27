@@ -40,7 +40,7 @@ public class ItemController {
       return new ResponseEntity<>(itemService.create(dto), HttpStatus.CREATED);
     } catch (DataIntegrityViolationException e) {
       log.error("create failed", e);
-      return new ResponseEntity<>(HttpStatus.CONFLICT);
+      return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
     } catch (Exception e) {
       log.error("create failed", e);
       return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
