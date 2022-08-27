@@ -1,5 +1,6 @@
 package com.example.poc.controller;
 
+import com.example.poc.config.LogConfig;
 import com.example.poc.service.LoggingService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -56,7 +57,7 @@ public class TestController {
     if (loggingService.isServiceEnabled()) {
       loggingService.log(getClass().getName(), "INFO", msg);
     } else {
-      log.info(msg);
+      log.info(LogConfig.AUDIT, msg);
     }
   }
 }

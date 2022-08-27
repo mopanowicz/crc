@@ -2,12 +2,19 @@
 <Configuration status="error">
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
+      <MarkerFilter marker="AUDIT" onMatch="DENY" onMismatch="ACCEPT"/>
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
     </Console>
-    <File name="LogFile" fileName="file.log" append="false">
+    <File name="FileLog" fileName="file.log" append="false">
+      <MarkerFilter marker="AUDIT" onMatch="DENY" onMismatch="ACCEPT"/>
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
     </File>
+    <File name="AuditLog" fileName="audit.log" append="false">
+      <MarkerFilter marker="AUDIT" onMatch="ACCEPT" onMismatch="DENY"/>
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+    </File>
     <Kafka name="Kafka" topic="${spring:logging.kafka.topic}" ignoreExceptions="false">
+      <MarkerFilter marker="AUDIT" onMatch="ACCEPT" onMismatch="DENY"/>
       <JsonTemplateLayout eventTemplateUri="classpath:log-event.json" />
       <Property name="bootstrap.servers">${spring:logging.kafka.properties.bootstrap.servers}</Property>
       <Property name="security.protocol">${spring:logging.kafka.properties.security.protocol}</Property>
@@ -32,7 +39,10 @@
   </Appenders>
   <Loggers>
     <Root level="info">
-      <AppenderRef ref="${spring:logging.appender.name}" />
+<!--      <AppenderRef ref="${spring:logging.appender.name}" />-->
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="FileLog" />
+      <AppenderRef ref="AuditLog" />
     </Root>
     <Logger name="org.apache.kafka" level="info" /> <!-- avoid recursive logging -->
     <Logger name="com.example" level="debug" />
