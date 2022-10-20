@@ -17,7 +17,7 @@ public class LogEventFactory {
 
     public LogEvent logEvent(String loggerName, String level, String message) {
         Thread ct = Thread.currentThread();
-        LogEvent event  = LogEvent.builder()
+        LogEvent event = LogEvent.builder()
                 .timestamp(new Timestamp(System.currentTimeMillis()).toString())
                 .kubernets(Kubernetes.builder()
                         .namespace(namespace)

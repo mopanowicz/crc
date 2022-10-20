@@ -42,10 +42,10 @@ public class LoggingService {
             config.put("value.serializer", "org.springframework.kafka.support.serializer.JsonSerializer");
             this.kafkaTemplate = new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(config));
         }
-        System.out.println("topic="+ topic);
-        properties.forEach((k, v) -> System.out.println(k +"="+ v));
-        System.out.println("serviceEnabled="+ serviceEnabled);
-        System.out.println("serviceBlocking="+ serviceBlocking);
+        System.out.println("topic=" + topic);
+        properties.forEach((k, v) -> System.out.println(k + "=" + v));
+        System.out.println("serviceEnabled=" + serviceEnabled);
+        System.out.println("serviceBlocking=" + serviceBlocking);
     }
 
     @SneakyThrows

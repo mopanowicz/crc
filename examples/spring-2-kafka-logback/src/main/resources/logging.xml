@@ -1,79 +1,92 @@
 <configuration>
-  <springProperty scope="context" name="logging.appender.name" source="logging.appender.name" />
-  <springProperty scope="context" name="logging.kafka.topic" source="logging.kafka.topic" />
-  <springProperty scope="context" name="logging.kafka.properties.bootstrap.servers" source="logging.kafka.properties.bootstrap.servers" />
-  <springProperty scope="context" name="logging.kafka.properties.security.protocol" source="logging.kafka.properties.security.protocol" />
-  <springProperty scope="context" name="logging.kafka.properties.acks" source="logging.kafka.properties.acks" />
-  <springProperty scope="context" name="logging.kafka.properties.max.block.ms" source="logging.kafka.properties.max.block.ms" />
-  <springProperty scope="context" name="logging.kafka.properties.buffer.memory" source="logging.kafka.properties.buffer.memory" />
-  <springProperty scope="context" name="logging.kafka.properties.batch.size" source="logging.kafka.properties.batch.size" />
-  <springProperty scope="context" name="logging.kafka.properties.compression.type" source="logging.kafka.properties.compression.type" />
-  <springProperty scope="context" name="logging.kafka.properties.request.timeout.ms" source="logging.kafka.properties.request.timeout.ms" />
-  <springProperty scope="context" name="logging.kafka.properties.socket.connection.setup.timeout.ms" source="logging.kafka.properties.socket.connection.setup.timeout.ms" />
-  <springProperty scope="context" name="logging.kafka.properties.socket.connection.setup.timeout.max.ms" source="logging.kafka.properties.socket.connection.setup.timeout.max.ms" />
+    <springProperty scope="context" name="logging.appender.name" source="logging.appender.name"/>
+    <springProperty scope="context" name="logging.kafka.topic" source="logging.kafka.topic"/>
+    <springProperty scope="context" name="logging.kafka.properties.bootstrap.servers"
+                    source="logging.kafka.properties.bootstrap.servers"/>
+    <springProperty scope="context" name="logging.kafka.properties.security.protocol"
+                    source="logging.kafka.properties.security.protocol"/>
+    <springProperty scope="context" name="logging.kafka.properties.acks" source="logging.kafka.properties.acks"/>
+    <springProperty scope="context" name="logging.kafka.properties.max.block.ms"
+                    source="logging.kafka.properties.max.block.ms"/>
+    <springProperty scope="context" name="logging.kafka.properties.buffer.memory"
+                    source="logging.kafka.properties.buffer.memory"/>
+    <springProperty scope="context" name="logging.kafka.properties.batch.size"
+                    source="logging.kafka.properties.batch.size"/>
+    <springProperty scope="context" name="logging.kafka.properties.compression.type"
+                    source="logging.kafka.properties.compression.type"/>
+    <springProperty scope="context" name="logging.kafka.properties.request.timeout.ms"
+                    source="logging.kafka.properties.request.timeout.ms"/>
+    <springProperty scope="context" name="logging.kafka.properties.socket.connection.setup.timeout.ms"
+                    source="logging.kafka.properties.socket.connection.setup.timeout.ms"/>
+    <springProperty scope="context" name="logging.kafka.properties.socket.connection.setup.timeout.max.ms"
+                    source="logging.kafka.properties.socket.connection.setup.timeout.max.ms"/>
 
-  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-    <encoder>
-      <pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
-    </encoder>
-  </appender>
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
 
-  <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
-    <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-      <providers>
-        <timestamp/>
-        <pattern>
-          <omitEmptyFields>true</omitEmptyFields>
-          <pattern>
-          {
-            "topic": "${logging.kafka.topic}",
-            "kubernetes": {
-              "labels": {
-                "owner": "${logging.event.labels.owner}",
-                "system": "${logging.event.labels.system}"
-              },
-              "namespace": "${logging.event.namespace}",
-              "pod": {
-                "name": "${logging.event.pod.name}"
-              },
-              "container": {
-                "name": "${logging.event.container.name}"
-              }
-            },
-            "log": {
-              "level": "%level",
-              "message": "%message",
-              "class": "%logger",
-              "line_number": "%line"
-            }
-          }
-          </pattern>
-        </pattern>
-        <stackTrace/>
-        <throwableClassName/>
-      </providers>
-    </encoder>
+    <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+            <providers>
+                <timestamp/>
+                <pattern>
+                    <omitEmptyFields>true</omitEmptyFields>
+                    <pattern>
+                        {
+                        "topic": "${logging.kafka.topic}",
+                        "kubernetes": {
+                        "labels": {
+                        "owner": "${logging.event.labels.owner}",
+                        "system": "${logging.event.labels.system}"
+                        },
+                        "namespace": "${logging.event.namespace}",
+                        "pod": {
+                        "name": "${logging.event.pod.name}"
+                        },
+                        "container": {
+                        "name": "${logging.event.container.name}"
+                        }
+                        },
+                        "log": {
+                        "level": "%level",
+                        "message": "%message",
+                        "class": "%logger",
+                        "line_number": "%line"
+                        }
+                        }
+                    </pattern>
+                </pattern>
+                <stackTrace/>
+                <throwableClassName/>
+            </providers>
+        </encoder>
 
-    <topic>${logging.kafka.topic}</topic>
+        <topic>${logging.kafka.topic}</topic>
 
-    <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
-    <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
 
-    <producerConfig>bootstrap.servers=${logging.kafka.properties.bootstrap.servers}</producerConfig>
-    <producerConfig>client.id=${logging.kafka.properties.client.id}</producerConfig>
-    <producerConfig>security.protocol=${logging.kafka.properties.security.protocol}</producerConfig>
-    <producerConfig>acks=${logging.kafka.properties.acks}</producerConfig>
-    <producerConfig>max.block.ms=${logging.kafka.properties.max.block.ms}</producerConfig>
-    <producerConfig>buffer.memory=${logging.kafka.properties.buffer.memory}</producerConfig>
-    <producerConfig>batch.size=${logging.kafka.properties.batch.size}</producerConfig>
-    <producerConfig>compression.type=${logging.kafka.properties.compression.type}</producerConfig>
-    <producerConfig>request.timeout.ms=${logging.kafka.properties.request.timeout.ms}</producerConfig>
-    <producerConfig>socket.connection.setup.timeout.ms=${logging.kafka.properties.socket.connection.setup.timeout.ms}</producerConfig>
-    <producerConfig>socket.connection.setup.timeout.max.ms=${logging.kafka.properties.socket.connection.setup.timeout.max.ms}</producerConfig>
-  </appender>
+        <producerConfig>bootstrap.servers=${logging.kafka.properties.bootstrap.servers}</producerConfig>
+        <producerConfig>client.id=${logging.kafka.properties.client.id}</producerConfig>
+        <producerConfig>security.protocol=${logging.kafka.properties.security.protocol}</producerConfig>
+        <producerConfig>acks=${logging.kafka.properties.acks}</producerConfig>
+        <producerConfig>max.block.ms=${logging.kafka.properties.max.block.ms}</producerConfig>
+        <producerConfig>buffer.memory=${logging.kafka.properties.buffer.memory}</producerConfig>
+        <producerConfig>batch.size=${logging.kafka.properties.batch.size}</producerConfig>
+        <producerConfig>compression.type=${logging.kafka.properties.compression.type}</producerConfig>
+        <producerConfig>request.timeout.ms=${logging.kafka.properties.request.timeout.ms}</producerConfig>
+        <producerConfig>
+            socket.connection.setup.timeout.ms=${logging.kafka.properties.socket.connection.setup.timeout.ms}
+        </producerConfig>
+        <producerConfig>
+            socket.connection.setup.timeout.max.ms=${logging.kafka.properties.socket.connection.setup.timeout.max.ms}
+        </producerConfig>
+    </appender>
 
-  <root level="INFO">
-    <appender-ref ref="${logging.appender.name}"/>
-    <appender-ref ref="console"/>
-  </root>
+    <root level="INFO">
+        <appender-ref ref="${logging.appender.name}"/>
+        <appender-ref ref="console"/>
+    </root>
 </configuration>

@@ -10,10 +10,10 @@ import org.springframework.data.annotation.Id;
 @ToString
 public class Item {
 
-  @Id
-  String id;
+    @Id
+    String id;
 
-  String name;
+    String name;
 
-  Integer entityVersion;
+    Integer entityVersion;
 }
