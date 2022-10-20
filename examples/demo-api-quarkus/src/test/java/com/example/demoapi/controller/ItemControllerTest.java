@@ -2,12 +2,12 @@ package com.example.demoapi.controller;
 
 import com.example.demoapi.dto.ItemDTO;
 import com.example.demoapi.service.ItemService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
-import javax.json.bind.JsonbBuilder;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -19,8 +19,11 @@ class ItemControllerTest {
     @Inject
     ItemService itemService;
 
+    @Inject
+    ObjectMapper objectMapper;
+
     @Test
-    void testCreate() {
+    void testCreate() throws Exception {
         String name = "n1";
 
         ItemDTO dto = new ItemDTO();
@@ -29,7 +32,7 @@ class ItemControllerTest {
         try {
             given()
                     .when()
-                    .body(JsonbBuilder.create().toJson(dto))
+                    .body(objectMapper.writeValueAsString(dto))
                     .contentType(ContentType.JSON)
                     .post("/v1/items")
                     .then()
