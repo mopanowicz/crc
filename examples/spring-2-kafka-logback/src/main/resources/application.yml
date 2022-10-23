@@ -9,8 +9,7 @@ management:
 spring:
   data:
     mongodb:
-      host: mongo.virtual.box
-      database: test
+      uri: mongodb://mongo.virtual.box/test
 
 test-controller:
   default-sleep-ms: 0
@@ -27,7 +26,7 @@ logging:
   event:
     labels:
       owner: no_owner
-      system: spring-2-kafka-log4j
+      system: spring-2-kafka-logback
     namespace: ${POD_NAMESPACE:no_namespace}
     pod.name: ${POD_NAME:no_pod_name}
     container.name: ${container:no_container_name}
@@ -42,8 +41,8 @@ logging:
       client.id: spring-2-kafka-logback
       security.protocol: PLAINTEXT # PLAINTEXT SSL
       acks: 1
-      max.block.ms: 10000 # default: 60000
-      buffer.memory: 1048576 # default: 33554432 == 32 * 1024 * 1024
+      max.block.ms: 60000 # default: 60000
+      buffer.memory: 33554432 # default: 33554432 == 32 * 1024 * 1024
       batch.size: 16384
       compression.type: none
       request.timeout.ms: 6000

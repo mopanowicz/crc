@@ -7,7 +7,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
 @ActiveProfiles("test")
-@EmbeddedKafka(brokerProperties = {"listeners=PLAINTEXT://localhost:19092", "port=19092"})
+@EmbeddedKafka(partitions = 1, brokerProperties = {"listeners=PLAINTEXT://localhost:19092", "port=19092"})
 class Spring2KafkaLogbackApplicationTests {
 
     @Test
