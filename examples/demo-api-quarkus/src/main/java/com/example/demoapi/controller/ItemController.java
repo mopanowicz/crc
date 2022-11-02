@@ -1,6 +1,6 @@
 package com.example.demoapi.controller;
 
-import com.example.demoapi.dto.ItemDTO;
+import com.example.demoapi.model.Item;
 import com.example.demoapi.service.ItemService;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.slf4j.Logger;
@@ -27,9 +27,9 @@ public class ItemController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response create(@RequestBody ItemDTO dto) {
-        dto = itemService.create(dto);
-        return Response.created(URI.create(API_PATH + "/" + dto.getId())).build();
+    public Response create(@RequestBody Item item) {
+        item = itemService.create(item);
+        return Response.created(URI.create(API_PATH + "/" + item.getId())).build();
     }
 
     @GET
@@ -53,9 +53,9 @@ public class ItemController {
     @PATCH
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response update(ItemDTO dto) {
+    public Response update(Item item) {
         try {
-            return Response.ok(itemService.update(dto)).build();
+            return Response.ok(itemService.update(item)).build();
         } catch (NoResultException e) {
             log.error(e.getMessage());
             return Response.status(Status.NOT_FOUND).build();

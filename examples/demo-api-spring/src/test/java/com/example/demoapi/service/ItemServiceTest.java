@@ -1,6 +1,6 @@
 package com.example.demoapi.service;
 
-import com.example.demoapi.dto.ItemDTO;
+import com.example.demoapi.model.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,42 +25,41 @@ class ItemServiceTest {
 
     @Test
     void testCreate() {
-        ItemDTO dto = new ItemDTO();
-        dto.setName("n1");
-        dto = itemService.create(dto);
-        Assertions.assertNotNull(dto.getId());
+        Item item = new Item();
+        item.setName("n1");
+        item = itemService.create(item);
+        Assertions.assertNotNull(item.getId());
     }
 
     @Test
     void testGetAll() {
-        ItemDTO dto = new ItemDTO();
-        dto.setName("n3");
-        itemService.create(dto);
-        dto.setName("n2");
-        itemService.create(dto);
-        dto.setName("n1");
-        itemService.create(dto);
-        List<ItemDTO> dtos = itemService.get();
-        Assertions.assertEquals("n1", dtos.get(0).getName());
+        int n = 3;
+        for (int i = 0; i < n; i++) {
+            Item item = new Item();
+            item.setName("n"+ i);
+            itemService.create(item);
+        }
+        List<Item> items = itemService.get();
+        Assertions.assertEquals(n, items.size());
     }
 
     @Test
     void testGet() {
         String name = "n1";
-        ItemDTO dto = new ItemDTO();
-        dto.setName(name);
-        dto = itemService.create(dto);
-        dto = itemService.get(dto.getId());
-        Assertions.assertEquals(name, dto.getName());
+        Item item = new Item();
+        item.setName(name);
+        item = itemService.create(item);
+        item = itemService.get(item.getId());
+        Assertions.assertEquals(name, item.getName());
     }
 
     @Test
     void testDelete() {
         String name = "n1";
-        ItemDTO dto = new ItemDTO();
-        dto.setName(name);
-        dto = itemService.create(dto);
-        ItemDTO deleted = itemService.delete(dto.getId());
+        Item item = new Item();
+        item.setName(name);
+        item = itemService.create(item);
+        Item deleted = itemService.delete(item.getId());
         Assertions.assertEquals(name, deleted.getName());
         Long deletedId = deleted.getId();
         Assertions.assertThrows(NoResultException.class, () -> itemService.get(deletedId));
@@ -69,12 +68,12 @@ class ItemServiceTest {
     @Test
     void testUpdate() {
         String name = "n1";
-        ItemDTO dto = new ItemDTO();
-        dto.setName(name);
-        dto = itemService.create(dto);
+        Item item = new Item();
+        item.setName(name);
+        item = itemService.create(item);
         String udpatedName = "n2";
-        dto.setName(udpatedName);
-        ItemDTO updatedDto = itemService.update(dto);
+        item.setName(udpatedName);
+        Item updatedDto = itemService.update(item);
         Assertions.assertEquals(udpatedName, updatedDto.getName());
         Assertions.assertThrows(NoResultException.class, () -> itemService.findByName(name));
     }

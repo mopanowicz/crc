@@ -1,6 +1,6 @@
 package com.example.demoapi.controller;
 
-import com.example.demoapi.dto.ItemDTO;
+import com.example.demoapi.model.Item;
 import com.example.demoapi.service.ItemService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,12 +36,12 @@ class ItemControllerTest {
     void testCreate() throws JsonProcessingException {
         String name = "n1";
 
-        ItemDTO dto = new ItemDTO();
-        dto.setName(name);
+        Item item = new Item();
+        item.setName(name);
 
         given()
                 .when()
-                .body(objectMapper.writeValueAsString(dto))
+                .body(objectMapper.writeValueAsString(item))
                 .contentType(ContentType.JSON)
                 .post(apiRoot)
                 .then()
@@ -61,12 +61,12 @@ class ItemControllerTest {
     void testGet() {
         String name = "n1";
 
-        ItemDTO dto = new ItemDTO();
-        dto.setName(name);
-        dto = itemService.create(dto);
+        Item item = new Item();
+        item.setName(name);
+        item = itemService.create(item);
 
         given()
-                .when().get(apiRoot + "/" + dto.getId())
+                .when().get(apiRoot + "/" + item.getId())
                 .then()
                 .statusCode(200)
                 .body("name", equalTo(name));

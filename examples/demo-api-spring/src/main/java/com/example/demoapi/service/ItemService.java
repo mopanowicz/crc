@@ -1,6 +1,5 @@
 package com.example.demoapi.service;
 
-import com.example.demoapi.dto.ItemDTO;
 import com.example.demoapi.model.Item;
 import com.example.demoapi.repository.ItemRepository;
 import org.slf4j.Logger;
@@ -25,105 +24,64 @@ public class ItemService {
     }
 
     @Transactional
-    public ItemDTO create(ItemDTO dto) {
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("create dto=%s", dto));
-        }
-        Item item = from(dto);
-        return from(itemRepository.save(item));
+    public Item create(Item item) {
+        log.debug("create item={}", item);
+        return itemRepository.save(item);
     }
 
     @Transactional
-    public List<ItemDTO> get() {
-        if (log.isDebugEnabled()) {
-            log.debug("get all");
-        }
-        List<ItemDTO> ps = new ArrayList<>();
-        for (Item item : itemRepository.findByOrderByNameAsc()) {
-            ps.add(from(item));
-        }
-        return ps;
+    public List<Item> get() {
+        log.debug("get all");
+        return itemRepository.findByOrderByNameAsc();
     }
 
     /**
      * @throws NoResultException if the item does not exist
      */
     @Transactional
-    public ItemDTO get(Long id) {
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("get id=%s", id));
-        }
+    public Item get(Long id) {
+        log.debug("get id={}", id);
         Optional<Item> item = itemRepository.findById(id);
         if (item.isPresent()) {
-            return from(item.get());
+            return item.get();
         } else {
             throw new NoResultException("Item with id=" + id + " does not exist");
         }
     }
 
     @Transactional
-    public List<ItemDTO> get(List<Long> ids) {
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("get ids=%s", ids));
-        }
-        List<ItemDTO> dtos = new ArrayList<>();
-        for (Item item : itemRepository.findByIdIn(ids)) {
-            dtos.add(from(item));
-        }
-        return dtos;
+    public List<Item> get(List<Long> ids) {
+        log.debug("get ids={}", ids);
+        return itemRepository.findByIdIn(ids);
     }
 
     /**
      * @throws NoResultException if the item does not exist
      */
     @Transactional
-    public ItemDTO findByName(String name) {
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("findByName name=%s", name));
-        }
+    public Item findByName(String name) {
+        log.debug("findByName name={}", name);
         Optional<Item> item = itemRepository.findByName(name);
         if (item.isPresent()) {
-            return from(item.get());
-        } else {
-            throw new NoResultException("Item with name='" + name + "' does not exist");
+            return item.get();
         }
+        throw new NoResultException("Item with name='" + name + "' does not exist");
     }
 
     @Transactional
-    public ItemDTO update(ItemDTO dto) {
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("update dto=%s", dto));
-        }
-        Item item = from(dto);
-        return from(itemRepository.save(item));
+    public Item update(Item item) {
+        log.debug("update item={}", item);
+        return itemRepository.save(item);
     }
 
     /**
      * @throws NoResultException if the item does not exist
      */
     @Transactional
-    public ItemDTO delete(Long id) {
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("delete id=%s", id));
-        }
-        ItemDTO dto = get(id);
+    public Item delete(Long id) {
+        log.debug("delete id={}", id);
+        Item item = get(id);
         itemRepository.deleteById(id);
-        return dto;
-    }
-
-    Item from(ItemDTO dto) {
-        Item entity = new Item();
-        entity.setId(dto.getId());
-        entity.setName(dto.getName());
-        entity.setEntityVersion(dto.getEntityVersion());
-        return entity;
-    }
-
-    ItemDTO from(Item entity) {
-        ItemDTO dto = new ItemDTO();
-        dto.setId(entity.getId());
-        dto.setName(entity.getName());
-        dto.setEntityVersion(entity.getEntityVersion());
-        return dto;
+        return item;
     }
 }
