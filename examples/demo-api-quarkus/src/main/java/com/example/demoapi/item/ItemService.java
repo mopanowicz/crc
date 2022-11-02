@@ -1,6 +1,5 @@
-package com.example.demoapi.service;
+package com.example.demoapi.item;
 
-import com.example.demoapi.model.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

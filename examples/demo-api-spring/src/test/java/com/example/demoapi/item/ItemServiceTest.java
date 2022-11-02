@@ -1,6 +1,5 @@
-package com.example.demoapi.service;
+package com.example.demoapi.item;
 
-import com.example.demoapi.model.Item;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

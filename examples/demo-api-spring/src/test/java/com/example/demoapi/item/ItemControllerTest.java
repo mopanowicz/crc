@@ -1,7 +1,5 @@
-package com.example.demoapi.controller;
+package com.example.demoapi.item;
 
-import com.example.demoapi.model.Item;
-import com.example.demoapi.service.ItemService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.restassured.http.ContentType;

@@ -1,7 +1,5 @@
-package com.example.demoapi.controller;
+package com.example.demoapi.item;
 
-import com.example.demoapi.model.Item;
-import com.example.demoapi.service.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;

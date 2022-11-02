@@ -1,4 +1,4 @@
-package com.example.demoapi.model;
+package com.example.demoapi.item;
 
 import javax.persistence.*;
 
