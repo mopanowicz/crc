@@ -1,4 +1,4 @@
-package com.example.demoapi.controller;
+package com.example.demoapi.support;
 
 import io.quarkus.qute.Template;
 import io.quarkus.qute.TemplateInstance;

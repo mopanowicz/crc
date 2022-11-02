@@ -1,6 +1,5 @@
-package com.example.demoapi.repository;
+package com.example.demoapi.item;
 
-import com.example.demoapi.model.Item;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

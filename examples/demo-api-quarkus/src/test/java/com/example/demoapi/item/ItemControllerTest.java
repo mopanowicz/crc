@@ -1,7 +1,5 @@
-package com.example.demoapi.controller;
+package com.example.demoapi.item;
 
-import com.example.demoapi.dto.ItemDTO;
-import com.example.demoapi.service.ItemService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.quarkus.test.junit.QuarkusTest;
 import io.restassured.http.ContentType;
@@ -26,20 +24,20 @@ class ItemControllerTest {
     void testCreate() throws Exception {
         String name = "n1";
 
-        ItemDTO dto = new ItemDTO();
-        dto.setName(name);
+        Item item = new Item();
+        item.setName(name);
 
         try {
             given()
                     .when()
-                    .body(objectMapper.writeValueAsString(dto))
+                    .body(objectMapper.writeValueAsString(item))
                     .contentType(ContentType.JSON)
                     .post("/v1/items")
                     .then()
                     .statusCode(201);
         } finally {
-            dto = itemService.findByName(name);
-            itemService.delete(dto.getId());
+            item = itemService.findByName(name);
+            itemService.delete(item.getId());
         }
     }
 
@@ -56,19 +54,19 @@ class ItemControllerTest {
     void testGet() {
         String name = "n1";
 
-        ItemDTO dto = new ItemDTO();
-        dto.setName(name);
-        dto = itemService.create(dto);
+        Item item = new Item();
+        item.setName(name);
+        item = itemService.create(item);
 
         try {
             given()
-                    .when().get("/v1/items/" + dto.getId())
+                    .when().get("/v1/items/" + item.getId())
                     .then()
                     .statusCode(200)
                     .body("name", equalTo(name));
         } finally {
-            dto = itemService.findByName(name);
-            itemService.delete(dto.getId());
+            item = itemService.findByName(name);
+            itemService.delete(item.getId());
         }
     }
 }

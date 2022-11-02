@@ -1,7 +1,5 @@
-package com.example.demoapi.controller;
+package com.example.demoapi.item;
 
-import com.example.demoapi.dto.ItemDTO;
-import com.example.demoapi.service.ItemService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,9 +24,9 @@ public class ItemController {
     }
 
     @PostMapping
-    public ResponseEntity<ItemDTO> create(@RequestBody ItemDTO dto) {
+    public ResponseEntity<Item> create(@RequestBody Item item) {
         try {
-            return new ResponseEntity<>(itemService.create(dto), HttpStatus.CREATED);
+            return new ResponseEntity<>(itemService.create(item), HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
             log.error("create failed", e);
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
@@ -39,15 +37,15 @@ public class ItemController {
     }
 
     @GetMapping
-    ResponseEntity<Iterable<ItemDTO>> get() {
+    ResponseEntity<Iterable<Item>> get() {
         return new ResponseEntity<>(itemService.get(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    ResponseEntity<ItemDTO> get(@PathVariable Long id) {
+    ResponseEntity<Item> get(@PathVariable Long id) {
         try {
-            ItemDTO dto = itemService.get(id);
-            return new ResponseEntity<>(dto, HttpStatus.OK);
+            Item item = itemService.get(id);
+            return new ResponseEntity<>(item, HttpStatus.OK);
         } catch (NoResultException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -58,9 +56,9 @@ public class ItemController {
     }
 
     @PatchMapping
-    public ResponseEntity<ItemDTO> update(@RequestBody ItemDTO dto) {
+    public ResponseEntity<Item> update(@RequestBody Item item) {
         try {
-            return new ResponseEntity<>(itemService.update(dto), HttpStatus.OK);
+            return new ResponseEntity<>(itemService.update(item), HttpStatus.OK);
         } catch (NoResultException e) {
             log.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -1,8 +1,8 @@
-package com.example.demoapi.controller;
+package com.example.demoapi.item;
 
 import io.quarkus.test.junit.QuarkusIntegrationTest;
 
 @QuarkusIntegrationTest
-public class ItemControllerIT extends ItemControllerTest {
+public class ItemServiceIT extends ItemServiceTest {
     // Execute the same tests but in native mode.
 }

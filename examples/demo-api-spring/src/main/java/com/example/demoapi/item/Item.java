@@ -1,9 +1,18 @@
-package com.example.demoapi.dto;
+package com.example.demoapi.item;
 
-public class ItemDTO {
+import javax.persistence.*;
 
+@Entity
+@Table(
+        name = "ITEM",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+public class Item {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
     String name;
+
+    @Version
     Integer entityVersion;
 
     public Long getId() {
@@ -32,6 +41,6 @@ public class ItemDTO {
 
     @Override
     public String toString() {
-        return "ItemDTO [id=" + id + ", name=" + name + ", entityVersion=" + entityVersion + "]";
+        return "Item [id=" + id + ", name=" + name + ", entityVersion=" + entityVersion + "]";
     }
 }
