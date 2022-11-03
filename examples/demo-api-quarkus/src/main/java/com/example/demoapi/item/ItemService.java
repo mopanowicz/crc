@@ -26,7 +26,6 @@ public class ItemService {
         return item;
     }
 
-    @Transactional
     public List<Item> get() {
         log.debug("get all");
         TypedQuery<Item> query = em.createQuery("SELECT item FROM Item item ORDER BY item.name", Item.class);
@@ -36,7 +35,6 @@ public class ItemService {
     /**
      * @throws NoResultException if the item does not exist
      */
-    @Transactional
     public Item get(Long id) {
         log.debug("get id={}", id);
         Item item = em.find(Item.class, id);
@@ -46,7 +44,6 @@ public class ItemService {
         throw new NoResultException("Item with id=" + id + " does not exist");
     }
 
-    @Transactional
     public List<Item> get(List<Long> ids) {
         log.debug("get ids={}", ids);
         TypedQuery<Item> query = em.createQuery("SELECT item FROM Item item WHERE item.id IN (:ids) ORDER BY name", Item.class);
@@ -57,7 +54,6 @@ public class ItemService {
     /**
      * @throws NoResultException if the item does not exist
      */
-    @Transactional
     public Item findByName(String name) {
         TypedQuery<Item> query = em.createQuery("SELECT item FROM Item item WHERE item.name = :name", Item.class);
         query.setParameter("name", name);
