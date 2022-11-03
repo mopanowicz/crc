@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.util.List;
 
 @QuarkusTest
@@ -26,6 +27,16 @@ class ItemServiceTest {
         item.setName("n1");
         item = itemService.create(item);
         Assertions.assertNotNull(item.getId());
+    }
+
+    @Test
+    void testCreateError() {
+        Item item = new Item();
+        item.setName("n1");
+        itemService.create(item);
+        Item item2 = new Item();
+        item2.setName("n1");
+        Assertions.assertThrows(Exception.class, () -> itemService.create(item2));
     }
 
     @Test
