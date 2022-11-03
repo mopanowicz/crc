@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.NoResultException;
@@ -28,6 +29,16 @@ class ItemServiceTest {
         item.setName("n1");
         item = itemService.create(item);
         Assertions.assertNotNull(item.getId());
+    }
+
+    @Test
+    void testCreateError() {
+        Item item = new Item();
+        item.setName("n1");
+        itemService.create(item);
+        Item item2 = new Item();
+        item2.setName("n1");
+        Assertions.assertThrows(DataIntegrityViolationException.class, () -> itemService.create(item2));
     }
 
     @Test

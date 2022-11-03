@@ -6,13 +6,18 @@ import javax.persistence.*;
 @Table(
         name = "ITEM",
         uniqueConstraints = @UniqueConstraint(columnNames = {"name"}))
+@SequenceGenerator(name = Item.ID_GENERATOR, allocationSize = 1, sequenceName = Item.ID_GENERATOR_SEQUENCE)
 public class Item {
+
+    static final String ID_GENERATOR = "itemIdGenerator";
+    static final String ID_GENERATOR_SEQUENCE = "item_id";
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = ID_GENERATOR)
     Long id;
     String name;
-
     @Version
+    @Column(name = "entity_version")
     Integer entityVersion;
 
     public Long getId() {

@@ -17,7 +17,7 @@ import static org.hamcrest.CoreMatchers.is;
 @ActiveProfiles("test")
 class ItemControllerTest {
 
-    static final String apiRoot = "http://localhost:8181" + ItemController.API_ROOT;
+    static final String apiRoot = "http://localhost:8888" + ItemController.API_ROOT;
 
     @Autowired
     ItemService itemService;

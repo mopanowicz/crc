@@ -8,6 +8,10 @@ server:
 
 spring:
   jpa.open-in-view: false
+  datasource:
+    url: jdbc:postgresql://postgres.virtual.box:5432/demospring
+    username: demospring
+    password: demospring123
 
 logging:
   level:
@@ -19,11 +23,4 @@ spring.config.activate.on-profile: dev
 
 server:
   port: 8081
-  ssl.enabled: false
-
----
-spring.config.activate.on-profile: test
-
-server:
-  port: 8181
   ssl.enabled: false
