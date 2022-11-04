@@ -1,6 +1,6 @@
 {
   "realm": "demo",
-  "auth-server-url": "http://keycloak.virtual.box:8080/",
+  "auth-server-url": "https://keycloak.virtual.box:8443/",
   "ssl-required": "external",
   "resource": "demo",
   "public-client": true,

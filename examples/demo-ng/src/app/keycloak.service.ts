@@ -18,7 +18,8 @@ export class KeycloakService {
     const keycloakAuth: any = Keycloak('assets/keycloak.json');
     return new Promise<void>((resolve, reject) => {
       keycloakAuth.init({
-          onLoad: 'login-required'
+          onLoad: 'login-required',
+          checkLoginIframe: false
         })
         .then(() => {
           console.log('init '+ keycloakAuth);
