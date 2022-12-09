@@ -1,11 +1,9 @@
-Started the OpenShift cluster.
-
 The server is accessible via web console at:
   https://console-openshift-console.apps-crc.testing
 
 Log in as administrator:
   Username: kubeadmin
-  Password: d7QdQ-WZ3Ju-XjAfh-UEF7H
+  Password: hTzYo-IfFYt-kGmRJ-kRY5a
 
 Log in as user:
   Username: developer
