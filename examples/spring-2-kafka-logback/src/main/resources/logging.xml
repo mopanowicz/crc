@@ -1,25 +1,22 @@
 <configuration>
     <springProperty scope="context" name="logging.appender.name" source="logging.appender.name"/>
     <springProperty scope="context" name="logging.kafka.topic" source="logging.kafka.topic"/>
-    <springProperty scope="context" name="logging.kafka.properties.bootstrap.servers"
-                    source="logging.kafka.properties.bootstrap.servers"/>
-    <springProperty scope="context" name="logging.kafka.properties.security.protocol"
-                    source="logging.kafka.properties.security.protocol"/>
+    <springProperty scope="context" name="logging.event.labels.owner" source="logging.event.labels.owner"/>
+    <springProperty scope="context" name="logging.event.labels.system" source="logging.event.labels.system"/>
+    <springProperty scope="context" name="logging.event.namespace" source="logging.event.namespace"/>
+    <springProperty scope="context" name="logging.event.pod.name" source="logging.event.pod.name"/>
+    <springProperty scope="context" name="logging.event.container.name" source="logging.event.container.name"/>
+    <springProperty scope="context" name="logging.kafka.properties.bootstrap.servers" source="logging.kafka.properties.bootstrap.servers"/>
+    <springProperty scope="context" name="logging.kafka.properties.client.id" source="logging.kafka.properties.client.id"/>
+    <springProperty scope="context" name="logging.kafka.properties.security.protocol" source="logging.kafka.properties.security.protocol"/>
     <springProperty scope="context" name="logging.kafka.properties.acks" source="logging.kafka.properties.acks"/>
-    <springProperty scope="context" name="logging.kafka.properties.max.block.ms"
-                    source="logging.kafka.properties.max.block.ms"/>
-    <springProperty scope="context" name="logging.kafka.properties.buffer.memory"
-                    source="logging.kafka.properties.buffer.memory"/>
-    <springProperty scope="context" name="logging.kafka.properties.batch.size"
-                    source="logging.kafka.properties.batch.size"/>
-    <springProperty scope="context" name="logging.kafka.properties.compression.type"
-                    source="logging.kafka.properties.compression.type"/>
-    <springProperty scope="context" name="logging.kafka.properties.request.timeout.ms"
-                    source="logging.kafka.properties.request.timeout.ms"/>
-    <springProperty scope="context" name="logging.kafka.properties.socket.connection.setup.timeout.ms"
-                    source="logging.kafka.properties.socket.connection.setup.timeout.ms"/>
-    <springProperty scope="context" name="logging.kafka.properties.socket.connection.setup.timeout.max.ms"
-                    source="logging.kafka.properties.socket.connection.setup.timeout.max.ms"/>
+    <springProperty scope="context" name="logging.kafka.properties.max.block.ms" source="logging.kafka.properties.max.block.ms"/>
+    <springProperty scope="context" name="logging.kafka.properties.buffer.memory" source="logging.kafka.properties.buffer.memory"/>
+    <springProperty scope="context" name="logging.kafka.properties.batch.size" source="logging.kafka.properties.batch.size"/>
+    <springProperty scope="context" name="logging.kafka.properties.compression.type" source="logging.kafka.properties.compression.type"/>
+    <springProperty scope="context" name="logging.kafka.properties.request.timeout.ms" source="logging.kafka.properties.request.timeout.ms"/>
+    <springProperty scope="context" name="logging.kafka.properties.socket.connection.setup.timeout.ms" source="logging.kafka.properties.socket.connection.setup.timeout.ms"/>
+    <springProperty scope="context" name="logging.kafka.properties.socket.connection.setup.timeout.max.ms" source="logging.kafka.properties.socket.connection.setup.timeout.max.ms"/>
 
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
