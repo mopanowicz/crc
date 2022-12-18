@@ -1,7 +1,7 @@
 #!/bin/sh
 
 topic=${1:-log-events}
-bootstraps=${2:-kafka.virtual.box:9092}
+bootstraps=${2:-kafka.local:9092}
 
 retention_bytes=1073741824
 

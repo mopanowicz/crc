@@ -9,7 +9,7 @@ management:
 spring:
   data:
     mongodb:
-      uri: mongodb://mongo.virtual.box/test
+      uri: mongodb://mongo.local/test
 
 test-controller:
   default-sleep-ms: 0
@@ -37,7 +37,7 @@ logging:
       blocking: true
     # https://kafka.apache.org/documentation/#producerconfigs
     properties:
-      bootstrap.servers: localhost:9092
+      bootstrap.servers: kafka.local:9092
       client.id: spring-2-kafka-logback
       security.protocol: PLAINTEXT # PLAINTEXT SSL
       acks: 1
