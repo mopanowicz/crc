@@ -113,7 +113,7 @@ objects:
 
         COPY . ${HOME}
 
-        ENV MAVEN_OPTS="-Dmaven.test.skip=true"
+        # ENV MAVEN_OPTS="-Dmaven.test.skip=true"
 
         RUN /usr/libexec/s2i/assemble
 
@@ -184,7 +184,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api-spring-java17
+  value: demo-api-quarkus-graaljdk17
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
@@ -195,7 +195,7 @@ parameters:
   value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
-  value: examples/demo-api-spring-java17
+  value: examples/demo-api-quarkus
 - name: GIT_TOKEN
   displayName: Source repository access token
 - name: MAIN_JAR

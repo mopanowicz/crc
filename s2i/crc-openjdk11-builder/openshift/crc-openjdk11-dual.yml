@@ -184,7 +184,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api-spring-java11
+  value: demo-api-spring-openjdk11
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
