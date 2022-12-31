@@ -4,10 +4,10 @@ message: A new java application has been created in your project
 metadata:
   annotations:
     iconClass: icon-openjdk
-    tags: quickstart,java
+    tags: quickstart,java,java11
   labels:
-    template: crc-graal11-dual
-  name: crc-graal11-dual
+    template: crc-graaljdk11-dual
+  name: crc-graaljdk11-dual
 objects:
 - apiVersion: v1
   kind: Service
