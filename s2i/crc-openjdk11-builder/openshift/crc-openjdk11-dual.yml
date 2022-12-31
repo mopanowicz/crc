@@ -123,6 +123,7 @@ objects:
         LABEL runtime.image=${IMAGE_REGISTRY}/${RUNTIME_IMAGE}
 
         COPY --from=builder ${HOME}/main.jar ${HOME}/main.jar
+      forcePull: true
     triggers:
     - imageChange: {}
       type: ImageChange
