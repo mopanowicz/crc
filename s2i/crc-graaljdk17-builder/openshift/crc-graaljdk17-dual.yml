@@ -123,6 +123,7 @@ objects:
         LABEL runtime.image=${IMAGE_REGISTRY}/${RUNTIME_IMAGE}
 
         COPY --from=builder ${HOME}/main.jar ${HOME}/main.jar
+      forcePull: true
     triggers:
     - imageChange: {}
       type: ImageChange
@@ -184,7 +185,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api-quarkus-graaljdk17
+  value: demo-api-spring-graaljdk17
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
@@ -195,7 +196,7 @@ parameters:
   value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
-  value: examples/demo-api-quarkus
+  value: examples/demo-api-spring-java11
 - name: GIT_TOKEN
   displayName: Source repository access token
 - name: MAIN_JAR
