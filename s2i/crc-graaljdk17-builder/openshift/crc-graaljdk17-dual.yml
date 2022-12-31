@@ -6,8 +6,8 @@ metadata:
     iconClass: icon-openjdk
     tags: quickstart,java
   labels:
-    template: crc-graal11-dual
-  name: crc-graal11-dual
+    template: crc-graal17-dual
+  name: crc-graal17-dual
 objects:
 - apiVersion: v1
   kind: Service
@@ -184,7 +184,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api-spring-java11
+  value: demo-api-spring-java17
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
@@ -195,7 +195,7 @@ parameters:
   value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
-  value: examples/demo-api-spring-java11
+  value: examples/demo-api-spring-java17
 - name: GIT_TOKEN
   displayName: Source repository access token
 - name: MAIN_JAR
@@ -203,11 +203,11 @@ parameters:
   displayName: Main JAR
 - name: BUILDER_IMAGE
   displayName: Builder image
-  value: crc-graaljdk11-builder:release
+  value: crc-graaljdk17-builder:release
   required: true
 - name: RUNTIME_IMAGE
   displayName: Runtime image
-  value: crc-graaljdk11-runtime:release
+  value: crc-graaljdk17-runtime:release
   required: true
 - name: IMAGE_REGISTRY
   displayName: Image registry
