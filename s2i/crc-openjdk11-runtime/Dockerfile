@@ -5,6 +5,8 @@ EXPOSE 8443
 
 LABEL io.openshift.expose-services="8080:http,8443:https"
 
+ENV BASE_OPENSHIFT_BUILD_NAME=${OPENSHIFT_BUILD_NAME}
+
 ENV JAVA_VERSION=11
 ENV JAVA_HOME=/usr/lib/jvm/jre
 
