@@ -180,7 +180,7 @@ parameters:
   required: true
 - name: SOURCE_GIT_REF
   displayName: Source reference
-  value: master
+  value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
   value: examples/demo-api-spring-java11
