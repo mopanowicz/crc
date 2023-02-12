@@ -1,6 +1,9 @@
 FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-openjdk11-runtime:release
 
-ENV MAVEN_VERSION=3.8.5
+ARG RUNTIME_VERSION_TAG=latest
+
+ENV MAVEN_VERSION=3.9.0
+ENV RUNTIME_VERSION_TAG=${RUNTIME_VERSION_TAG}
 
 LABEL io.openshift.s2i.scripts-url="image:///usr/libexec/s2i"
 
