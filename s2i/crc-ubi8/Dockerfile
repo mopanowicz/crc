@@ -1,6 +1,9 @@
 FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 
+ARG VERSION_TAG=latest
+
 ENV HOME=/app
+ENV VERSION_TAG=${VERSION_TAG}
 
 USER root
 
