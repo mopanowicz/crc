@@ -192,7 +192,7 @@ parameters:
   required: true
 - name: SOURCE_GIT_REF
   displayName: Source reference
-  value: main
+  value: master
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
   value: examples/demo-api-spring
