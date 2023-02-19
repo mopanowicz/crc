@@ -2,6 +2,7 @@ package com.example.demoapi.item;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NoResultException;
@@ -15,9 +16,11 @@ public class ItemService {
     static final Logger log = LoggerFactory.getLogger(ItemService.class);
 
     final ItemRepository itemRepository;
+    final SimpMessagingTemplate simpMessagingTemplate;
 
-    public ItemService(ItemRepository itemRepository) {
+    public ItemService(ItemRepository itemRepository, SimpMessagingTemplate simpMessagingTemplate) {
         this.itemRepository = itemRepository;
+        this.simpMessagingTemplate = simpMessagingTemplate;
     }
 
     @Transactional
@@ -68,7 +71,10 @@ public class ItemService {
     @Transactional
     public Item update(Item item) {
         log.debug("update item={}", item);
-        return itemRepository.save(item);
+        item = itemRepository.save(item);
+        // TODO event
+        simpMessagingTemplate.convertAndSend("/topic/item", item);
+        return item;
     }
 
     /**

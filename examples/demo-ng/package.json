@@ -19,9 +19,11 @@
     "@angular/platform-browser-dynamic": "^14.2.8",
     "@angular/router": "^14.2.8",
     "@auth0/angular-jwt": "^5.0.2",
+    "@stomp/stompjs": "^7.0.0",
     "keycloak-js": "^15.0.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
+    "ws": "^8.12.1",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

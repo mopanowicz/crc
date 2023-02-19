@@ -6,6 +6,11 @@ import { Config } from './app/config';
 import { KeycloakService } from './app/keycloak.service';
 import { environment } from './environments/environment';
 
+import { Client } from '@stomp/stompjs';
+// import { WebSocket } from 'ws';
+
+// Object.assign(global, { WebSocket });
+
 if (environment.production) {
   enableProdMode();
 }
@@ -14,6 +19,18 @@ fetch('assets/config.json')
   .then(response => response.json())
   .then(json => {
     Config.apiRootUrl = json.apiRootUrl;
+
+    const client = new Client({
+      brokerURL: 'http://localhost:8081/demo-websocket',
+      onConnect: () => {
+        client.subscribe('/topic/item', message =>
+          console.log(`Received: ${message}`)
+        );
+        client.publish({ destination: '/topic/item', body: 'First Message' });
+      },
+    });
+
+    client.activate();
 
     KeycloakService.init()
       .then(() => {
