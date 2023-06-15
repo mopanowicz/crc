@@ -5,7 +5,7 @@ EXPOSE 8443
 
 LABEL io.openshift.expose-services="8080:http,8443:https"
 
-ENV GRAALVM_VERSION=22.3.0
+ENV GRAALVM_VERSION=22.3.2
 ENV JAVA_VERSION=17
 ENV JAVA_HOME=/usr/local/graalvm-ce-java${JAVA_VERSION}-${GRAALVM_VERSION}
 
