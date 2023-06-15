@@ -183,7 +183,7 @@ parameters:
   value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
-  value: examples/demo-api-spring-java
+  value: examples/demo-api-spring
 - name: GIT_TOKEN
   displayName: Source repository access token
 - name: MAIN_JAR
