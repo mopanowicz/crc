@@ -9,6 +9,8 @@ ENV JDK_VERSION=17.0.9
 ENV JAVA_VERSION=17
 ENV JAVA_HOME=/usr/local/graalvm-jdk-17.0.9+11.1
 
+ENV PATH="${PATH}:${JAVA_HOME}/bin"
+
 USER root
 
 COPY ./root /
@@ -16,9 +18,7 @@ COPY ./root /
 RUN GRAALVM_TAR_GZ=graalvm-community-jdk-${JDK_VERSION}_linux-x64_bin.tar.gz && \
     curl -sSLO https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-${JDK_VERSION}/${GRAALVM_TAR_GZ} && \
     tar xzf ${GRAALVM_TAR_GZ} -C /usr/local && \
-    rm ${GRAALVM_TAR_GZ} && \
-    ln -s $JAVA_HOME/bin/java -t /usr/bin && \
-    ln -s $JAVA_HOME/bin/keytool -t /usr/bin
+    rm ${GRAALVM_TAR_GZ}
 
 USER 1001
 
