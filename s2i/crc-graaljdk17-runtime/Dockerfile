@@ -7,7 +7,7 @@ LABEL io.openshift.expose-services="8080:http,8443:https"
 
 ENV JDK_VERSION=17.0.9
 ENV JAVA_VERSION=17
-ENV JAVA_HOME=/usr/local/graalvm-jdk-17.0.9+11.1
+ENV JAVA_HOME=/usr/local/graalvm-community-openjdk-17.0.9+9.1
 
 ENV PATH="${PATH}:${JAVA_HOME}/bin"
 
