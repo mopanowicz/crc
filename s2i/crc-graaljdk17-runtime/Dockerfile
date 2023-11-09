@@ -5,16 +5,16 @@ EXPOSE 8443
 
 LABEL io.openshift.expose-services="8080:http,8443:https"
 
-ENV GRAALVM_VERSION=22.3.2
+ENV JDK_VERSION=17.0.9
 ENV JAVA_VERSION=17
-ENV JAVA_HOME=/usr/local/graalvm-ce-java${JAVA_VERSION}-${GRAALVM_VERSION}
+ENV JAVA_HOME=/usr/local/graalvm-jdk-17.0.9+11.1
 
 USER root
 
 COPY ./root /
 
-RUN GRAALVM_TAR_GZ=graalvm-ce-java${JAVA_VERSION}-linux-amd64-${GRAALVM_VERSION}.tar.gz && \
-    curl -sSLO https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-${GRAALVM_VERSION}/${GRAALVM_TAR_GZ} && \
+RUN GRAALVM_TAR_GZ=graalvm-community-jdk-${JDK_VERSION}_linux-x64_bin.tar.gz && \
+    curl -sSLO https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-${JDK_VERSION}/${GRAALVM_TAR_GZ} && \
     tar xzf ${GRAALVM_TAR_GZ} -C /usr/local && \
     rm ${GRAALVM_TAR_GZ} && \
     ln -s $JAVA_HOME/bin/java -t /usr/bin && \
