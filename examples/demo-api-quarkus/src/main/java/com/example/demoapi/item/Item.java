@@ -1,6 +1,6 @@
 package com.example.demoapi.item;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(

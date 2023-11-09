@@ -1,15 +1,14 @@
 package com.example.demoapi.item;
 
+import jakarta.persistence.NoResultException;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response.Status;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.inject.Inject;
-import javax.persistence.NoResultException;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 import java.net.URI;
 
 @Path(ItemController.API_PATH)
@@ -19,8 +18,11 @@ public class ItemController {
 
     static final String API_PATH = "/v1/items";
 
-    @Inject
     ItemService itemService;
+
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)

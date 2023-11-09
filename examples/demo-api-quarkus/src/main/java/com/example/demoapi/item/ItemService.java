@@ -1,14 +1,13 @@
 package com.example.demoapi.item;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.TypedQuery;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @ApplicationScoped
@@ -16,8 +15,11 @@ public class ItemService {
 
     static final Logger log = LoggerFactory.getLogger(ItemService.class);
 
-    @Inject
-    EntityManager em;
+    final EntityManager em;
+
+    public ItemService(EntityManager em) {
+        this.em = em;
+    }
 
     @Transactional
     public Item create(Item item) {
