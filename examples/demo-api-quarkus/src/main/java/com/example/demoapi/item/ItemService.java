@@ -65,8 +65,7 @@ public class ItemService {
     @Transactional
     public Item update(Item item) {
         log.debug("update item={}", item);
-        em.merge(item);
-        return item;
+        return em.merge(item);
     }
 
     /**
