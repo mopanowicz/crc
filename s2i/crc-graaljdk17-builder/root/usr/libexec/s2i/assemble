@@ -6,19 +6,24 @@ if [ "$DEBUG_S2I" == "true" ]; then
     ls -la
 fi
 
-if [ -f pom.xml ]; then
-    echo "Found pom.xml - packaging with maven"
-    if [ -f mvnw ]; then
-        sh ./mvnw package
+if [ "$BUILD_COMMAND" == "" ]; then
+    if [ -f pom.xml ]; then
+        if [ -f mvnw ]; then
+            BUILD_COMMAND="sh ./mvnw package"
+        else
+            BUILD_COMMAND="mvn package"
+        fi
     else
-        mvn package
+        echo "No pom.xml - exiting"
+        exit 1
     fi
-    if [ "$MAIN_JAR" == "" ]; then
-        MAIN_JAR=$(find . -name "*.jar" -maxdepth 2)
-    fi
-else
-    echo "No pom.xml - exiting"
-    exit 1
+fi
+
+echo "BUILD_COMMAND=$BUILD_COMMAND"
+$BUILD_COMMAND
+
+if [ "$MAIN_JAR" == "" ]; then
+    MAIN_JAR=$(find . -name "*.jar" -maxdepth 2)
 fi
 
 echo "MAIN_JAR=$MAIN_JAR"
