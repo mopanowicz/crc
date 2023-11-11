@@ -1,21 +1,21 @@
 #!/bin/bash
 
-if [ "$DEBUG_CONTAINER" == true ]; then
-    set -x
-    env | sort
-    find .
-fi
-
 TLS_CRT=/svc-tls/tls.crt
 TLS_KEY=/svc-tls/tls.key
 
 if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
   APP_ROOT=${CNB_APP_DIR:-$HOME}
 
-  KEYSTORE="$APP_ROOT/keystore.p12"
-  KEYSTORE_PASSWORD=changeit
+  export KEYSTORE="$APP_ROOT/keystore.p12"
+  export KEYSTORE_PASSWORD=changeit
 
   openssl pkcs12 -export -in $TLS_CRT -inkey $TLS_KEY -certfile $TLS_CRT -name "tls" -out $KEYSTORE -password pass:$KEYSTORE_PASSWORD
+fi
+
+if [ "$DEBUG_CONTAINER" == true ]; then
+    set -x
+    env | sort
+    find .
 fi
 
 java ${JAVA_OPTS} -jar main.jar ${APP_OPTS}
