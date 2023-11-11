@@ -11,7 +11,7 @@ Build
 Run
 
 ```bash
-java -Dquarkus.profile=dev -jar target/quarkus-app/quarkus-run.jar
+java -jar target/quarkus-app/quarkus-run.jar
 ```
 
 Then click
