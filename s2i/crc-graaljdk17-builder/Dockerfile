@@ -13,7 +13,7 @@ RUN curl -sSL https://archive.apache.org/dist/maven/maven-3/${MAVEN_VERSION}/bin
       | tar xzf - -C /usr/share && \
     ln -s /usr/share/apache-maven-${MAVEN_VERSION}/bin/mvn /usr/bin/mvn
 
-RUN microdnf -y install --setopt=tsflags=nodocs gcc-c++ && \
+RUN microdnf -y install --setopt=tsflags=nodocs gcc-c++ glibc-devel zlib-devel libstdc++-devel libstdc++-static && \
     microdnf -y clean all
 
 USER 1001
