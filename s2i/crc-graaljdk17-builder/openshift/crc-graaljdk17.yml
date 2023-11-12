@@ -6,8 +6,8 @@ metadata:
     iconClass: icon-openjdk
     tags: quickstart,java,java17
   labels:
-    template: crc-graaljdk17-dual
-  name: crc-graaljdk17-dual
+    template: crc-graaljdk17
+  name: crc-graaljdk17
 objects:
 - apiVersion: v1
   kind: Service
@@ -22,8 +22,8 @@ objects:
   spec:
     ports:
     - name: http
-      port: 8081
-      targetPort: 8081
+      port: 8080
+      targetPort: 8080
     - name: https
       port: 8443
       targetPort: 8443
@@ -144,7 +144,7 @@ objects:
           imagePullPolicy: Always
           name: ${APPLICATION_NAME}
           ports:
-          - containerPort: 8081
+          - containerPort: 8080
             name: http
             protocol: TCP
           - containerPort: 8443
