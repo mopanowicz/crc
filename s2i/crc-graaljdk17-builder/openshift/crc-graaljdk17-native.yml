@@ -6,8 +6,8 @@ metadata:
     iconClass: icon-openjdk
     tags: quickstart,java,java17
   labels:
-    template: crc-graaljdk17-quarkus-native-quarkus-native
-  name: crc-graaljdk17-quarkus-native
+    template: crc-graaljdk17-native
+  name: crc-graaljdk17-native
 objects:
 - apiVersion: v1
   kind: Service
@@ -109,7 +109,7 @@ objects:
         LABEL builder.image=${IMAGE_REGISTRY}/${BUILDER_IMAGE}
         LABEL runtime.image=${IMAGE_REGISTRY}/${RUNTIME_IMAGE}
 
-        COPY --from=builder ${HOME}/target/*runner ${HOME}/app
+        COPY --from=builder ${HOME}/target/*-runner ${HOME}/app
       forcePull: true
     triggers:
     - type: ImageChange
@@ -171,7 +171,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api-quarkus-native
+  value: demo-api-spring-native
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
@@ -182,7 +182,7 @@ parameters:
   value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
-  value: examples/demo-api-quarkus
+  value: examples/demo-api-spring
 - name: GIT_TOKEN
   displayName: Source repository access token
 - name: MAIN_JAR
