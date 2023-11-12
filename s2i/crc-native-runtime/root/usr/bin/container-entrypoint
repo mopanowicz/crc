@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [ "$DEBUG_CONTAINER" == true ]; then
+    set -x
+fi
+
+TLS_CRT=/svc-tls/tls.crt
+TLS_KEY=/svc-tls/tls.key
+
+export APP_ROOT=${CNB_APP_DIR:-$HOME}
+export APP_TARGET=${APP_TARGET:-$APP_ROOT/app}
+
+if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
+
+  export KEYSTORE=${APP_ROOT}/keystore.p12
+  export KEYSTORE_PASSWORD=${KEYSTORE_PASSWORD:-'changeit'}
+
+  openssl pkcs12 -export -in $TLS_CRT -inkey $TLS_KEY -certfile $TLS_CRT -name 'tls' -out $KEYSTORE -password pass:$KEYSTORE_PASSWORD
+fi
+
+if [ "$DEBUG_CONTAINER" == true ]; then
+    env | sort
+    find .
+fi
+
+exec ${APP_TARGET} ${APP_OPTS}
