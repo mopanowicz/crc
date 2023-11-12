@@ -13,9 +13,7 @@ USER root
 COPY ./root /
 
 RUN microdnf -y install --setopt=tsflags=nodocs java-${JAVA_VERSION}-openjdk-headless && \
-    microdnf -y clean all && \
-    \
-    chmod a+w /etc/pki/ca-trust/extracted/java/cacerts
+    microdnf -y clean all
 
 USER 1001
 
