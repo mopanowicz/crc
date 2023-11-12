@@ -35,9 +35,11 @@ public class HomeController {
     }
 
     Properties readManifest() throws IOException {
-        InputStream is = this.getClass().getClassLoader().getResourceAsStream("META-INF/MANIFEST.MF");
         Properties properties = new Properties();
-        properties.load(is);
+        InputStream is = this.getClass().getClassLoader().getResourceAsStream("META-INF/MANIFEST.MF");
+        if (is != null) { // will be null in native app
+            properties.load(is);
+        }
         return properties;
     }
 }
