@@ -172,7 +172,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api-spring-graaljdk17
+  value: demo-api-spring
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
