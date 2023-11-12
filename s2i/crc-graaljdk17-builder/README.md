@@ -7,5 +7,6 @@ oc new-build -n openshift https://github.com/mopanowicz/crc.git --context-dir=s2
 Template
 
 ```bash
-oc apply -n openshift -f openshift/crc-graaljdk17-dual.yml
+oc apply -n openshift -f openshift/crc-graaljdk17.yml
+oc apply -n openshift -f openshift/crc-graaljdk17-quarkus-native.yml
 ```
