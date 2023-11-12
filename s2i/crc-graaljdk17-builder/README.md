@@ -8,5 +8,5 @@ Template
 
 ```bash
 oc apply -n openshift -f openshift/crc-graaljdk17.yml
-oc apply -n openshift -f openshift/crc-graaljdk17-quarkus-native.yml
+oc apply -n openshift -f openshift/crc-graaljdk17-native.yml
 ```
