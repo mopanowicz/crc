@@ -12,3 +12,5 @@ Log in as user:
 Use the 'oc' command line interface:
   $ eval $(crc oc-env)
   $ oc login -u developer https://api.crc.testing:6443
+
+  $ oc login -u kubeadmin https://api.crc.testing:6443

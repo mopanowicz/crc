@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+FROM rockylinux:8-minimal
 
 ARG VERSION_TAG=latest
 
@@ -21,7 +21,10 @@ RUN microdnf -y update && \
       which \
       && \
     \
-    microdnf -y install --setopt=tsflags=nodocs shadow-utils && \
+    microdnf -y install --setopt=tsflags=nodocs \
+      mc \
+      shadow-utils \
+      && \
     useradd -u 1001 -d ${HOME} -m -s /sbin/nologin default && \
     chmod a+rwx ${HOME} && \
     microdnf -y remove shadow-utils && \

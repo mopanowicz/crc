@@ -1,4 +1,4 @@
-FROM image-registry.openshift-image-registry.svc:5000/openshift/crc-openjdk17-runtime:release
+FROM openshift/crc-openjdk17-runtime:release
 
 ENV MAVEN_VERSION=3.9.5
 
