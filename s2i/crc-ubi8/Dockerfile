@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+FROM rockylinux:8-minimal
 
 ARG VERSION_TAG=latest
 
