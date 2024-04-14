@@ -15,3 +15,10 @@ pack build localhost:5000/buildpack-examples/demo-api \
 
 realm ```demo```
 client ```demo-client```
+
+# Postgres
+
+pg_hba.conf
+```
+hostnossl    all          all            0.0.0.0/0  trust
+```
