@@ -10,9 +10,9 @@ fi
 TLS_CRT=/svc-tls/tls.crt
 TLS_KEY=/svc-tls/tls.key
 
-if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
-  APP_ROOT=${CNB_APP_DIR:-$HOME}
+APP_ROOT=${CNB_APP_DIR:-$HOME}
 
+if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
   KEYTOOL=$(which keytool)
   if [ "$KEYTOOL" == "" ]; then
     KEYTOOL=$(find /layers -name "keytool")
@@ -32,3 +32,4 @@ if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
   . container-cacerts
 fi
 
+./bin/connect-distributed.sh config/connect-distributed.properties
