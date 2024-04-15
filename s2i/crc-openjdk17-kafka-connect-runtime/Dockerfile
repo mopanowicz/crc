@@ -15,6 +15,7 @@ RUN KAFKA_VERSION=3.6.2 && \
     cp kafka/config/connect-distributed.properties kafka/config/connect-distributed.properties.orig && \
     rm ${KAFKA_TGZ} && \
     mkdir ${HOME}/plugins && \
+    chmod a+rwx ${HOME}/kafka/logs && \
     chmod a+rwx ${HOME}/plugins
 
 USER 1001
