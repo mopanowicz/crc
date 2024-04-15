@@ -9,9 +9,9 @@ fi
 if [ -f pom.xml ]; then
     echo "Found pom.xml - packaging with maven"
     if [ -f mvnw ]; then
-        sh ./mvnw package
+        sh ./mvnw package $MVN_ARGS
     else
-        mvn package
+        mvn package $MVN_ARGS
     fi
     if [ "$MAIN_JAR" == "" ]; then
         MAIN_JAR=$(find . -name "*.jar" -maxdepth 2)
