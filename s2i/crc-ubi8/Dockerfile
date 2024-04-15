@@ -24,6 +24,7 @@ RUN microdnf -y update && \
     microdnf -y install --setopt=tsflags=nodocs \
       mc \
       shadow-utils \
+      zip \
       && \
     useradd -u 1001 -d ${HOME} -m -s /sbin/nologin default && \
     chmod a+rwx ${HOME} && \
