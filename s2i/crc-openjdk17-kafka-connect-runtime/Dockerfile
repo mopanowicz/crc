@@ -4,12 +4,14 @@ USER root
 
 COPY ./root /
 
-RUN KAFKA_VERSION=3.6.2 && \
-    SCALA_VERSION=2.13 && \
-    KAFKA=kafka_${SCALA_VERSION}-${KAFKA_VERSION} && \
+ENV KAFKA_VERSION=3.6.1
+ENV SCALA_VERSION=2.13
+
+RUN KAFKA=kafka_${SCALA_VERSION}-${KAFKA_VERSION} && \
     KAFKA_TGZ=${KAFKA}.tgz && \
+    echo "KAFKA_TGZ=${KAFKA_TGZ}" && \
     \
-    curl https://downloads.apache.org/kafka/${KAFKA_VERSION}/${KAFKA_TGZ} -o ${KAFKA_TGZ} && \
+    curl https://archive.apache.org/dist/kafka/${KAFKA_VERSION}/${KAFKA_TGZ} -o ${KAFKA_TGZ} && \
     tar xzf ${KAFKA_TGZ} && \
     ln -s ${KAFKA} kafka && \
     cp kafka/config/connect-distributed.properties kafka/config/connect-distributed.properties.orig && \

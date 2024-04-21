@@ -3,8 +3,7 @@
 if [ "$DEBUG_CONTAINER" == "true" ]; then
     set -x
     env | sort
-    ls -la /
-    ls -la .
+    find / -name "*" -print
 fi
 
 TLS_CRT=/svc-tls/tls.crt
