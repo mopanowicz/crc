@@ -19,4 +19,14 @@ RUN KAFKA=kafka_${SCALA_VERSION}-${KAFKA_VERSION} && \
     mkdir ${HOME}/plugins && chmod a+rwx ${HOME}/plugins && \
     mkdir ${HOME}/kafka/logs && chmod a+rwx ${HOME}/kafka/logs
 
+RUN mkdir ${HIME}/ext && \
+    curl -o confluentinc-kafka-connect-jdbc-10.7.6.zip https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.7.6/confluentinc-kafka-connect-jdbc-10.7.6.zip && \
+    unzip -j confluentinc-kafka-connect-jdbc-10.7.6.zip -d ${HOME}/ext && \
+    rm confluentinc-kafka-connect-jdbc-10.7.6.zip && \
+    curl -o confluentinc-kafka-connect-avro-converter-7.6.1.zip https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-avro-converter/versions/7.6.1/confluentinc-kafka-connect-avro-converter-7.6.1.zip && \
+    unzip -oj confluentinc-kafka-connect-avro-converter-7.6.1.zip -d ${HOME}/ext && \
+    rm  confluentinc-kafka-connect-avro-converter-7.6.1.zip
+
+COPY ./root /
+
 USER 1001
