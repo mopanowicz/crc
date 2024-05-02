@@ -87,7 +87,7 @@ objects:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: MVN_ARGS
+        - name: BUILD_ARGS
           value: '-q'
       forcePull: true
     source:
