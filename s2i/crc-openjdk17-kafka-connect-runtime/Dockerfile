@@ -4,7 +4,7 @@ EXPOSE 8083
 
 ENV KAFKA_VERSION=3.6.1
 ENV SCALA_VERSION=2.13
-ENV CONFLUENT_PLATFORM=7.6.1
+ENV KAFKA_CONNECT_AVRO_CONVERTER=7.6.1
 ENV KAFKA_CONNECT_JDBC=10.7.6
 
 USER root
@@ -25,9 +25,9 @@ RUN KAFKA=kafka_${SCALA_VERSION}-${KAFKA_VERSION} && \
 RUN curl -o confluentinc-kafka-connect-jdbc-${KAFKA_CONNECT_JDBC}.zip https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/${KAFKA_CONNECT_JDBC}/confluentinc-kafka-connect-jdbc-${KAFKA_CONNECT_JDBC}.zip && \
     unzip -oj confluentinc-kafka-connect-jdbc-${KAFKA_CONNECT_JDBC}.zip -d ${HOME}/kafka/libs && \
     rm confluentinc-kafka-connect-jdbc-${KAFKA_CONNECT_JDBC}.zip && \
-    curl -o confluentinc-kafka-connect-avro-converter-${CONFLUENT_PLATFORM}.zip https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-avro-converter/versions/${CONFLUENT_PLATFORM}/confluentinc-kafka-connect-avro-converter-${CONFLUENT_PLATFORM}.zip && \
-    unzip -oj confluentinc-kafka-connect-avro-converter-${CONFLUENT_PLATFORM}.zip -d ${HOME}/kafka/libs && \
-    rm  confluentinc-kafka-connect-avro-converter-${CONFLUENT_PLATFORM}.zip
+    curl -o confluentinc-kafka-connect-avro-converter-${KAFKA_CONNECT_AVRO_CONVERTER}.zip https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-avro-converter/versions/${KAFKA_CONNECT_AVRO_CONVERTER}/confluentinc-kafka-connect-avro-converter-${KAFKA_CONNECT_AVRO_CONVERTER}.zip && \
+    unzip -oj confluentinc-kafka-connect-avro-converter-${KAFKA_CONNECT_AVRO_CONVERTER}.zip -d ${HOME}/kafka/libs && \
+    rm  confluentinc-kafka-connect-avro-converter-${KAFKA_CONNECT_AVRO_CONVERTER}.zip
 
 RUN curl -o ${HOME}/kafka/libs/jdbc-4.50.10.jar https://repo1.maven.org/maven2/com/ibm/informix/jdbc/4.50.10/jdbc-4.50.10.jar && \
     curl -o ${HOME}/kafka/libs/ifx-changestream-client-1.1.3.jar https://repo1.maven.org/maven2/com/ibm/informix/ifx-changestream-client/1.1.3/ifx-changestream-client-1.1.3.jar && \
