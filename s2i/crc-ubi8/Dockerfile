@@ -14,6 +14,7 @@ RUN microdnf -y update && \
       curl \
       findutils \
       gzip \
+      iputils \
       openssl \
       procps \
       tar \
