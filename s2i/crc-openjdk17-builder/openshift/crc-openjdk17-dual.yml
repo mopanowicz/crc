@@ -17,7 +17,6 @@ objects:
       service.alpha.openshift.io/serving-cert-secret-name: ${APPLICATION_NAME}
     labels:
       app: ${APPLICATION_NAME}
-      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     ports:
@@ -37,7 +36,6 @@ objects:
       description: Route for application's https service
     labels:
       app: ${APPLICATION_NAME}
-      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     to:
@@ -50,7 +48,6 @@ objects:
     name: ${APPLICATION_NAME}-git-secret
     labels:
       app: ${APPLICATION_NAME}
-      app.kubernetes.io/name: ${APPLICATION_NAME}
   type: kubernetes.io/basic-auth
   stringData:
     password: ${GIT_TOKEN}
@@ -59,14 +56,12 @@ objects:
   metadata:
     labels:
       app: ${APPLICATION_NAME}
-      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
 - apiVersion: v1
   kind: BuildConfig
   metadata:
     labels:
       app: ${APPLICATION_NAME}
-      app.kubernetes.io/name: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
     output:
@@ -123,7 +118,6 @@ objects:
   metadata:
     labels:
       app: ${APPLICATION_NAME}
-      app.kubernetes.io/name: ${APPLICATION_NAME}
       app.openshift.io/runtime: java
     annotations:
       app.openshift.io/vcs-ref: '${SOURCE_GIT_REF}'
