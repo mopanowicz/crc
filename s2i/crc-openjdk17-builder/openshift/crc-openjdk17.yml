@@ -1,47 +1,13 @@
 apiVersion: template.openshift.io/v1
 kind: Template
-message: A new java application has been created in your project
 metadata:
   annotations:
     iconClass: icon-openjdk
     tags: quickstart,java,java17
   labels:
-    template: crc-openjdk17-dual
-  name: crc-openjdk17-dual
+    template: crc-openjdk17
+  name: crc-openjdk17
 objects:
-- apiVersion: v1
-  kind: Service
-  metadata:
-    annotations:
-      description: The application's http port.
-      service.alpha.openshift.io/serving-cert-secret-name: ${APPLICATION_NAME}
-    labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
-  spec:
-    ports:
-    - name: http
-      port: 8081
-      targetPort: 8081
-    - name: https
-      port: 8443
-      targetPort: 8443
-    selector:
-      deploymentConfig: ${APPLICATION_NAME}
-- apiVersion: v1
-  id: ${APPLICATION_NAME}-https
-  kind: Route
-  metadata:
-    annotations:
-      description: Route for application's https service
-    labels:
-      app: ${APPLICATION_NAME}
-    name: ${APPLICATION_NAME}
-  spec:
-    to:
-      name: ${APPLICATION_NAME}
-    tls:
-      termination: reencrypt
 - apiVersion: v1
   kind: Secret
   metadata:
@@ -51,12 +17,15 @@ objects:
   type: kubernetes.io/basic-auth
   stringData:
     password: ${GIT_TOKEN}
-- apiVersion: v1
+- apiVersion: image.openshift.io/v1
   kind: ImageStream
   metadata:
     labels:
       app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
+  spec:
+    lookupPolicy:
+      local: false
 - apiVersion: v1
   kind: BuildConfig
   metadata:
@@ -64,6 +33,7 @@ objects:
       app: ${APPLICATION_NAME}
     name: ${APPLICATION_NAME}
   spec:
+    completionDeadlineSeconds: 1800
     output:
       to:
         kind: ImageStreamTag
@@ -113,12 +83,12 @@ objects:
     - imageChange: {}
       type: ImageChange
     - type: ConfigChange
-- apiVersion: apps.openshift.io/v1
-  kind: DeploymentConfig
+- apiVersion: apps/v1
+  kind: Deployment
   metadata:
     labels:
       app: ${APPLICATION_NAME}
-      app.openshift.io/runtime: java
+      deployment: ${APPLICATION_NAME}
     annotations:
       app.openshift.io/vcs-ref: '${SOURCE_GIT_REF}'
       app.openshift.io/vcs-uri: '${SOURCE_GIT_URI}'
@@ -126,18 +96,20 @@ objects:
   spec:
     replicas: 1
     selector:
-      deploymentConfig: ${APPLICATION_NAME}
+      matchLabels:
+        deployment: ${APPLICATION_NAME}
     strategy:
       type: Recreate
     template:
       metadata:
+        creationTimestamp: null
         labels:
-          deploymentConfig: ${APPLICATION_NAME}
+          deployment: ${APPLICATION_NAME}
         name: ${APPLICATION_NAME}
       spec:
         containers:
         - env: []
-          image: ${APPLICATION_NAME}
+          image: ${APPLICATION_IMAGE}
           imagePullPolicy: Always
           name: ${APPLICATION_NAME}
           ports:
@@ -166,6 +138,46 @@ objects:
           name: ${APPLICATION_NAME}:latest
       type: ImageChange
     - type: ConfigChange
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      description: The web server's http port
+      service.alpha.openshift.io/serving-cert-secret-name: ${APPLICATION_NAME}
+    creationTimestamp: null
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    ports:
+    - name: http
+      port: 8081
+      protocol: TCP
+      targetPort: 8081
+    - name: https
+      port: 8443
+      protocol: TCP
+      targetPort: 8443
+    selector:
+      deployment: ${APPLICATION_NAME}
+    sessionAffinity: None
+    type: ClusterIP
+  status:
+    loadBalancer: {}
+- apiVersion: v1
+  id: ${APPLICATION_NAME}-https
+  kind: Route
+  metadata:
+    annotations:
+      description: Route for application's https service
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    to:
+      name: ${APPLICATION_NAME}
+    tls:
+      termination: reencrypt
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
@@ -197,3 +209,7 @@ parameters:
 - name: IMAGE_REGISTRY
   displayName: Image registry
   value: image-registry.openshift-image-registry.svc:5000/openshift
+- description: Image to deploy
+  name: APPLICATION_IMAGE
+  value: image-registry.openshift-image-registry.svc:5000/APPLICATION_IMAGE
+  
