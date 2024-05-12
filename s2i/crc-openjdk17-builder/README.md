@@ -13,5 +13,5 @@ docker build --tag openshift/crc-openjdk17-builder:release .
 Template
 
 ```bash
-oc apply -n openshift -f openshift/crc-openjdk17-dual.yml
+oc apply -n openshift -f openshift/crc-openjdk17.yml
 ```
