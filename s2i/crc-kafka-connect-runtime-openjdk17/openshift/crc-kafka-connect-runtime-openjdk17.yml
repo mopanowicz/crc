@@ -115,11 +115,8 @@ objects:
           imagePullPolicy: Always
           name: ${APPLICATION_NAME}
           ports:
-          - containerPort: 8081
+          - containerPort: 8083
             name: http
-            protocol: TCP
-          - containerPort: 8443
-            name: https
             protocol: TCP
           volumeMounts:
           - mountPath: /svc-tls
@@ -152,11 +149,7 @@ objects:
   spec:
     ports:
     - name: http
-      port: 8081
-      protocol: TCP
-      targetPort: 8083
-    - name: https
-      port: 8443
+      port: 8083
       protocol: TCP
       targetPort: 8083
     selector:

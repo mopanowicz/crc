@@ -31,13 +31,13 @@ cd $HOME/kafka/
 
 if [ "$DEBUG_CONTAINER" == "true" ]; then
     echo "------------ BEGIN"
-    set -x
     pwd
     echo "------------ ENV"
     env | sort
     echo "------------ FILES"
-    find / -name "*" -print
+    find /
     echo "------------ END"
+    set -x
 fi
 
 ./bin/connect-distributed.sh ${KAFKA_CONNECT_DISTRIBUTED_PROPERTIES}
