@@ -101,7 +101,12 @@ objects:
       matchLabels:
         deployment: ${APPLICATION_NAME}
     strategy:
-      type: Recreate
+      type: RollingUpdate
+      rollingUpdate:
+        maxUnavailable: 25%
+        maxSurge: 25%
+    revisionHistoryLimit: 10
+    progressDeadlineSeconds: 240
     template:
       metadata:
         creationTimestamp: null
@@ -111,7 +116,7 @@ objects:
       spec:
         containers:
         - env: []
-          image: ${APPLICATION_IMAGE}
+          image: ${IMAGE}
           imagePullPolicy: Always
           name: ${APPLICATION_NAME}
           ports:
@@ -122,21 +127,14 @@ objects:
           - mountPath: /svc-tls
             name: ${APPLICATION_NAME}-tls
             readonly: true
+        restartPolicy: Always
+        schedulerName: default-scheduler
+        securityContext: {}
         terminationGracePeriodSeconds: 30
         volumes:
         - name: ${APPLICATION_NAME}-tls
           secret:
             secretName: ${APPLICATION_NAME}
-    triggers:
-    - imageChangeParams:
-        automatic: true
-        containerNames:
-        - ${APPLICATION_NAME}
-        from:
-          kind: ImageStreamTag
-          name: ${APPLICATION_NAME}:latest
-      type: ImageChange
-    - type: ConfigChange
 - apiVersion: v1
   kind: Service
   metadata:
@@ -173,6 +171,26 @@ objects:
       targetPort: http
     tls:
       termination: edge
+- apiVersion: autoscaling/v2
+  kind: HorizontalPodAutoscaler
+  metadata:
+    labels:
+      app: ${APPLICATION_NAME}
+    name: ${APPLICATION_NAME}
+  spec:
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: ${APPLICATION_NAME}
+    maxReplicas: "${{MAX_REPLICAS}}"
+    minReplicas: "${{MIN_REPLICAS}}"
+    metrics:
+      - type: Resource
+        resource:
+          name: cpu
+          target:
+            type: Utilization
+            averageUtilization: 75000
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
@@ -205,6 +223,6 @@ parameters:
   displayName: Image registry
   value: image-registry.openshift-image-registry.svc:5000/openshift
 - description: Image to deploy (REPLACE APPLICATION_NAME with proper image name)
-  name: APPLICATION_IMAGE
+  name: IMAGE
   value: image-registry.openshift-image-registry.svc:5000/NAMESPACE/kafka-connect
   required: true
