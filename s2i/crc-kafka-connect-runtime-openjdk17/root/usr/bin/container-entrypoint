@@ -31,8 +31,8 @@ if [[ -f $TLS_CRT && -f $TLS_KEY ]]; then
   . container-cacerts
 fi
 
-CONNECT_DISTRIBUTED_PROPERTIES=${CONNECT_DISTRIBUTED_PROPERTIES:-"config/connect-distributed.properties"}
+KAFKA_CONNECT_DISTRIBUTED_PROPERTIES=${KAFKA_CONNECT_DISTRIBUTED_PROPERTIES:-"config/connect-distributed.properties"}
 
 cd $HOME/kafka/
 
-./bin/connect-distributed.sh ${CONNECT_DISTRIBUTED_PROPERTIES}
+./bin/connect-distributed.sh ${KAFKA_CONNECT_DISTRIBUTED_PROPERTIES}
