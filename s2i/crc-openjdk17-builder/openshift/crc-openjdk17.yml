@@ -208,4 +208,5 @@ parameters:
   value: image-registry.openshift-image-registry.svc:5000/openshift
 - description: Image to deploy (REPLACE APPLICATION_NAME with proper image name)
   name: APPLICATION_IMAGE
-  value: image-registry.openshift-image-registry.svc:5000/APPLICATION_IMAGE
+  value: image-registry.openshift-image-registry.svc:5000/NAMESPACE/demo-api-spring-openjdk17
+  required: true

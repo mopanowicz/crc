@@ -43,8 +43,11 @@ if [[ "$BUILD_TOOL" == "unknown" ]]; then
     exit 1
 fi
 
-if [ "$MAIN_JAR" == "" ]; then
-    MAIN_JAR=$(find . -name "*.jar" -maxdepth 2)
+if [ "$MAIN_JAR_EXCLUDE_NAME" == "" ]; then
+    MAIN_JAR=$(find . -name "*.jar" -maxdepth 1)
+else
+    echo "MAIN_JAR_EXCLUDE_NAME = $MAIN_JAR_EXCLUDE_NAME"
+    MAIN_JAR=$(find . -name "*.jar" -maxdepth 1 -and -not -name "$MAIN_JAR_EXCLUDE_NAME")
 fi
 
 echo "MAIN_JAR=$MAIN_JAR"
