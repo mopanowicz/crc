@@ -5,7 +5,7 @@ source common-functions
 source populate-keystore
 source populate-truststore
 
-KAFKA_CONNECT_DISTRIBUTED_PROPERTIES=${KAFKA_CONNECT_DISTRIBUTED_PROPERTIES:-"config/connect-distributed.properties"}
+KAFKA_CONNECT_DISTRIBUTED_PROPERTIES=${KAFKA_CONNECT_DISTRIBUTED_PROPERTIES:-"/initc/connect-distributed.properties"}
 
 debug_container
 

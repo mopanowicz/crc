@@ -78,8 +78,6 @@ objects:
         LABEL runtime.image=${IMAGE_REGISTRY}/${RUNTIME_IMAGE}
 
         COPY --from=builder ${HOME}/target/InsertUuid-1.0-SNAPSHOT.jar ${KAFKA_CONNECT_PLUGIN_PATH}/InsertUuid-1.0-SNAPSHOT.jar
-
-        RUN cp /examples/connect-distributed.properties ${KAFKA_CONNECT_CONFIG_PATH}/connect-distributed.properties
       forcePull: true
     triggers:
     - imageChange: {}
