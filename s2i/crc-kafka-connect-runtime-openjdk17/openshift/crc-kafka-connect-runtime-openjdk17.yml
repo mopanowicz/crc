@@ -170,7 +170,7 @@ objects:
       kind: Service
       name: ${APPLICATION_NAME}
     port:
-      targetPort: https
+      targetPort: http
     tls:
       termination: edge
 parameters:
