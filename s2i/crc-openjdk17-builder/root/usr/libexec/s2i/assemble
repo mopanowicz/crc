@@ -7,10 +7,12 @@ if [ "$DEBUG_BUILD" == "true" ]; then
 fi
 
 BUILD_TOOL=${BUILD_TOOL:-"unknown"}
+BUILD_DIR=${BUILD_DIR:-"unknown"}
 
 if [[ "$BUILD_TOOL" == "unknown" || "$BUILD_TOOL" == "gradle" ]]; then
     if [ -f build.gradle ]; then
         BUILD_TOOL="gradle"
+        BUILD_DIR="./build"
         echo "Found build.gradle - packaging with gradle"
         if [ -f gradlew ]; then
             sh ./gradlew $BUILD_OPTS build $BUILD_ARGS
@@ -26,6 +28,7 @@ fi
 if [[ "$BUILD_TOOL" == "unknown" || "$BUILD_TOOL" == "maven" ]]; then
     if [ -f pom.xml ]; then
         BUILD_TOOL="maven"
+        BUILD_DIR="./target"
         echo "Found pom.xml - packaging with maven"
         if [ -f mvnw ]; then
             sh ./mvnw $BUILD_OPTS package $BUILD_ARGS
@@ -44,10 +47,10 @@ if [[ "$BUILD_TOOL" == "unknown" ]]; then
 fi
 
 if [ "$MAIN_JAR_EXCLUDE_NAME" == "" ]; then
-    MAIN_JAR=$(find . -maxdepth 3 -name "*.jar")
+    MAIN_JAR=$(find ${BUILD_DIR} -maxdepth 2 -name "*.jar")
 else
     echo "MAIN_JAR_EXCLUDE_NAME = $MAIN_JAR_EXCLUDE_NAME"
-    MAIN_JAR=$(find . -maxdepth 3 -name "*.jar" -and -not -name "$MAIN_JAR_EXCLUDE_NAME")
+    MAIN_JAR=$(find ${BUILD_DIR} -maxdepth 2 -name "*.jar" -and -not -name "$MAIN_JAR_EXCLUDE_NAME")
 fi
 
 echo "MAIN_JAR=$MAIN_JAR"
