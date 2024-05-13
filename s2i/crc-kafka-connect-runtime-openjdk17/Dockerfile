@@ -14,6 +14,9 @@ USER root
 
 COPY ./root /
 
+RUN microdnf -y install --setopt=tsflags=nodocs telnet net-tools && \
+    microdnf -y clean all
+
 RUN KAFKA=kafka_${SCALA_VERSION}-${KAFKA_VERSION} && \
     KAFKA_TGZ=${KAFKA}.tgz && \
     \
