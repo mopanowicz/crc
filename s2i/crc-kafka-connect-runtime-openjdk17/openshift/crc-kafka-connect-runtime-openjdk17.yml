@@ -94,6 +94,7 @@ objects:
     annotations:
       app.openshift.io/vcs-ref: '${SOURCE_GIT_REF}'
       app.openshift.io/vcs-uri: '${SOURCE_GIT_URI}'
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"${APPLICATION_NAME}:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"${APPLICATION_NAME}\")].image","pause":"false"}]'
     name: ${APPLICATION_NAME}
   spec:
     replicas: 1
