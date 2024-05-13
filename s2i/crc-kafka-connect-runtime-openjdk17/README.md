@@ -9,3 +9,9 @@ Local build
 ```bash
 docker build --tag openshift/crc-kafka-connect-runtime-openjdk17:release .
 ```
+
+Template
+
+```bash
+oc apply -n openshift -f openshift/crc-kafka-connect-runtime-openjdk17.yml
+```
