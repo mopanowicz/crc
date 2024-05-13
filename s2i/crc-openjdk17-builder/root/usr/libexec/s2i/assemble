@@ -60,4 +60,4 @@ if [ ! -f "$MAIN_JAR" ]; then
     exit 1
 fi
 
-mv $MAIN_JAR main.jar
+cp $MAIN_JAR main.jar
