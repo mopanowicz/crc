@@ -53,7 +53,7 @@ else
     MAIN_JAR=$(find ${BUILD_DIR} -maxdepth 2 -name "*.jar" -and -not -name "$MAIN_JAR_EXCLUDE_NAME")
 fi
 
-echo "MAIN_JAR=$MAIN_JAR"
+echo "MAIN_JAR = $MAIN_JAR"
 
 if [ ! -f "$MAIN_JAR" ]; then
     echo "No $MAIN_JAR - exiting"
