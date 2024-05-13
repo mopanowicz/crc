@@ -2,8 +2,8 @@
 
 source common-functions
 
-source pupulate-keystore
-source pupulate-truststore
+source populate-keystore
+source populate-truststore
 
 debug_container
 
