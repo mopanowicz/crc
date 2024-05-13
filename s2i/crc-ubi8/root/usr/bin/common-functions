@@ -1,0 +1,10 @@
+if [ "$DEBUG_CONTAINER" == "true" ]; then
+    echo "------------ BEGIN"
+    pwd
+    echo "------------ ENV"
+    env | sort
+    echo "------------ FILES"
+    find /
+    echo "------------ END"
+    set -x
+fi
