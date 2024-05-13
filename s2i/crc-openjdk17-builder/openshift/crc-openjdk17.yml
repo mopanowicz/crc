@@ -88,22 +88,23 @@ objects:
   metadata:
     labels:
       app: ${APPLICATION_NAME}
-      deployment: ${APPLICATION_NAME}
     annotations:
       app.openshift.io/vcs-ref: '${SOURCE_GIT_REF}'
       app.openshift.io/vcs-uri: '${SOURCE_GIT_URI}'
+      image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"${APPLICATION_NAME}:latest"},"fieldPath":"spec.template.spec.containers[?(@.name==\"${APPLICATION_NAME}\")].image","pause":"false"}]'
     name: ${APPLICATION_NAME}
   spec:
     replicas: 1
     selector:
       matchLabels:
-        deployment: ${APPLICATION_NAME}
+        app: ${APPLICATION_NAME}
     strategy:
       type: Recreate
     template:
       metadata:
         creationTimestamp: null
         labels:
+          app: ${APPLICATION_NAME}
           deployment: ${APPLICATION_NAME}
         name: ${APPLICATION_NAME}
       spec:
@@ -158,7 +159,7 @@ objects:
       protocol: TCP
       targetPort: 8443
     selector:
-      deployment: ${APPLICATION_NAME}
+      app: ${APPLICATION_NAME}
     sessionAffinity: None
     type: ClusterIP
   status:
