@@ -121,8 +121,8 @@ objects:
           imagePullPolicy: Always
           name: ${APPLICATION_NAME}
           ports:
-          - containerPort: 8083
-            name: http
+          - containerPort: 8443
+            name: https
             protocol: TCP
           volumeMounts:
           - mountPath: /svc-tls
@@ -147,10 +147,10 @@ objects:
     name: ${APPLICATION_NAME}
   spec:
     ports:
-    - name: http
-      port: 8083
+    - name: https
+      port: 8443
       protocol: TCP
-      targetPort: 8083
+      targetPort: 8443
     selector:
       deployment: ${APPLICATION_NAME}
     sessionAffinity: None
@@ -169,9 +169,9 @@ objects:
       kind: Service
       name: ${APPLICATION_NAME}
     port:
-      targetPort: http
+      targetPort: https
     tls:
-      termination: edge
+      termination: reencrypt
 - apiVersion: autoscaling/v2
   kind: HorizontalPodAutoscaler
   metadata:
