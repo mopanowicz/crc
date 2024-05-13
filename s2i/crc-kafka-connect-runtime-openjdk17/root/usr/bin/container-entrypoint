@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if [ "$DEBUG_CONTAINER" == "true" ]; then
-    set -x
-    env | sort
-    find / -name "*" -print
-fi
-
 TLS_CRT=/svc-tls/tls.crt
 TLS_KEY=/svc-tls/tls.key
 
@@ -34,5 +28,16 @@ fi
 KAFKA_CONNECT_DISTRIBUTED_PROPERTIES=${KAFKA_CONNECT_DISTRIBUTED_PROPERTIES:-"config/connect-distributed.properties"}
 
 cd $HOME/kafka/
+
+if [ "$DEBUG_CONTAINER" == "true" ]; then
+    echo "------------ BEGIN"
+    set -x
+    pwd
+    echo "------------ ENV"
+    env | sort
+    echo "------------ FILES"
+    find / -name "*" -print
+    echo "------------ END"
+fi
 
 ./bin/connect-distributed.sh ${KAFKA_CONNECT_DISTRIBUTED_PROPERTIES}
