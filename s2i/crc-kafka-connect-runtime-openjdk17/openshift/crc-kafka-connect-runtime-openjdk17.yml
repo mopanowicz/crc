@@ -54,6 +54,8 @@ objects:
               fieldPath: metadata.name
         - name: BUILD_ARGS
           value: '-q'
+        - name: MAIN_JAR_EXCLUDE_NAME
+          value: original*jar
       forcePull: true
     source:
       git:
