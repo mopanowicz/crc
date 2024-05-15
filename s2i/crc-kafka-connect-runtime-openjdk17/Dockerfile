@@ -7,8 +7,9 @@ ENV SCALA_VERSION=2.13
 ENV KAFKA_CONNECT_AVRO_CONVERTER=7.6.1
 ENV KAFKA_CONNECT_JDBC=10.7.6
 
-ENV KAFKA_CONNECT_CONFIG_PATH=${HOME}/kafka/config
-ENV KAFKA_CONNECT_PLUGIN_PATH=${HOME}/kafka/libs
+ENV KAFKA_CONNECT_ROOT_PATH=${HOME}/kafka
+ENV KAFKA_CONNECT_CONFIG_PATH=${KAFKA_CONNECT_ROOT_PATH}/config
+ENV KAFKA_CONNECT_PLUGIN_PATH=${KAFKA_CONNECT_ROOT_PATH}/libs
 
 USER root
 
@@ -26,7 +27,7 @@ RUN KAFKA=kafka_${SCALA_VERSION}-${KAFKA_VERSION} && \
     mv kafka/config/connect-distributed.properties kafka/config/connect-distributed.properties.orig && \
     touch kafka/config/connect-distributed.properties && \
     rm ${KAFKA_TGZ} && \
-    mkdir ${HOME}/kafka/logs && chmod a+rwx ${HOME}/kafka/logs
+    mkdir ${KAFKA_CONNECT_ROOT_PATH}/logs && chmod a+rwx ${KAFKA_CONNECT_ROOT_PATH}/logs
 
 RUN curl -o confluentinc-kafka-connect-jdbc-${KAFKA_CONNECT_JDBC}.zip https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/${KAFKA_CONNECT_JDBC}/confluentinc-kafka-connect-jdbc-${KAFKA_CONNECT_JDBC}.zip && \
     unzip -oj confluentinc-kafka-connect-jdbc-${KAFKA_CONNECT_JDBC}.zip -d ${KAFKA_CONNECT_PLUGIN_PATH} && \
