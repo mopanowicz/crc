@@ -18,17 +18,19 @@ public class Main {
         log.info("main");
         try {
             Class.forName("com.informix.jdbc.IfxDriver");
-            String url = String.format("jdbc:informix-sqli://%s:%d/%s:INFORMIXSERVER=%s",
-                    "informix.virtual.box", 12074,
-                    "kafkaconnect",
-                    "ol_informix1410");
-            String user = "informix";
-            String password = "informix1";
-            try (Connection connection = DriverManager.getConnection(url, user, password)) {
-                PreparedStatement ps = connection.prepareStatement("insert into simple_one (id,sent,text) values (?,?,?)");
-                ps.setString(1, UUID.randomUUID().toString());
-                ps.setLong(2, System.currentTimeMillis());
-                ps.setString(3, RandomStringUtils.random(100, true, true));
+            String user = "kafkaconnect";
+            String password = "kafkaconnect123";
+
+            String url = String.format("jdbc:informix-sqli://%s:%d/%s:USER=%s;PASSWORD=%s;INFORMIXSERVER=%s",
+                    "informix.local", 28495, "kafkaconnect", user, password, "ol_informix1410");
+
+            log.info("connecting to {}", url);
+            try (Connection connection = DriverManager.getConnection(url)) {
+                String id = UUID.randomUUID().toString();
+                log.info("inserting id={}", id);
+                PreparedStatement ps = connection.prepareStatement("insert into test (id,text) values (?,?)");
+                ps.setString(1, id);
+                ps.setString(2, RandomStringUtils.random(100, true, true));
                 ps.executeUpdate();
             }
         } catch (Exception e) {
