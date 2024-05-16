@@ -1,8 +1,8 @@
 # Kafka connect setup
 
-https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-${TOPIC_PREFIX}-jdbc/versions/10.7.6/confluentinc-kafka-${TOPIC_PREFIX}-jdbc-10.7.6.zip
+https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-jdbc/versions/10.7.6/confluentinc-kafka-connect-jdbc-10.7.6.zip
 
-https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-${TOPIC_PREFIX}-avro-converter/versions/7.6.1/confluentinc-kafka-${TOPIC_PREFIX}-avro-converter-7.6.1.zip
+https://d1i4a15mxbxib1.cloudfront.net/api/plugins/confluentinc/kafka-connect-avro-converter/versions/7.6.1/confluentinc-kafka-connect-avro-converter-7.6.1.zip
 
 https://docs.confluent.io/platform/current/schema-registry/connect.html
 
@@ -24,3 +24,21 @@ TOPIC_PREFIX=connect
 ./bin/connect-distributed.sh config/connect-distributed.properties
 ```
 
+## Debezium
+
+### Informix
+
+https://debezium.io/documentation/reference/stable/connectors/informix.html#informix-deploying-a-connector
+
+https://debezium.io/documentation/reference/stable/connectors/informix.html#setting-up-informix
+
+```bash
+useradd kafkaconnect
+```
+
+```dbaccess
+create user kafkaconnect with password 'kafkaconnect123';
+
+grant connect to kafkaconnect;
+grant resource to kafkaconnect;
+```
