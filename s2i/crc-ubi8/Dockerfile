@@ -15,6 +15,7 @@ RUN microdnf -y update && \
       findutils \
       gzip \
       iputils \
+      openssh-clients \
       openssl \
       procps \
       tar \
