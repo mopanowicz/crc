@@ -193,11 +193,11 @@ parameters:
   displayName: Main JAR
 - name: BUILDER_IMAGE
   displayName: Builder image
-  value: crc-openjdk21-builder:release
+  value: crc-openjdk21-builder:latest
   required: true
 - name: RUNTIME_IMAGE
   displayName: Runtime image
-  value: crc-openjdk21-runtime:release
+  value: crc-openjdk21-runtime:latest
   required: true
 - name: IMAGE_REGISTRY
   displayName: Image registry

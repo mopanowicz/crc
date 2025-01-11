@@ -1,4 +1,4 @@
-FROM openshift/crc-ubi8:release
+FROM openshift/crc-ubi8:latest
 
 ENV JAVA_VERSION=17
 ENV JAVA_HOME=/usr/lib/jvm/jre

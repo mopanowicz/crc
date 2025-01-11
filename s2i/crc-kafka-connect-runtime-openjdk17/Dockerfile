@@ -1,4 +1,4 @@
-FROM openshift/crc-openjdk17-runtime:release
+FROM openshift/crc-openjdk17-runtime:latest
 
 EXPOSE 8083
 

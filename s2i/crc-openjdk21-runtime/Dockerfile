@@ -1,4 +1,4 @@
-FROM openshift/crc-ubi8:release
+FROM openshift/crc-ubi8:latest
 
 EXPOSE 8080
 EXPOSE 8443
