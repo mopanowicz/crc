@@ -87,6 +87,8 @@ objects:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: MVN_ARGS
+          value: -q
     source:
       git:
         ref: ${SOURCE_GIT_REF}
