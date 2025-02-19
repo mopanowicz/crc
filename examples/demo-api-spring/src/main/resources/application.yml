@@ -9,9 +9,9 @@ server:
 spring:
   jpa.open-in-view: false
   datasource:
-    url: jdbc:postgresql://tinbox.local:5432/demospring
-    username: demospring
-    password: demospring123
+    url: spring.datasource.url=jdbc:h2:mem:test;
+    username: sa
+    password:
 
 logging:
   level:
