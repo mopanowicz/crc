@@ -13,14 +13,26 @@ import java.util.Map;
 @Slf4j
 public class TestController {
 
+    Map<String, Thread> threads = new HashMap<>();
+
     @GetMapping(value = "new-thread", produces = MediaType.APPLICATION_JSON_VALUE)
     Map<String, Object> newThread(@RequestParam(defaultValue = "1") int numberOfThreads) {
         log.info("newThread numberOfThreads={}", numberOfThreads);
         Map<String, Object> states = new HashMap<>();
         for (int i = 0; i < numberOfThreads; i++) {
-            Thread testThread = new TestThread();
-            testThread.start();
-            states.put(testThread.getName(), testThread.getState());
+            Thread thread = new TestThread();
+            thread.start();
+            states.put(thread.getName(), thread.getState());
+            threads.put(thread.getName(), thread);
+        }
+        return states;
+    }
+
+    @GetMapping(value = "thread-states", produces = MediaType.APPLICATION_JSON_VALUE)
+    Map<String, Object> threadStates() {
+        Map<String, Object> states = new HashMap<>();
+        for (var entry : threads.entrySet()) {
+            states.put(entry.getKey(), entry.getValue().getState());
         }
         return states;
     }
