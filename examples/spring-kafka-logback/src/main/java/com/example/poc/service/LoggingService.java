@@ -24,14 +24,12 @@ import java.util.stream.Collectors;
 @Setter
 public class LoggingService {
 
+    private final LogEventFactory logEventFactory;
     String topic;
     Map<String, String> properties;
     boolean serviceEnabled;
     boolean serviceBlocking;
-
     KafkaTemplate<Void, LogEvent> kafkaTemplate;
-
-    private final LogEventFactory logEventFactory;
 
     @PostConstruct
     void init() {

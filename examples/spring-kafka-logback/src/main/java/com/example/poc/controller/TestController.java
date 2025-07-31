@@ -26,18 +26,14 @@ import java.util.Map;
 @Slf4j
 public class TestController {
 
-    @Value("${test-controller.default-sleep-ms:0}")
-    long defaultSleepMillis;
-
-    @Value("${test-controller.system-out:false}")
-    boolean systemOut;
-
     private final LoggingService loggingService;
     private final LogEventFactory logEventFactory;
-
+    @Value("${test-controller.default-sleep-ms:0}")
+    long defaultSleepMillis;
+    @Value("${test-controller.system-out:false}")
+    boolean systemOut;
     ObjectMapper objectMapper = new ObjectMapper();
-
-    record TestResult(long timestamp) {}
+    Map<String, Integer> counters = new HashMap<>();
 
     @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
@@ -52,7 +48,7 @@ public class TestController {
 
         long sleep = sleepMillis > 0 ? sleepMillis : defaultSleepMillis;
 
-        String message = RandomStringUtils.randomAlphabetic(messageLength);
+        String message = RandomStringUtils.secure().next(messageLength);
         for (int i = 0; i < messageCount; i++) {
             log(MessageFormat.format("test id={0} sleep={1}ms iteration={2} message=\"{3}\"", id, sleep, i, message));
             if (sleep > 0) {
@@ -63,16 +59,6 @@ public class TestController {
         log("test done in " + (System.currentTimeMillis() - start) + "ms");
 
         return new TestResult(System.currentTimeMillis());
-    }
-
-    Map<String, Integer> counters = new HashMap<>();
-
-    @AllArgsConstructor
-    @Getter
-    static class Message {
-        String scope;
-        Integer iteration;
-        Integer counter;
     }
 
     @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -106,5 +92,16 @@ public class TestController {
             LogEvent logEvent = logEventFactory.logEvent(getClass().getName(), "INFO", msg);
             System.out.println(logEvent.toString());
         }
+    }
+
+    record TestResult(long timestamp) {
+    }
+
+    @AllArgsConstructor
+    @Getter
+    static class Message {
+        String scope;
+        Integer iteration;
+        Integer counter;
     }
 }
