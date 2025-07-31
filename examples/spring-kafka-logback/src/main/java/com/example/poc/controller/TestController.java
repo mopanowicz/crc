@@ -2,7 +2,6 @@ package com.example.poc.controller;
 
 import com.example.poc.logevent.LogEvent;
 import com.example.poc.logevent.LogEventFactory;
-import com.example.poc.logevent.LogEventRepository;
 import com.example.poc.service.LoggingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -30,15 +29,11 @@ public class TestController {
     @Value("${test-controller.default-sleep-ms:0}")
     long defaultSleepMillis;
 
-    @Value("${test-controller.mongo-on:false}")
-    boolean mongoOn;
-
     @Value("${test-controller.system-out:false}")
     boolean systemOut;
 
     private final LoggingService loggingService;
     private final LogEventFactory logEventFactory;
-    private final LogEventRepository logEventRepository;
 
     ObjectMapper objectMapper = new ObjectMapper();
 
@@ -113,9 +108,6 @@ public class TestController {
             log.info(msg);
         }
         LogEvent logEvent = logEventFactory.logEvent(getClass().getName(), "INFO", msg);
-        if (mongoOn) {
-            logEventRepository.save(logEvent);
-        }
         if (systemOut) {
             System.out.println(logEvent.toString());
         }

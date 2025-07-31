@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
 
@@ -13,7 +12,6 @@ import java.util.Map;
 @Setter
 @Builder
 @ToString
-@Document("logEvents")
 public class LogEvent {
     String id;
     @JsonProperty("@timestamp")
