@@ -37,17 +37,17 @@ public class TestController {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    record TestResult(long timestamp) {}
+
     @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    String test(
+    TestResult test(
             @RequestParam(name = "sleepMillis", defaultValue = "0", required = false) long sleepMillis,
             @RequestParam(name = "messageLength", defaultValue = "32", required = false) int messageLength,
             @RequestParam(name = "messageCount", defaultValue = "1", required = false) int messageCount,
             @RequestParam(name = "id", defaultValue = "0", required = false) long id
     ) throws InterruptedException {
-
         long start = System.currentTimeMillis();
-
         log("start=" + start);
 
         long sleep = sleepMillis > 0 ? sleepMillis : defaultSleepMillis;
@@ -62,7 +62,7 @@ public class TestController {
 
         log("test done in " + (System.currentTimeMillis() - start) + "ms");
 
-        return "{\"timestamp\": " + System.currentTimeMillis() + "}";
+        return new TestResult(System.currentTimeMillis());
     }
 
     Map<String, Integer> counters = new HashMap<>();
@@ -82,9 +82,6 @@ public class TestController {
             @RequestParam(name = "iteration", defaultValue = "0", required = false) int iteration,
             @RequestParam(name = "reset", defaultValue = "false", required = false) boolean reset
     ) throws JsonProcessingException {
-
-        long start = System.currentTimeMillis();
-
         Integer counter = counters.get(scope);
         if (counter == null || reset) {
             counter = 0;
@@ -95,9 +92,7 @@ public class TestController {
         counters.put(scope, counter);
 
         Message message = new Message(scope, iteration, counter);
-
         log(objectMapper.writeValueAsString(message));
-
         return message;
     }
 
@@ -107,8 +102,8 @@ public class TestController {
         } else {
             log.info(msg);
         }
-        LogEvent logEvent = logEventFactory.logEvent(getClass().getName(), "INFO", msg);
         if (systemOut) {
+            LogEvent logEvent = logEventFactory.logEvent(getClass().getName(), "INFO", msg);
             System.out.println(logEvent.toString());
         }
     }
