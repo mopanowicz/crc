@@ -8,7 +8,7 @@ management:
 
 test-controller:
   default-sleep-ms: 0
-  system-out: true
+  system-out: false
 
 logging:
   config: classpath:logging.xml
@@ -37,8 +37,9 @@ logging:
       acks: 1
       max.block.ms: 60000 # default: 60000
       buffer.memory: 33554432 # default: 33554432 == 32 * 1024 * 1024
-      batch.size: 16384
-      compression.type: none
+      linger.ms: 100
+      batch.size: 131072 # default: 16384
+      compression.type: lz4
       request.timeout.ms: 6000
       socket.connection.setup.timeout.ms: 2000
       socket.connection.setup.timeout.max.ms: 6000

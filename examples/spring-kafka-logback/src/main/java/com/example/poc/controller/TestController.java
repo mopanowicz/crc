@@ -48,7 +48,7 @@ public class TestController {
 
         long sleep = sleepMillis > 0 ? sleepMillis : defaultSleepMillis;
 
-        String message = RandomStringUtils.secure().next(messageLength);
+        String message = RandomStringUtils.secure().nextAlphanumeric(messageLength);
         for (int i = 0; i < messageCount; i++) {
             log(MessageFormat.format("test id={0} sleep={1}ms iteration={2} message=\"{3}\"", id, sleep, i, message));
             if (sleep > 0) {
@@ -56,9 +56,10 @@ public class TestController {
             }
         }
 
-        log("test done in " + (System.currentTimeMillis() - start) + "ms");
+        long elapsedTimeMillis = System.currentTimeMillis() - start;
+        log("test done in " + elapsedTimeMillis + "ms");
 
-        return new TestResult(System.currentTimeMillis());
+        return new TestResult(elapsedTimeMillis);
     }
 
     @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -94,7 +95,7 @@ public class TestController {
         }
     }
 
-    record TestResult(long timestamp) {
+    record TestResult(long elapsedTimeMillis) {
     }
 
     @AllArgsConstructor

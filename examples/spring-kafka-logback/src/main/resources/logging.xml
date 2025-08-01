@@ -17,6 +17,8 @@
                     source="logging.kafka.properties.max.block.ms"/>
     <springProperty scope="context" name="logging.kafka.properties.buffer.memory"
                     source="logging.kafka.properties.buffer.memory"/>
+    <springProperty scope="context" name="logging.kafka.properties.linger.ms"
+                    source="logging.kafka.properties.linger.ms"/>
     <springProperty scope="context" name="logging.kafka.properties.batch.size"
                     source="logging.kafka.properties.batch.size"/>
     <springProperty scope="context" name="logging.kafka.properties.compression.type"
@@ -82,6 +84,7 @@
         <producerConfig>max.block.ms=${logging.kafka.properties.max.block.ms}</producerConfig>
         <producerConfig>buffer.memory=${logging.kafka.properties.buffer.memory}</producerConfig>
         <producerConfig>batch.size=${logging.kafka.properties.batch.size}</producerConfig>
+        <producerConfig>linger.ms=${logging.kafka.properties.linger.ms}</producerConfig>
         <producerConfig>compression.type=${logging.kafka.properties.compression.type}</producerConfig>
         <producerConfig>request.timeout.ms=${logging.kafka.properties.request.timeout.ms}</producerConfig>
         <producerConfig>
@@ -92,8 +95,11 @@
         </producerConfig>
     </appender>
 
-    <root level="INFO">
+    <logger name="com.example.poc" level="INFO" additivity="false">
         <appender-ref ref="${logging.appender.name}"/>
+    </logger>
+
+    <root level="INFO">
         <appender-ref ref="console"/>
     </root>
 </configuration>
