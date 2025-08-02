@@ -39,7 +39,7 @@ logging:
       buffer.memory: 33554432 # default: 33554432 == 32 * 1024 * 1024
       linger.ms: 100
       batch.size: 131072 # default: 16384
-      compression.type: lz4
+      compression.type: lz4 # default: none
       request.timeout.ms: 6000
       socket.connection.setup.timeout.ms: 2000
       socket.connection.setup.timeout.max.ms: 6000
