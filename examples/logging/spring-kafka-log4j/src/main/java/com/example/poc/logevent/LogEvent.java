@@ -18,7 +18,7 @@ public class LogEvent {
     String timestamp;
     @JsonProperty("@topic")
     String topic;
-    Kubernetes kubernets;
+    Kubernetes kubernetes;
     Log log;
 }
 

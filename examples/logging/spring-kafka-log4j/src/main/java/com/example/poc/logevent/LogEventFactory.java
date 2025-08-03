@@ -19,7 +19,7 @@ public class LogEventFactory {
         Thread ct = Thread.currentThread();
         LogEvent event = LogEvent.builder()
                 .timestamp(new Timestamp(System.currentTimeMillis()).toString())
-                .kubernets(Kubernetes.builder()
+                .kubernetes(Kubernetes.builder()
                         .namespace(namespace)
                         .pod(pod)
                         .container(container)
