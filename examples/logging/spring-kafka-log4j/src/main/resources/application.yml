@@ -6,13 +6,15 @@ management:
     web.exposure.include: "*"
     jmx.exposure.include: "*"
 
+test-controller:
+  default-sleep-ms: 0
+  system-out: false
+
 logging:
   config: classpath:logging.xml
   level:
     root: INFO
     com.example: INFO
-  appender:
-    name: FailoverKafka
   event:
     labels:
       owner: no_owner
@@ -21,22 +23,21 @@ logging:
     pod.name: ${POD_NAME:no_pod_name}
     container.name: ${container:no_container_name}
   kafka:
-    topic: log-events
+    topic: events
     service:
       enabled: false
       blocking: true
     # https://kafka.apache.org/documentation/#producerconfigs
     properties:
-      bootstrap.servers: kafka.local:9092
-      client.id: spring-kafka-log4j
+      bootstrap.servers: localhost:9092
+      client.id: spring-kafka-logback
       security.protocol: PLAINTEXT # PLAINTEXT SSL
-      acks: 1
-      max.block.ms: 10000 # default: 60000
-      buffer.memory: 1048576 # default: 33554432 == 32 * 1024 * 1024
-      batch.size: 16384
-      compression.type: none
-      request.timeout.ms: 6000
-      socket.connection.setup.timeout.ms: 2000
-      socket.connection.setup.timeout.max.ms: 6000
-
-test-controller.default-sleep-ms: 0
+      acks: 1 # default: all
+      max.block.ms: 60000 # default: 60000
+      buffer.memory: 33554432 # default: 33554432 == 32 * 1024 * 1024
+      linger.ms: 100 # default: 0
+      batch.size: 131072 # default: 16384
+      compression.type: lz4 # default: none
+      request.timeout.ms: 6000 # default: 120000
+      socket.connection.setup.timeout.ms: 2000 # default: 10000
+      socket.connection.setup.timeout.max.ms: 6000 # default: 30000

@@ -95,11 +95,13 @@
         </producerConfig>
     </appender>
 
-    <logger name="com.example.poc" level="INFO" additivity="false">
-        <appender-ref ref="${logging.appender.name}"/>
-    </logger>
-
     <root level="INFO">
         <appender-ref ref="console"/>
     </root>
+    <logger name="org.apache.kafka" level="INFO" additivity="false">
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="com.example" level="INFO" additivity="false">
+        <appender-ref ref="${logging.appender.name}"/>
+    </logger>
 </configuration>

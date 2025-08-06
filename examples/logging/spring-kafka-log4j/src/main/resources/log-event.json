@@ -26,8 +26,7 @@
       "field": "name"
     },
     "message": {
-      "$resolver": "message",
-      "stringified": true
+      "$resolver": "message"
     },
     "exception": {
       "exception_class": {
@@ -36,13 +35,11 @@
       },
       "exception_message": {
         "$resolver": "exception",
-        "field": "message",
-        "stringified": true
+        "field": "message"
       },
       "stacktrace": {
         "$resolver": "exception",
-        "field": "stackTrace",
-        "stringified": true
+        "field": "stackTrace"
       }
     },
     "line_number": {
@@ -55,8 +52,7 @@
     },
     "mdc": {
       "$resolver": "mdc",
-      "flatten": true,
-      "stringified": true
+      "flatten": true
     },
     "logger_name": {
       "$resolver": "logger",

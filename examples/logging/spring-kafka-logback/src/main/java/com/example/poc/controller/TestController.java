@@ -36,7 +36,6 @@ public class TestController {
     Map<String, Integer> counters = new HashMap<>();
 
     @GetMapping(value = "/test", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     TestResult test(
             @RequestParam(name = "sleepMillis", defaultValue = "0", required = false) long sleepMillis,
             @RequestParam(name = "messageLength", defaultValue = "32", required = false) int messageLength,
@@ -63,7 +62,6 @@ public class TestController {
     }
 
     @GetMapping(value = "/count", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     Message count(
             @RequestParam(name = "scope", defaultValue = "none", required = false) String scope,
             @RequestParam(name = "iteration", defaultValue = "0", required = false) int iteration,
