@@ -33,7 +33,7 @@ logging:
       client.id: spring-kafka-logback
       security.protocol: PLAINTEXT # PLAINTEXT SSL
       acks: 1 # default: all
-      max.block.ms: 60000 # default: 60000
+      max.block.ms: 6000 # default: 60000
       buffer.memory: 33554432 # default: 33554432 == 32 * 1024 * 1024
       linger.ms: 100 # default: 0
       batch.size: 131072 # default: 16384

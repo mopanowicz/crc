@@ -4,7 +4,7 @@
         <Console name="Console" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <Kafka name="Kafka" topic="${spring:logging.kafka.topic}" ignoreExceptions="false" syncSend="false">
+        <Kafka name="Kafka" topic="${spring:logging.kafka.topic}" ignoreExceptions="false" syncSend="true">
             <JsonTemplateLayout eventTemplateUri="classpath:log-event.json"/>
             <Property name="bootstrap.servers">${spring:logging.kafka.properties.bootstrap.servers}</Property>
             <Property name="security.protocol">${spring:logging.kafka.properties.security.protocol}</Property>
@@ -28,16 +28,24 @@
                 <AppenderRef ref="Console"/>
             </Failovers>
         </Failover>
-<!--        <Async name="AsyncKafka" blocking="false" bufferSize="1024" ignoreExceptions="false" errorRef="Console">-->
-<!--            <AppenderRef ref="FailoverKafka"/>-->
-<!--        </Async>-->
+        <Async name="AsyncKafka" blocking="true" bufferSize="2048" ignoreExceptions="false" errorRef="Console">
+            <AppenderRef ref="FailoverKafka"/>
+        </Async>
     </Appenders>
     <Loggers>
         <Logger name="org.apache.kafka" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <!-- silence NetworkClient for testing -->
+        <Logger name="org.apache.kafka.clients.NetworkClient" level="error" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <!-- allow quick application start in case kafka is unavailable -->
+        <Logger name="com.example.poc.SpringKafkaLog4jApplication" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <Logger name="com.example" level="debug" additivity="false">
-            <AppenderRef ref="FailoverKafka"/>
+            <AppenderRef ref="AsyncKafka"/>
         </Logger>
         <Root level="info">
             <AppenderRef ref="Console"/>
