@@ -2,18 +2,23 @@
 <Configuration status="error">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
+            <JsonTemplateLayout eventTemplateUri="classpath:LogEventLayout.json.json"/>
+        </Console>
+        <Console name="ConsoleReadable" target="SYSTEM_OUT">
             <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
         </Console>
-        <Kafka name="Kafka" topic="${spring:logging.kafka.topic}" ignoreExceptions="false" syncSend="true">
-            <JsonTemplateLayout eventTemplateUri="classpath:log-event.json"/>
+        <!-- https://logging.apache.org/log4j/2.x/manual/appenders.html#KafkaAppender -->
+        <Kafka name="Kafka" topic="${spring:logging.kafka.topic}" ignoreExceptions="false"
+               syncSend="${spring:logging.kafka.appender.sync-send}">
+            <JsonTemplateLayout eventTemplateUri="classpath:LogEventLayout.json.json"/>
             <Property name="bootstrap.servers">${spring:logging.kafka.properties.bootstrap.servers}</Property>
             <Property name="security.protocol">${spring:logging.kafka.properties.security.protocol}</Property>
             <Property name="client.id">${spring:logging.kafka.properties.client.id}</Property>
             <Property name="acks">${spring:logging.kafka.properties.acks}</Property>
             <Property name="max.block.ms">${spring:logging.kafka.properties.max.block.ms}</Property>
             <Property name="buffer.memory">${spring:logging.kafka.properties.buffer.memory}</Property>
-            <Property name="linger.ms">${spring:logging.kafka.properties.linger.ms}</Property>
             <Property name="batch.size">${spring:logging.kafka.properties.batch.size}</Property>
+            <Property name="linger.ms">${spring:logging.kafka.properties.linger.ms}</Property>
             <Property name="compression.type">${spring:logging.kafka.properties.compression.type}</Property>
             <Property name="request.timeout.ms">${spring:logging.kafka.properties.request.timeout.ms}</Property>
             <Property name="socket.connection.setup.timeout.ms">
@@ -23,32 +28,37 @@
                 ${spring:logging.kafka.properties.socket.connection.setup.timeout.max.ms}
             </Property>
         </Kafka>
-        <Failover name="FailoverKafka" primary="Kafka">
+        <!-- https://logging.apache.org/log4j/2.x/manual/appenders.html#FailoverAppender -->
+        <Failover name="FailoverKafka" primary="Kafka"
+                  retryIntervalSeconds="${spring:logging.kafka.appender.failover-retry-interval-seconds}">
             <Failovers>
-                <AppenderRef ref="Console"/>
+                <AppenderRef ref="${spring:logging.kafka.appender.failover}"/>
             </Failovers>
         </Failover>
-        <Async name="AsyncKafka" blocking="true" bufferSize="2048" ignoreExceptions="false" errorRef="Console">
+        <!-- https://logging.apache.org/log4j/2.x/manual/appenders.html#AsyncAppender -->
+        <Async name="AsyncKafka" blocking="${spring:logging.kafka.appender.async.blocking}"
+               bufferSize="${spring:logging.kafka.appender.async.buffer-size}"
+               ignoreExceptions="false" errorRef="${spring:logging.kafka.appender.async.error-ref}">
             <AppenderRef ref="FailoverKafka"/>
         </Async>
     </Appenders>
     <Loggers>
-        <Logger name="org.apache.kafka" level="info" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <!-- silence NetworkClient for testing -->
-        <Logger name="org.apache.kafka.clients.NetworkClient" level="error" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <!-- allow quick application start in case kafka is unavailable -->
-        <Logger name="com.example.poc.SpringKafkaLog4jApplication" level="debug" additivity="false">
-            <AppenderRef ref="Console"/>
-        </Logger>
-        <Logger name="com.example" level="debug" additivity="false">
-            <AppenderRef ref="AsyncKafka"/>
-        </Logger>
         <Root level="info">
-            <AppenderRef ref="Console"/>
+            <AppenderRef ref="ConsoleReadable"/>
         </Root>
+        <!-- wycisza NetworkClienta do stestów -->
+        <logger name="org.apache.kafka.clients.NetworkClient" level="error"/>
+        <logger name="org.apache.kafka"
+                level="info"/> <!-- level wymagany - https://logging.apache.org/log4j/2.x/manual/appenders.html#KafkaAppender -->
+        <logger name="com.example.poc.status_event" level="debug" additivity="false">
+            <AppenderRef ref="ConsoleReadable" />
+        </logger>
+        <logger name="com.example" level="debug" additivity="false">
+            <AppenderRef ref="${spring:logging.appender.name}"/>
+        </logger>
+        <!-- nie blokuje startu aplikacji, kiedy kafka jest niedostępna -->
+        <logger name="com.example.poc.SimpleWebApplication" level="info" additivity="false">
+            <AppenderRef ref="ConsoleReadable"/>
+        </logger>
     </Loggers>
 </Configuration>

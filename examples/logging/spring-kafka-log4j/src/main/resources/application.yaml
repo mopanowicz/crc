@@ -1,0 +1,76 @@
+server:
+  port: 8082
+
+management:
+  endpoints:
+    web.exposure.include: "*"
+    jmx.exposure.include: "*"
+
+status-event-producer:
+  topic: status-events-log4j
+  key: ${HOSTNAME:${COMPUTERNAME}}
+  properties:
+    bootstrap.servers: localhost:9092
+    client.id: status-event-client-1
+    key.serializer: org.apache.kafka.common.serialization.StringSerializer
+    value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+trigger-event-consumer:
+  topic: trigger-events-log4j
+  status-interval: 10000
+  log-repeat: 5
+  log-cargo-length: 1024
+  properties:
+    bootstrap.servers: localhost:9092
+    group.id: trigger-event-group-1
+    auto.offset.reset: earliest
+    key.deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    value.deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    spring.deserializer.key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+    spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+    spring.json.trusted.packages: com.example.poc.trigger_event
+
+logging:
+  config: classpath:logging.xml
+  level:
+    root: INFO
+    com.example: INFO
+  appender:
+    name: AsyncKafka # Console FailoverKafka AsyncKafka
+  event:
+    labels:
+      owner: no_owner
+      bsi: spring-kafka-log4j
+    namespace: ${POD_NAMESPACE:no_pod_namespace}
+    pod.name: ${POD_NAME:no_pod_name}
+    container.name: ${container:unknown}
+  kafka:
+    topic: logger-events-log4j
+    appender:
+      async:
+        blocking: true
+        error-ref: Console
+        buffer-size: 1024
+      failover-retry-interval-seconds: 6 # 30
+      sync-send: false
+      failover: Console
+    properties:
+      client.id: simple-web-2-kafka
+      bootstrap.servers: localhost:9092
+      security.protocol: PLAINTEXT # SASL_SSL
+      #      sasl.mechanism: SCRAM-SHA-256
+      #      sasl.jaas.config: >-
+      #        org.apache.kafka.common.security.scram.ScramLoginModule required
+      #        username="${LOGGING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG_USERNAME}"
+      #        password="${LOGGING_KAFKA_PROPERTIES_SASL_JAAS_CONFIG_PASSWORD}";
+      key.serializer: org.apache.kafka.common.serialization.StringSerializer
+      value.serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: 1
+      max.block.ms: 24000 # 60000
+      buffer.memory: 33554432 # 32 * 1024 * 1024L
+      linger.ms: 1000
+      batch.size: 65536 # 16384
+      compression.type: lz4 # none
+      request.timeout.ms: 6000 # 30000
+      socket.connection.setup.timeout.ms: 2000 # 10000
+      socket.connection.setup.timeout.max.ms: 6000 # 30000
