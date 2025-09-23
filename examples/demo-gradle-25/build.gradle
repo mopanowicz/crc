@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.6'
 	id 'io.spring.dependency-management' version '1.1.7'
+    id "com.gorylenko.gradle-git-properties" version '2.5.3'
 }
 
 group = 'com.example'
@@ -19,6 +20,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
@@ -26,4 +28,12 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+springBoot {
+    buildInfo()
+}
+
+gitProperties {
+    dotGitDirectory = project.rootProject.layout.projectDirectory.dir("../../.git")
 }
