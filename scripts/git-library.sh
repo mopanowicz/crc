@@ -10,10 +10,7 @@ function git_branch () {
     while read -r line ; do BRANCH=${line#*$prefix}; done <<< $(echo "$refs_list")
   fi
   if [[ "$BRANCH" == "" ]]; then
-    BRANCH=$(git rev-parse --short HEAD)
-  fi
-  if [[ "$BRANCH" == "" ]]; then
-    BRANCH=$DEFAULT_BRANCH
+    BRANCH=$commit
   fi
   echo $BRANCH
 }
