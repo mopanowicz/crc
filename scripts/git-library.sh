@@ -50,12 +50,12 @@ function git_closest_tag_name () {
 }
 
 function git_commit_author_time () {
-  COMMIT_DATE=$(git log -1 --pretty=%at)
+  COMMIT_DATE=$(git log -1 --pretty=%aI)
   echo $COMMIT_DATE
 }
 
 function git_commit_commiter_time () {
-  COMMIT_DATE=$(git log -1 --pretty=%ct)
+  COMMIT_DATE=$(git log -1 --pretty=%cI)
   echo $COMMIT_DATE
 }
 
@@ -89,11 +89,6 @@ function git_commit_message_short () {
   echo $COMMIT_MESSAGE
 }
 
-function git_commit_time () {
-  COMMIT_DATE=$(git log -1 --pretty=%cd --date=iso-strict)
-  echo $COMMIT_DATE
-}
-
 function git_commit_user_email () {
   COMMIT_USER_EMAIL=$(git log -1 --pretty=%ae)
   echo $COMMIT_USER_EMAIL
@@ -121,34 +116,14 @@ function git_local_branch_ahead_of_remote () {
   UPSTREAM=${1:-'@{u}'}
   LOCAL=$(git rev-parse @)
   REMOTE=$(git rev-parse "$UPSTREAM")
-  BASE=$(git merge-base @ "$UPSTREAM")
-
-  if [ $LOCAL = $REMOTE ]; then
-    echo "false"
-  elif [ $LOCAL = $BASE ]; then
-    echo "false"
-  elif [ $REMOTE = $BASE ]; then
-    echo "true"
-  else
-    echo "false"
-  fi
+  echo $(git rev-list --count $REMOTE..$LOCAL)
 }
 
 function git_local_branch_behind_remote () {
   UPSTREAM=${1:-'@{u}'}
   LOCAL=$(git rev-parse @)
   REMOTE=$(git rev-parse "$UPSTREAM")
-  BASE=$(git merge-base @ "$UPSTREAM")
-
-  if [ $LOCAL = $REMOTE ]; then
-    echo "false"
-  elif [ $LOCAL = $BASE ]; then
-    echo "true"
-  elif [ $REMOTE = $BASE ]; then
-    echo "false"
-  else
-    echo "false"
-  fi
+  echo $(git rev-list --count $LOCAL..$REMOTE)
 }
 
 function git_closest_tag_name () {

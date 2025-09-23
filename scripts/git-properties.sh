@@ -22,7 +22,7 @@ source $(dirname $0)/git-library.sh
   echo "git.commit.id.describe-short=$(git_commit_id_describe_short)"
   echo "git.commit.message.full=$(git_commit_message)"
   echo "git.commit.message.short=$(git_commit_message_short)"
-  echo "git.commit.time=$(git_commit_time)"
+  echo "git.commit.time=$(git_commit_commiter_time)"
   echo "git.commit.user.email=$(git_commit_user_email)"
   echo "git.commit.user.name=$(git_commit_user_name)"
   echo "git.dirty=$(git_is_dirty)"
