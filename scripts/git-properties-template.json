@@ -1,0 +1,64 @@
+{
+  "git": {
+    "commit": {
+      "committer": {
+        "time": "string"
+      },
+      "id": {
+        "describe-short": "string",
+        "describe": "string",
+        "abbrev": "string",
+        "full": "string"
+      },
+      "time": "string",
+      "message": {
+        "full": "string",
+        "short": "string"
+      },
+      "user": {
+        "email": "string",
+        "name": "string"
+      },
+      "author": {
+        "time": "string"
+      }
+    },
+    "local": {
+      "branch": {
+        "ahead": "string",
+        "behind": "string"
+      }
+    },
+    "branch": "string",
+    "build": {
+      "time": "string",
+      "version": "string",
+      "user": {
+        "name": "string",
+        "email": "string"
+      },
+      "host": "string"
+    },
+    "tag": "string",
+    "dirty": "string",
+    "tags": "string",
+    "total": {
+      "commit": {
+        "count": "string"
+      }
+    },
+    "closest": {
+      "tag": {
+        "commit": {
+          "count": "string"
+        },
+        "name": "string"
+      }
+    },
+    "remote": {
+      "origin": {
+        "url": "string"
+      }
+    }
+  }
+}
