@@ -8,7 +8,7 @@ git.closest.tag.commit.count
 git.closest.tag.name
 git.commit.author.time
 git.commit.committer.time
-git.commit.id
+git.commit.id.full
 git.commit.id.abbrev
 git.commit.id.describe
 git.commit.id.describe-short
