@@ -9,24 +9,24 @@ USER root
 
 COPY ./root /
 
-RUN microdnf -y update && \
+RUN microdnf -y update --setopt=tsflags=nodocs && \
     microdnf -y install --setopt=tsflags=nodocs \
       curl \
       findutils \
+      glibc-langpack-en \
+      glibc-langpack-pl \
       gzip \
       iputils \
       openssh-clients \
       openssl \
       procps \
       tar \
-      vim \
       which \
+      zip \
       && \
     \
     microdnf -y install --setopt=tsflags=nodocs \
-      mc \
       shadow-utils \
-      zip \
       && \
     useradd -u 1001 -d ${HOME} -m -s /sbin/nologin default && \
     chmod a+rwx ${HOME} && \
