@@ -1,2 +1,4 @@
 git.properties
 git-properties.json
+
+*.out
