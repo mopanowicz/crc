@@ -43,7 +43,5 @@ buildah config --user 1001 ${microcontainer}
 
 buildah config --workingdir ${_HOME} ${microcontainer}
 
-buildah config --entrypoint container-entrypoint ${microcontainer}
-
 buildah umount $microcontainer
 buildah commit $microcontainer micro/crc-ubi8

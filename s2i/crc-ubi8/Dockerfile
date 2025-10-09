@@ -37,5 +37,3 @@ RUN microdnf -y update --setopt=tsflags=nodocs && \
 USER 1001
 
 WORKDIR ${HOME}
-
-ENTRYPOINT ["container-entrypoint"]

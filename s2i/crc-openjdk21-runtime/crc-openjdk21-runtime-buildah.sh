@@ -23,5 +23,7 @@ dnf -y install --installroot ${micromount} --releasever 8 --nogpgcheck --setopt=
 
 dnf -y clean all --installroot ${micromount} --releasever 8 --nogpgcheck
 
+buildah config --entrypoint container-entrypoint ${microcontainer}
+
 buildah umount $microcontainer
 buildah commit $microcontainer micro/crc-openjdk21-runtime
