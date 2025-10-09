@@ -9,3 +9,9 @@ Template
 ```bash
 oc apply -n openshift -f openshift/crc-openjdk21-dual.yml
 ```
+
+Local build
+
+```bash
+docker build --tag openshift/crc-openjdk21-builder:latest .
+```
