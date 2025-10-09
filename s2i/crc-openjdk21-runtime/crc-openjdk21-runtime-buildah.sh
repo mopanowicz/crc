@@ -5,7 +5,7 @@
 set -e
 
 microcontainer=$(buildah from localhost/micro/crc-ubi8)
-micromount=$(buildah mount $microcontainer)
+micromount=$(buildah mount ${microcontainer})
 
 _JAVA_VERSION=21
 _JAVA_HOME=/usr/lib/jvm/jre
@@ -25,5 +25,5 @@ dnf -y clean all --installroot ${micromount} --releasever 8 --nogpgcheck
 
 buildah config --entrypoint container-entrypoint ${microcontainer}
 
-buildah umount $microcontainer
-buildah commit $microcontainer micro/crc-openjdk21-runtime
+buildah umount ${microcontainer}
+buildah commit ${microcontainer} micro/crc-openjdk21-runtime
