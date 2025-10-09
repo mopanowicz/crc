@@ -5,7 +5,7 @@
 set -e
 
 microcontainer=$(buildah from rockylinux/rockylinux:8-ubi-micro)
-micromount=$(buildah mount $microcontainer)
+micromount=$(buildah mount ${microcontainer})
 
 _VERSION_TAG=${_VERSION_TAG:-latest}
 _HOME=/app
@@ -43,5 +43,5 @@ buildah config --user 1001 ${microcontainer}
 
 buildah config --workingdir ${_HOME} ${microcontainer}
 
-buildah umount $microcontainer
-buildah commit $microcontainer micro/crc-ubi8
+buildah umount ${microcontainer}
+buildah commit ${microcontainer} micro/crc-ubi8
