@@ -1,0 +1,40 @@
+FROM rockylinux:9-minimal
+
+ARG VERSION_TAG=latest
+
+ENV VERSION_TAG=${VERSION_TAG}
+
+ENV HOME=/app
+ENV USER_ID=1001
+ENV GROUP_ID=1001
+
+USER root
+
+COPY ./root /
+
+RUN microdnf -y update --setopt=tsflags=nodocs && \
+    microdnf -y install --setopt=tsflags=nodocs \
+      curl \
+      findutils \
+      gzip \
+      iputils \
+      openssh-clients \
+      openssl \
+      procps \
+      tar \
+      which \
+      zip \
+      && \
+    \
+    microdnf -y install --setopt=tsflags=nodocs \
+      shadow-utils \
+      && \
+    groupadd -g ${GROUP_ID} default && \
+    useradd -u ${USER_ID} -g ${GROUP_ID} -d ${HOME} -m -s /sbin/nologin default && \
+    chmod a+rwx ${HOME} && \
+    microdnf -y remove shadow-utils && \
+    microdnf -y clean all
+
+USER ${USER_ID}
+
+WORKDIR ${HOME}
