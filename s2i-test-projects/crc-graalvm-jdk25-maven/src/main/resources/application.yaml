@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: crc-graalvm-jdk25-maven
+
+server:
+  port: 8082
+  servlet.context-path: /
+
+logging:
+  level:
+    root: INFO
+    com.example: DEBUG
+
+---
+spring.config.activate.on-profile: default
+
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-store: ${KEYSTORE}
+    key-store-password: ${KEYSTORE_PASSWORD:changeit}
