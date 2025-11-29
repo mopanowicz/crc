@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if [ "$DEBUG_S2I" == "true" ]; then
-    set -x
-    env | sort
-    ls -la
-fi
-
 if [ "$BUILD_COMMAND" == "" ]; then
     if [ -f pom.xml ]; then
         if [ -f mvnw ]; then
@@ -13,17 +7,24 @@ if [ "$BUILD_COMMAND" == "" ]; then
         else
             BUILD_COMMAND="mvn package"
         fi
+    elif [ -f build.gradle ]; then
+        if [ -f gradlew ]; then
+            BUILD_COMMAND="sh ./gradlew package"
+        else
+            BUILD_COMMAND="gradle package"
+        fi
     else
-        echo "No pom.xml - exiting"
+        echo "Unable to determine the builder - exiting"
         exit 1
     fi
 fi
 
 echo "BUILD_COMMAND=$BUILD_COMMAND"
+
 $BUILD_COMMAND
 
 if [ "$MAIN_JAR" == "" ]; then
-    MAIN_JAR=$(find . -name "*.jar" -maxdepth 2)
+    MAIN_JAR=$(find . -name "*.jar")
 fi
 
 echo "MAIN_JAR=$MAIN_JAR"
@@ -34,7 +35,3 @@ if [ ! -f $MAIN_JAR ]; then
 fi
 
 mv $MAIN_JAR main.jar
-
-if [ "$DEBUG_S2I" == "true" ]; then
-    ls -la
-fi
