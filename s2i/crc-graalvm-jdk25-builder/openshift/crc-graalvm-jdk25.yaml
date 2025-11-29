@@ -1,13 +1,12 @@
 apiVersion: template.openshift.io/v1
 kind: Template
-message: A new java application has been created in your project
 metadata:
   annotations:
     iconClass: icon-openjdk
     tags: quickstart,java,java17
   labels:
-    template: crc-graalvm-jdk25-native
-  name: crc-graalvm-jdk25-native
+    template: crc-graalvm-jdk25
+  name: crc-graalvm-jdk25
 objects:
 - apiVersion: v1
   kind: Service
@@ -34,7 +33,7 @@ objects:
   kind: Route
   metadata:
     annotations:
-      description: Route to application's https service
+      description: Route for application's https service
     labels:
       app: ${APPLICATION_NAME}
       app.kubernetes.io/name: ${APPLICATION_NAME}
@@ -87,8 +86,6 @@ objects:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: BUILD_COMMAND
-          value: ./mvnw package -Pnative
     source:
       git:
         ref: ${SOURCE_GIT_REF}
@@ -109,10 +106,11 @@ objects:
         LABEL builder.image=${IMAGE_REGISTRY}/${BUILDER_IMAGE}
         LABEL runtime.image=${IMAGE_REGISTRY}/${RUNTIME_IMAGE}
 
-        COPY --from=builder ${HOME}/target/*-runner ${HOME}/app
+        COPY --from=builder ${HOME}/main.jar ${HOME}/main.jar
       forcePull: true
     triggers:
-    - type: ImageChange
+    - imageChange: {}
+      type: ImageChange
     - type: ConfigChange
 - apiVersion: apps.openshift.io/v1
   kind: DeploymentConfig
@@ -139,6 +137,26 @@ objects:
       spec:
         containers:
         - env: []
+          readinessProbe:
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8443
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8443
+              scheme: HTTPS
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 3
           image: ${APPLICATION_NAME}
           imagePullPolicy: Always
           name: ${APPLICATION_NAME}
@@ -171,7 +189,7 @@ objects:
 parameters:
 - name: APPLICATION_NAME
   displayName: Application Name
-  value: demo-api-spring-native
+  value: crc-graalvm-jdk25-maven
   required: true
 - name: SOURCE_GIT_URI
   displayName: Source repository URI
@@ -182,19 +200,16 @@ parameters:
   value: main
 - name: SOURCE_CONTEXT_DIR
   displayName: Source context dir
-  value: examples/demo-api-spring
+  value: s2i-test-projects/crc-graalvm-jdk25-maven
 - name: GIT_TOKEN
   displayName: Source repository access token
-- name: MAIN_JAR
-  description: Application main jar in case the build process produces more than one jar file
-  displayName: Main JAR
 - name: BUILDER_IMAGE
   displayName: Builder image
   value: crc-graalvm-jdk25-builder:latest
   required: true
 - name: RUNTIME_IMAGE
   displayName: Runtime image
-  value: crc-native-runtime:latest
+  value: crc-graalvm-jdk25-runtime:latest
   required: true
 - name: IMAGE_REGISTRY
   displayName: Image registry
