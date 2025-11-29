@@ -1,30 +1,35 @@
 #!/bin/bash
 
-if [ "$BUILD_COMMAND" == "" ]; then
-    if [ -f pom.xml ]; then
-        if [ -f mvnw ]; then
-            BUILD_COMMAND="sh ./mvnw package"
-        else
-            BUILD_COMMAND="mvn package"
-        fi
-    elif [ -f build.gradle ]; then
-        if [ -f gradlew ]; then
-            BUILD_COMMAND="sh ./gradlew package"
-        else
-            BUILD_COMMAND="gradle package"
-        fi
+set -e
+
+if [ -f pom.xml ]; then
+    BUILD_DIR="target/"
+    if [ -f mvnw ]; then
+        BUILD_COMMAND=${BUILD_COMMAND:-"sh ./mvnw package"}
     else
-        echo "Unable to determine the builder - exiting"
-        exit 1
+        BUILD_COMMAND=${BUILD_COMMAND:-"mvn package"}
+        MAIN_JAR_FIND_OPTS=${MAIN_JAR_FIND_OPTS:-'! -name="*-plain.jar"'}
     fi
+elif [ -f build.gradle ]; then
+    BUILD_DIR="build/"
+    if [ -f gradlew ]; then
+        BUILD_COMMAND=${BUILD_COMMAND:-"sh ./gradlew package"}
+    else
+        BUILD_COMMAND=${BUILD_COMMAND:-"gradle package"}
+    fi
+else
+    echo "Unable to determine the builder - exiting"
+    exit 1
 fi
 
-echo "BUILD_COMMAND=$BUILD_COMMAND"
+echo "BUILD_COMMAND=${BUILD_COMMAND}"
+echo "BUILD_DIR=${BUILD_DIR}"
+echo "MAIN_JAR_FIND_OPTS=${MAIN_JAR_FIND_OPTS:-not set}"
 
 $BUILD_COMMAND
 
 if [ "$MAIN_JAR" == "" ]; then
-    MAIN_JAR=$(find . -name "*.jar")
+    MAIN_JAR=$(find ${BUILD_DIR} -name "*.jar" ${MAIN_JAR_FIND_OPTS})
 fi
 
 echo "MAIN_JAR=$MAIN_JAR"
