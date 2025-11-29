@@ -4,9 +4,9 @@ ARG VERSION_TAG=latest
 
 ENV VERSION_TAG=${VERSION_TAG}
 
-ENV HOME=/app
-ENV USER_ID=1001
-ENV GROUP_ID=1001
+ENV APP_UID=1001
+ENV APP_GID=0
+ENV HOME=/opt/app
 
 USER root
 
@@ -15,6 +15,7 @@ COPY ./root /
 RUN microdnf -y update --setopt=tsflags=nodocs && \
     microdnf -y install --setopt=tsflags=nodocs \
       curl \
+      file \
       findutils \
       gzip \
       iputils \
@@ -23,18 +24,17 @@ RUN microdnf -y update --setopt=tsflags=nodocs && \
       procps \
       tar \
       which \
+      xz \
       zip \
       && \
     \
-    microdnf -y install --setopt=tsflags=nodocs \
-      shadow-utils \
-      && \
-    groupadd -g ${GROUP_ID} default && \
-    useradd -u ${USER_ID} -g ${GROUP_ID} -d ${HOME} -m -s /sbin/nologin default && \
-    chmod a+rwx ${HOME} && \
+    microdnf -y install --setopt=tsflags=nodocs shadow-utils && \
+    mkdir -p ${HOME} && \
+    useradd -r -u ${APP_UID} -g ${APP_GID} -d ${HOME} -s /sbin/nologin default && \
+    fix-permissions ${HOME} && \
     microdnf -y remove shadow-utils && \
     microdnf -y clean all
 
-USER ${USER_ID}
+USER ${APP_UID}
 
 WORKDIR ${HOME}

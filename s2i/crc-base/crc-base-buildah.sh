@@ -20,14 +20,14 @@ fi
 
 _VERSION_TAG=${_VERSION_TAG:-latest}
 _HOME=/app
-_USER_ID=1001
-_GROUP_ID=1001
+_APP_UID=1001
+_APP_GID=0
 
 buildah config \
     --env VERSION_TAG=${_VERSION_TAG} \
     --env HOME=${_HOME} \
-    --env USER_ID=${_USER_ID} \
-    --env GROUP_ID=${_GROUP_ID} \
+    --env APP_UID=${_APP_UID} \
+    --env APP_GID=${_APP_GID} \
     ${microcontainer}
 
 buildah copy ${microcontainer} ./root/ /
@@ -50,14 +50,13 @@ dnf -y install --installroot ${micromount} --releasever 9 --nogpgcheck --setopt=
 dnf -y install --installroot ${micromount} --releasever 9 --nogpgcheck --setopt=tsflags=nodocs --setopt=install_weak_deps=False \
     shadow-utils \
 
-buildah run ${microcontainer} -- groupadd -g ${_GROUP_ID} default
-buildah run ${microcontainer} -- useradd -u ${_USER_ID} -g ${_GROUP_ID} -d ${_HOME} -m -s /sbin/nologin default
+buildah run ${microcontainer} -- useradd -u ${_APP_UID} -g ${_APP_GID} -d ${_HOME} -m -s /sbin/nologin default
 buildah run ${microcontainer} -- chmod a+rwx ${_HOME}
 
 dnf -y remove --installroot ${micromount} --releasever 9 --nogpgcheck shadow-utils
 dnf -y clean all --installroot ${micromount} --releasever 9 --nogpgcheck
 
-buildah config --user ${_USER_ID} ${microcontainer}
+buildah config --user ${_APP_UID} ${microcontainer}
 
 buildah config --workingdir ${_HOME} ${microcontainer}
 
