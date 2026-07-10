@@ -19,15 +19,15 @@ if [[ "$micromount" == "" ]]; then
 fi
 
 _VERSION_TAG=${_VERSION_TAG:-latest}
-_HOME=/app
 _APP_UID=1001
 _APP_GID=0
+_HOME=/app
 
 buildah config \
     --env VERSION_TAG=${_VERSION_TAG} \
-    --env HOME=${_HOME} \
     --env APP_UID=${_APP_UID} \
     --env APP_GID=${_APP_GID} \
+    --env HOME=${_HOME} \
     ${microcontainer}
 
 buildah copy ${microcontainer} ./root/ /
@@ -35,9 +35,8 @@ buildah copy ${microcontainer} ./root/ /
 dnf -y update --installroot ${micromount} --releasever 9 --nogpgcheck --setopt=tsflags=nodocs --setopt=install_weak_deps=False
 dnf -y install --installroot ${micromount} --releasever 9 --nogpgcheck --setopt=tsflags=nodocs --setopt=install_weak_deps=False \
     curl \
+    file \
     findutils \
-    glibc-langpack-en \
-    glibc-langpack-pl \
     gzip \
     iputils \
     openssh-clients \
@@ -45,12 +44,13 @@ dnf -y install --installroot ${micromount} --releasever 9 --nogpgcheck --setopt=
     procps \
     tar \
     which \
+    xz \
     zip
 
 dnf -y install --installroot ${micromount} --releasever 9 --nogpgcheck --setopt=tsflags=nodocs --setopt=install_weak_deps=False \
     shadow-utils \
 
-buildah run ${microcontainer} -- useradd -u ${_APP_UID} -g ${_APP_GID} -d ${_HOME} -m -s /sbin/nologin default
+buildah run ${microcontainer} -- useradd -r -u ${_APP_UID} -g ${_APP_GID} -d ${_HOME} -m -s /sbin/nologin default
 buildah run ${microcontainer} -- chmod a+rwx ${_HOME}
 
 dnf -y remove --installroot ${micromount} --releasever 9 --nogpgcheck shadow-utils
