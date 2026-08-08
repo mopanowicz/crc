@@ -15,9 +15,9 @@ Local build
 podman build --tag openshift/crc-graalvm-jdk25-builder:latest .
 ```
 
-Template
+Templates
 
 ```bash
-oc apply -n openshift -f openshift/crc-graalvm-jdk25.yaml
-oc apply -n openshift -f openshift/crc-graalvm-jdk25-native.yaml
+oc apply -n openshift -f openshift/crc-graalvm-jdk25-template.yaml
+oc apply -n openshift -f openshift/crc-graalvm-jdk25-native-template.yaml
 ```

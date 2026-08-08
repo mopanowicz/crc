@@ -3,7 +3,7 @@ kind: Template
 metadata:
   annotations:
     iconClass: icon-openjdk
-    tags: quickstart,java,java17
+    tags: quickstart,java,java25,graalvm
   labels:
     template: crc-graalvm-jdk25
   name: crc-graalvm-jdk25
