@@ -3,6 +3,7 @@
 set -e
 
 if [ -f pom.xml ]; then
+    MAVEN_ARGS=${MAVEN_ARGS:-"--no-transfer-progress"}
     BUILD_DIR="target/"
     if [ -f mvnw ]; then
         BUILD_COMMAND=${BUILD_COMMAND:-"sh ./mvnw package"}
@@ -10,13 +11,16 @@ if [ -f pom.xml ]; then
         BUILD_COMMAND=${BUILD_COMMAND:-"mvn package"}
         MAIN_JAR_FIND_OPTS=${MAIN_JAR_FIND_OPTS:-'! -name="*-plain.jar"'}
     fi
+    BUILD_COMMAND="$BUILD_COMMAND $MAVEN_ARGS"
 elif [ -f build.gradle ]; then
+    GRADLE_ARGS=${GRADLE_ARGS:-"--no-daemon"}
     BUILD_DIR="build/"
     if [ -f gradlew ]; then
         BUILD_COMMAND=${BUILD_COMMAND:-"sh ./gradlew package"}
     else
         BUILD_COMMAND=${BUILD_COMMAND:-"gradle package"}
     fi
+    BUILD_COMMAND="$BUILD_COMMAND $GRADLE_ARGS"
 else
     echo "Unable to determine the builder - exiting"
     exit 1
