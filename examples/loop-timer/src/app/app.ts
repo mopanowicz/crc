@@ -6,9 +6,9 @@ type Phase = 'idle' | 'activity' | 'rest' | 'done';
 
 class Beep {
   private ctx: AudioContext | null = null;
-  private getCtx() { 
-    if (!this.ctx) this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)(); 
-    return this.ctx; 
+  private getCtx() {
+    if (!this.ctx) this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    return this.ctx;
   }
   private vibrate(p: number | number[]) { if ('vibrate' in navigator) navigator.vibrate(p); }
 
@@ -36,7 +36,16 @@ class Beep {
   }
 
   // countdown 3-2-1 tick
-  tick() { this.tone(1000, 0.07, 0.15, 'square'); this.vibrate(25); }
+  tick(phase: Phase) {
+    if (phase === 'activity') {
+      // sharp, high tick for activity
+      this.tone(1200, 0.06, 0.2, 'square');
+    } else if (phase === 'rest') {
+      // soft, low tick for rest
+      this.tone(400, 0.15, 0.2, 'sine');
+    }
+    this.vibrate(20);
+  }
 
   // FINISHED - victory fanfare
   done() {
@@ -84,7 +93,7 @@ export class App implements OnDestroy {
   });
 
   remainingSeconds = computed(() => Math.max(0, this.totalSeconds() - this.elapsedSeconds()));
-  
+
   totalProgress = computed(() => {
     if (this.totalSeconds() === 0) return 0;
     return (this.elapsedSeconds() / this.totalSeconds()) * 100;
@@ -110,7 +119,7 @@ export class App implements OnDestroy {
   }
 
   pause() { this.running.set(false); clearInterval(this.interval); }
-  
+
   reset() { this.pause(); this.phase.set('idle'); this.currentTime.set(0); this.currentRep.set(1); }
 
   private startPhase(p: Phase) {
@@ -125,8 +134,12 @@ export class App implements OnDestroy {
   private tick() {
     if (this.currentTime() > 0) {
       this.currentTime.update(v => v - 1);
-      if (this.currentTime() <= 3 && this.currentTime() > 0) this.beeper.tick();
-    } else this.nextPhase();
+      if (this.currentTime() <= 3 && this.currentTime() > 0) {
+        this.beeper.tick(this.phase() as Phase);
+      }
+    } else {
+      this.nextPhase();
+    }
   }
 
   private nextPhase() {
