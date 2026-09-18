@@ -1,106 +1,45 @@
 .wrapper {
-    max-width: 420px;
-    margin: 40px auto;
-    font-family: system-ui;
+    max-width: 520px;
+    margin: 0 auto;
+    min-height: 100dvh;
     display: grid;
-    gap: 20px;
-    padding: 0 16px
+    gap: 16px;
+    padding: 16px;
+    align-content: start;
+    font-family: system-ui, -apple-system, sans-serif;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: clamp(20px, 5vw, 28px);
+    margin: 8px 0 0;
+    text-align: center;
 }
 
 .inputs {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
 }
 
 label {
     display: grid;
     gap: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    opacity: .7;
-    text-transform: uppercase
+    font-size: 10px;
+    font-weight: 700;
+    opacity: .6;
+    text-transform: uppercase;
+    letter-spacing: .5px;
 }
 
 input {
-    padding: 10px;
+    width: 100%;
+    padding: 12px;
     font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ddd
-}
-
-.display {
-    border-radius: 16px;
-    padding: 24px;
-    text-align: center;
-    background: #f4f4f5;
-    transition: .2s;
-    border: 2px solid transparent
-}
-
-.display.activity {
-    background: #dcfce7;
-    border-color: #22c55e;
-    color: #166534
-}
-
-.display.rest {
-    background: #dbeafe;
-    border-color: #3b82f6;
-    color: #1e40af
-}
-
-.display.done {
-    background: #fef9c3;
-    border-color: #eab308
-}
-
-.phase {
-    font-weight: 700;
-    letter-spacing: 1px;
-    font-size: 14px
-}
-
-.big {
-    font-size: 72px;
-    font-weight: 800;
-    line-height: 1;
-    margin: 8px 0
-}
-
-.progress {
-    height: 8px;
-    background: #e5e7eb;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-top: 16px
-}
-
-.bar {
-    height: 100%;
-    background: currentColor;
-    transition: width 1s linear
-}
-
-.controls {
-    display: flex;
-    gap: 12px
-}
-
-button {
-    flex: 1;
-    padding: 14px;
-    border-radius: 12px;
-    border: 0;
-    font-weight: 700;
-    font-size: 15px;
-    cursor: pointer;
-    background: #111;
-    color: #fff
-}
-
-button:disabled {
-    opacity: .4
+    /* prevents iOS zoom */
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
 }
 
 .stats {
@@ -110,23 +49,115 @@ button:disabled {
     padding: 12px 16px;
     display: grid;
     gap: 6px;
-    font-size: 14px
+    font-size: clamp(12px, 3.5vw, 14px);
 }
 
-.stats span {
-    opacity: .6
+.display {
+    border-radius: 16px;
+    padding: clamp(16px, 5vw, 24px);
+    text-align: center;
+    background: #f4f4f5;
+    border: 2px solid transparent;
 }
 
+.phase {
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-size: 12px
+}
+
+.big {
+    font-size: clamp(48px, 18vw, 80px);
+    font-weight: 800;
+    line-height: 1;
+    margin: 8px 0
+}
+
+.meta {
+    opacity: .6;
+    font-size: clamp(12px, 3vw, 14px)
+}
+
+.progress,
 .progress-total {
-    height: 6px;
+    height: 8px;
     background: #e5e7eb;
-    border-radius: 6px;
+    border-radius: 8px;
     overflow: hidden;
-    margin-top: 4px
+    margin-top: 12px;
+}
+
+.bar,
+.bar-total {
+    height: 100%;
+    background: currentColor;
+    transition: width 1s linear
 }
 
 .bar-total {
-    height: 100%;
+    background: #111
+}
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    position: sticky;
+    bottom: 0;
+    padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+    background: #fff;
+}
+
+button {
+    padding: 14px;
+    border-radius: 12px;
+    border: 0;
+    font-weight: 700;
+    font-size: clamp(14px, 3.5vw, 16px);
+    cursor: pointer;
     background: #111;
-    transition: width 1s linear
+    color: #fff;
+    touch-action: manipulation;
+}
+
+/* Tablet+ */
+@media (min-width: 600px) {
+    .wrapper {
+        gap: 20px;
+        padding: 24px
+    }
+}
+
+/* Small phones */
+@media (max-width: 380px) {
+    .inputs {
+        grid-template-columns: 1fr
+    }
+
+    .controls {
+        grid-template-columns: 1fr;
+        gap: 8px
+    }
+
+    .controls button {
+        padding: 16px
+    }
+}
+
+/* Landscape phones */
+@media (max-height: 500px) and (orientation: landscape) {
+    .wrapper {
+        grid-template-columns: 1fr 1fr;
+        align-items: start
+    }
+
+    .wrapper h1,
+    .stats,
+    .controls {
+        grid-column: 1 / -1
+    }
+
+    .big {
+        font-size: 48px
+    }
 }
