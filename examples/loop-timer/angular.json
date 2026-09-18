@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "looping-timer": {
+    "loop-timer": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "looping-timer:build:production"
+              "buildTarget": "loop-timer:build:production"
             },
             "development": {
-              "buildTarget": "looping-timer:build:development"
+              "buildTarget": "loop-timer:build:development"
             }
           },
           "defaultConfiguration": "development"
