@@ -6,24 +6,14 @@ type Phase = 'idle' | 'activity' | 'rest' | 'done';
 
 class Beep {
   private ctx: AudioContext | null = null;
-  private getCtx() {
-    if (!this.ctx) this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
-    return this.ctx;
-  }
-  private vibrate(p: number | number[]) {
-    if ('vibrate' in navigator) navigator.vibrate(p);
-  }
-  tone(freq: number, dur: number, vol = 0.3, type: OscillatorType = 'sine') {
-    const ctx = this.getCtx();
-    if (ctx.state === 'suspended') ctx.resume();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = type;
-    osc.frequency.value = freq;
-    osc.connect(gain); gain.connect(ctx.destination);
-    gain.gain.setValueAtTime(vol, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + dur);
-    osc.start(); osc.stop(ctx.currentTime + dur);
+  private getCtx() { if (!this.ctx) this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)(); return this.ctx; }
+  private vibrate(p: number | number[]) { if ('vibrate' in navigator) navigator.vibrate(p); }
+  tone(f: number, d: number, v = 0.3, t: OscillatorType = 'sine') {
+    const ctx = this.getCtx(); if (ctx.state === 'suspended') ctx.resume();
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.type = t; o.frequency.value = f; o.connect(g); g.connect(ctx.destination);
+    g.gain.setValueAtTime(v, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + d);
+    o.start(); o.stop(ctx.currentTime + d);
   }
   activityStart() { this.tone(880, 0.15); setTimeout(() => this.tone(880, 0.15), 150); this.vibrate([100, 50, 100]); }
   restStart() { this.tone(440, 0.3); this.vibrate(200); }
@@ -47,6 +37,35 @@ export class App implements OnDestroy {
   currentTime = signal(0);
   phase = signal<Phase>('idle');
   running = signal(false);
+
+  // Total time of whole loop: (reps * activity) + (reps-1 * rest)
+  totalSeconds = computed(() => {
+    const reps = Math.max(1, this.repetitions);
+    const act = Math.max(0, this.activityLength);
+    const rest = Math.max(0, this.restLength);
+    return reps * act + Math.max(0, reps - 1) * rest;
+  });
+
+  elapsedSeconds = computed(() => {
+    if (this.phase() === 'idle') return 0;
+    if (this.phase() === 'done') return this.totalSeconds();
+    const r = this.currentRep();
+    const act = this.activityLength;
+    const rest = this.restLength;
+    const t = this.currentTime();
+    if (this.phase() === 'activity') {
+      return (r - 1) * (act + rest) + (act - t);
+    } else {
+      return (r - 1) * (act + rest) + act + (rest - t);
+    }
+  });
+
+  remainingSeconds = computed(() => Math.max(0, this.totalSeconds() - this.elapsedSeconds()));
+
+  totalProgress = computed(() => {
+    if (this.totalSeconds() === 0) return 0;
+    return (this.elapsedSeconds() / this.totalSeconds()) * 100;
+  });
 
   progress = computed(() => {
     const total = this.phase() === 'activity'? this.activityLength : this.restLength;
@@ -94,4 +113,10 @@ export class App implements OnDestroy {
     }
   }
   ngOnDestroy() { clearInterval(this.interval); }
+
+  format(s: number): string {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return m > 0? `${m}m ${sec}s` : `${sec}s`;
+  }
 }
