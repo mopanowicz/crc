@@ -29,9 +29,9 @@ class Beep {
   styleUrl: './app.css'
 })
 export class App implements OnDestroy {
-  repetitions = 5;
-  activityLength = 20;
-  restLength = 10;
+  repetitions = 30;
+  activityLength = 45;
+  restLength = 45;
 
   currentRep = signal(1);
   currentTime = signal(0);
