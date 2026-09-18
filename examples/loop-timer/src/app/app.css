@@ -60,6 +60,35 @@ input {
     border: 2px solid transparent;
 }
 
+/* Phase colors - add this back */
+.display.activity{
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.display.rest{
+  background: #fef9c3;
+  border-color: #eab308;
+  color: #854d0e;
+}
+
+.display.done{
+  background: #e0e7ff;
+  border-color: #6366f1;
+  color: #4338ca;
+}
+
+.display.idle{
+  background: #f4f4f5;
+  border-color: #e4e7;
+  color: #18181b;
+}
+
+.display.activity.bar{ background: #22c55e; }
+.display.rest.bar{ background: #eab308; }
+.display.done.bar{ background: #6366f1; }
+
 .phase {
     font-weight: 700;
     letter-spacing: 1px;
