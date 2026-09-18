@@ -6,19 +6,43 @@ type Phase = 'idle' | 'activity' | 'rest' | 'done';
 
 class Beep {
   private ctx: AudioContext | null = null;
-  private getCtx() { if (!this.ctx) this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)(); return this.ctx; }
+  private getCtx() { 
+    if (!this.ctx) this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)(); 
+    return this.ctx; 
+  }
   private vibrate(p: number | number[]) { if ('vibrate' in navigator) navigator.vibrate(p); }
-  tone(f: number, d: number, v = 0.3, t: OscillatorType = 'sine') {
+
+  tone(f: number, d: number, v = 0.3, type: OscillatorType = 'sine') {
     const ctx = this.getCtx(); if (ctx.state === 'suspended') ctx.resume();
     const o = ctx.createOscillator(); const g = ctx.createGain();
-    o.type = t; o.frequency.value = f; o.connect(g); g.connect(ctx.destination);
-    g.gain.setValueAtTime(v, ctx.currentTime); g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + d);
+    o.type = type; o.frequency.value = f; o.connect(g); g.connect(ctx.destination);
+    g.gain.setValueAtTime(v, ctx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + d);
     o.start(); o.stop(ctx.currentTime + d);
   }
-  activityStart() { this.tone(880, 0.15); setTimeout(() => this.tone(880, 0.15), 150); this.vibrate([100, 50, 100]); }
-  restStart() { this.tone(440, 0.3); this.vibrate(200); }
-  tick() { this.tone(1000, 0.08, 0.15, 'square'); this.vibrate(30); }
-  done() { this.tone(523, 0.2); setTimeout(() => this.tone(659, 0.2), 150); setTimeout(() => this.tone(784, 0.4), 300); this.vibrate([100, 50, 100, 50, 300]); }
+
+  // GO! - high, energetic double chirp
+  activityStart() {
+    this.tone(880, 0.12, 0.4, 'sine');
+    setTimeout(() => this.tone(1200, 0.25, 0.5, 'sine'), 120);
+    this.vibrate([80, 40, 120]);
+  }
+
+  // REST - low, calm descending
+  restStart() {
+    this.tone(600, 0.15, 0.3, 'triangle');
+    setTimeout(() => this.tone(350, 0.4, 0.4, 'triangle'), 150);
+    this.vibrate([200, 100, 200]);
+  }
+
+  // countdown 3-2-1 tick
+  tick() { this.tone(1000, 0.07, 0.15, 'square'); this.vibrate(25); }
+
+  // FINISHED - victory fanfare
+  done() {
+    [523, 659, 784, 1046].forEach((f, i) => setTimeout(() => this.tone(f, 0.3, 0.4, 'sine'), i * 140));
+    this.vibrate([100, 50, 100, 50, 400]);
+  }
 }
 
 @Component({
