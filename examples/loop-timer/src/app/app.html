@@ -2,23 +2,38 @@
   <h1>Loop Timer</h1>
 
   <div class="inputs">
-    <label>Repetitions<input type="number" min="1" [(ngModel)]="repetitions" [disabled]="running()"></label>
-    <label>Activity (sec)<input type="number" min="1" [(ngModel)]="activityLength" [disabled]="running()"></label>
-    <label>Rest (sec)<input type="number" min="0" [(ngModel)]="restLength" [disabled]="running()"></label>
+    <label>Repetitions
+      <input type="number" min="1" [ngModel]="repetitions()" (ngModelChange)="repetitions.set($event)"
+        [disabled]="running()">
+    </label>
+    <label>Activity (sec)
+      <input type="number" min="1" [ngModel]="activityLength()" (ngModelChange)="activityLength.set($event)"
+        [disabled]="running()">
+    </label>
+    <label>Rest (sec)
+      <input type="number" min="0" [ngModel]="restLength()" (ngModelChange)="restLength.set($event)"
+        [disabled]="running()">
+    </label>
   </div>
 
   <div class="stats">
     <div><span>Total loop:</span> <b>{{ format(totalSeconds()) }} ({{ totalSeconds() }}s)</b></div>
     <div><span>Elapsed / Total:</span> <b>{{ format(elapsedSeconds()) }} / {{ format(totalSeconds()) }}</b></div>
     <div><span>Remaining:</span> <b>{{ format(remainingSeconds()) }} — {{ totalProgress() | number:'1.0-0' }}%</b></div>
-    <div class="progress-total"><div class="bar-total" [style.width.%]="totalProgress()"></div></div>
+    <div class="progress-total">
+      <div class="bar-total" [style.width.%]="totalProgress()"></div>
+    </div>
   </div>
 
-  <div class="display" [class.activity]="phase() === 'activity'" [class.rest]="phase() === 'rest'" [class.done]="phase() === 'done'">
+  <div class="display" [class.activity]="phase() === 'activity'" [class.rest]="phase() === 'rest'"
+    [class.done]="phase() === 'done'">
     <div class="phase">{{ phase() | uppercase }}</div>
     <div class="big">{{ currentTime() }}s</div>
-    <div class="meta">Rep {{ currentRep() }} / {{ repetitions }} • {{ phase() }} {{ progress() | number:'1.0-0' }}%</div>
-    <div class="progress"><div class="bar" [style.width.%]="progress()"></div></div>
+    <div class="meta">Rep {{ currentRep() }} / {{ repetitions() }} • {{ phase() }} {{ progress() | number:'1.0-0' }}%
+    </div>
+    <div class="progress">
+      <div class="bar" [style.width.%]="progress()"></div>
+    </div>
   </div>
 
   <div class="controls">

@@ -29,20 +29,19 @@ class Beep {
   styleUrl: './app.css'
 })
 export class App implements OnDestroy {
-  repetitions = 30;
-  activityLength = 45;
-  restLength = 45;
+  repetitions = signal(15);
+  activityLength = signal(45);
+  restLength = signal(40);
 
   currentRep = signal(1);
   currentTime = signal(0);
   phase = signal<Phase>('idle');
   running = signal(false);
 
-  // Total time of whole loop: (reps * activity) + (reps-1 * rest)
   totalSeconds = computed(() => {
-    const reps = Math.max(1, this.repetitions);
-    const act = Math.max(0, this.activityLength);
-    const rest = Math.max(0, this.restLength);
+    const reps = Math.max(1, Number(this.repetitions()) || 0);
+    const act = Math.max(0, Number(this.activityLength()) || 0);
+    const rest = Math.max(0, Number(this.restLength()) || 0);
     return reps * act + Math.max(0, reps - 1) * rest;
   });
 
@@ -50,8 +49,8 @@ export class App implements OnDestroy {
     if (this.phase() === 'idle') return 0;
     if (this.phase() === 'done') return this.totalSeconds();
     const r = this.currentRep();
-    const act = this.activityLength;
-    const rest = this.restLength;
+    const act = this.activityLength();
+    const rest = this.restLength();
     const t = this.currentTime();
     if (this.phase() === 'activity') {
       return (r - 1) * (act + rest) + (act - t);
@@ -61,14 +60,14 @@ export class App implements OnDestroy {
   });
 
   remainingSeconds = computed(() => Math.max(0, this.totalSeconds() - this.elapsedSeconds()));
-
+  
   totalProgress = computed(() => {
     if (this.totalSeconds() === 0) return 0;
     return (this.elapsedSeconds() / this.totalSeconds()) * 100;
   });
 
   progress = computed(() => {
-    const total = this.phase() === 'activity'? this.activityLength : this.restLength;
+    const total = this.phase() === 'activity' ? this.activityLength() : this.restLength();
     if (!total || this.phase() === 'idle' || this.phase() === 'done') return 0;
     return (this.currentTime() / total) * 100;
   });
@@ -85,26 +84,30 @@ export class App implements OnDestroy {
     this.running.set(true);
     this.interval = setInterval(() => this.tick(), 1000);
   }
+
   pause() { this.running.set(false); clearInterval(this.interval); }
+  
   reset() { this.pause(); this.phase.set('idle'); this.currentTime.set(0); this.currentRep.set(1); }
 
   private startPhase(p: Phase) {
     this.phase.set(p);
-    this.currentTime.set(p === 'activity'? this.activityLength : this.restLength);
+    this.currentTime.set(p === 'activity' ? this.activityLength() : this.restLength());
     if (p === 'activity') this.beeper.activityStart();
     if (p === 'rest') this.beeper.restStart();
     if (p === 'done') this.beeper.done();
     if (p === 'rest' && this.currentTime() === 0) this.nextPhase();
   }
+
   private tick() {
     if (this.currentTime() > 0) {
       this.currentTime.update(v => v - 1);
       if (this.currentTime() <= 3 && this.currentTime() > 0) this.beeper.tick();
     } else this.nextPhase();
   }
+
   private nextPhase() {
     if (this.phase() === 'activity') {
-      if (this.currentRep() >= this.repetitions) {
+      if (this.currentRep() >= this.repetitions()) {
         this.phase.set('done'); this.beeper.done(); this.pause();
       } else this.startPhase('rest');
     } else if (this.phase() === 'rest') {
@@ -112,11 +115,12 @@ export class App implements OnDestroy {
       this.startPhase('activity');
     }
   }
+
   ngOnDestroy() { clearInterval(this.interval); }
 
   format(s: number): string {
     const m = Math.floor(s / 60);
     const sec = s % 60;
-    return m > 0? `${m}m ${sec}s` : `${sec}s`;
+    return m > 0 ? `${m}m ${sec}s` : `${sec}s`;
   }
 }
