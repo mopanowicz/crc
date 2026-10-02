@@ -17,9 +17,9 @@
   </div>
 
   <div class="stats">
-    <div><span>Total loop:</span> <b>{{ format(totalSeconds()) }} ({{ totalSeconds() }}s)</b></div>
-    <div><span>Elapsed / Total:</span> <b>{{ format(elapsedSeconds()) }} / {{ format(totalSeconds()) }}</b></div>
-    <div><span>Remaining:</span> <b>{{ format(remainingSeconds()) }} — {{ totalProgress() | number:'1.0-0' }}%</b></div>
+    <div><span>Total loop: </span><b>{{ format(totalSeconds()) }} ({{ totalSeconds() }}s)</b></div>
+    <div><span>Elapsed / Total: </span><b>{{ format(elapsedSeconds()) }} / {{ format(totalSeconds()) }}</b></div>
+    <div><span>Remaining: </span><b>{{ format(remainingSeconds()) }} - {{ totalProgress() | number:'1.0-0' }}%</b></div>
     <div class="progress-total">
       <div class="bar-total" [style.width.%]="totalProgress()"></div>
     </div>

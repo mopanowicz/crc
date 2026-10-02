@@ -50,6 +50,9 @@ input {
     display: grid;
     gap: 6px;
     font-size: clamp(12px, 3.5vw, 14px);
+    font-size: 1.4rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
 }
 
 .display {
@@ -103,8 +106,9 @@ input {
 }
 
 .meta {
-    opacity: .6;
-    font-size: clamp(12px, 3vw, 14px)
+    opacity: .8;
+    font-weight: 640;
+    font-size: clamp(16px, 6vw, 18px)
 }
 
 .progress,
